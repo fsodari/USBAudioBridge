@@ -44,3 +44,15 @@ Claude noted that the EVK does not use series resistors.
 It updated the I2S PMOD to match digilent's PMOD i2S.
 
 It finalized a part for the oscillator.
+
+## Post-Post First Draft Design Review
+
+I asked if it was confident in the design. It ran a couple more checks to confirm symbol/pad parity and that the regulator pinout from the library matches the datasheet.
+
+It asked which PCBA service to target for this design and recommended JLCPCB. I often go with PCBWay but went with JLCPCB here.
+
+It asked how many layers and recommended 4 layers. 4 would have been my choice.
+
+It asked how to route. It recommended scripting for placing parts and routing critical nets + Freerouting. Required Java 21+ and freerouting.jar. I went with the recommendation.
+
+It asked about mechanical mounting holes. I didn't have mounting holes in mind for this board, but I went with its recommendation. It had the right idea for coplanar installation with USB on the opposite side.
