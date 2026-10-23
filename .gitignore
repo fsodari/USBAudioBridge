@@ -1,0 +1,13 @@
+__pycache__
+docs/datasheets/*
+*.pyc
+*.pyo
+*.pyd
+*.pycache
+# KiCad generated / per-user files
+hardware/build/
+*.kicad_prl
+*-backups/
+fp-info-cache
+~*.lck
+.venv/

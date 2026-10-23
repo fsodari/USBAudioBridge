@@ -1,0 +1,329 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "0ded58eb-8323-599c-8959-289d67102a63")
+	(paper "A3")
+	(title_block
+		(title "USB Audio Bridge")
+		(date "2026-10-22")
+		(rev "A")
+		(comment 1 "Overview")
+	)
+	(lib_symbols)
+	(text "USB Audio Bridge"
+		(exclude_from_sim no)
+		(at 30.48 30.48 0)
+		(effects
+			(font
+				(size 5 5)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "4af7ef0d-7d4d-54f1-8969-8eecc458dd24")
+	)
+	(text "DESIGN NOTES\nPower: USB VBUS (PTC fused) -> AP7361C 3.3 V main rail; LP5907 3.3 V low-noise rail (+3V3_CLK) for the audio clock.\n  RT1010 internal DC-DC (4.7 uH) generates the 1.1 V VDD_SOC rail. VDD_SNVS_IN is tied to 3.3 V (no backup battery).\n  Arty PMOD VCC (pins 6/12) is NOT connected to 3.3 V: JP601 is an open solder jumper. Grounds are common.\nClocks: 24.000 MHz crystal (system/USB PLL), 32.768 kHz crystal (RTC), 24.576 MHz XO (audio master) -> CDCV304 1:4 buffer:\n  Y0 -> GPIO_08 SAI1_MCLK (input, GPR1 SAI1_MCLK_DIR=0, SAI1_MCLK1_SEL=011)\n  Y1 -> GPIO_AD_03 GPT2_CLK (counts MCLK between USB SOFs for the async feedback endpoint; needs ipg_clk >= 98.4 MHz)\n  Y2 -> PMOD JB9 MCLK to the FPGA.  RT1010 SAI1 is I2S clock master for both buses.\nBoot: BOOT_MODE[1:0]=10 (internal boot, FlexSPI-A QSPI NOR) by default. Hold BOOT and press RESET for 01 (serial downloader over USB).\nDebug: MCU-Link 10-pin Cortex debug header (SWD + SWO), 3-pin LPUART1 console header.\n\nPIN MAP\n  GPIO_01..03  SAI1 RX BCLK/SYNC/DATA0   (I2S input bus, FPGA -> RT1010)\n  GPIO_04,06,07 SAI1 TX DATA0/BCLK/SYNC  (I2S output bus, RT1010 -> FPGA)\n  GPIO_05      SAI1 TX/RX DATA1 (aux)    GPIO_08  SAI1_MCLK in\n  GPIO_09/10   LPUART1 RX/TX             GPIO_11/12  LED1/LED2\n  GPIO_AD_04/05/06 LPSPI1 SDO/PCS0/SCK   GPIO_SD_05  LPSPI1 SDI (daisy select 1)\n  GPIO_AD_00 PMOD_INT, AD_07 PMOD_RST, AD_01/02 PMOD_GPIO0/1 (LPI2C2 or LPUART4 capable)\n  GPIO_AD_09..13 SWO/TDI/JTAG_MOD/SWCLK/SWDIO\n  GPIO_SD_06..11 FlexSPI-A QSPI flash    GPIO_SD_00..04 BT_CFG / BOOT_MODE straps"
+		(exclude_from_sim no)
+		(at 30.48 152.4 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left)
+		)
+		(uuid "a0204154-a7a0-5f05-9bda-e09078972627")
+	)
+	(text "NXP i.MX RT1010 USB 2.0 HS asynchronous audio device bridging to an Arty A7 FPGA board over two PMOD ports (JB: I2S, JC: SPI + GPIO)."
+		(exclude_from_sim no)
+		(at 30.48 38.1 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+			)
+			(justify left)
+		)
+		(uuid "eff5a0e9-1610-5842-a175-051c55fd7e4f")
+	)
+	(sheet
+		(at 101.6 88.9)
+		(size 50.8 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "122a81df-b968-5044-bd66-54ecb3b4eeb7")
+		(property "Sheetname" "MCU I/O & Debug"
+			(at 101.6 88.1884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu_io.kicad_sch"
+			(at 101.6 109.8046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 101.6 50.8)
+		(size 50.8 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "593a003d-2357-569a-927f-511235393b44")
+		(property "Sheetname" "MCU Power"
+			(at 101.6 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu_power.kicad_sch"
+			(at 101.6 71.7046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 30.48 88.9)
+		(size 50.8 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "5c6cd5bb-d09d-5e94-a7b1-202558f5a3c1")
+		(property "Sheetname" "Boot Flash & Boot Mode"
+			(at 30.48 88.1884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "boot_flash.kicad_sch"
+			(at 30.48 109.8046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 172.72 88.9)
+		(size 50.8 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "861ed8eb-67da-59ad-9878-fb1ab7e8e300")
+		(property "Sheetname" "Audio Clock & PMOD"
+			(at 172.72 88.1884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "audio_pmod.kicad_sch"
+			(at 172.72 109.8046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 30.48 50.8)
+		(size 50.8 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "8aa8c7b8-856b-581e-b382-0b5bcf264f1a")
+		(property "Sheetname" "USB-C & Power"
+			(at 30.48 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power_usb.kicad_sch"
+			(at 30.48 71.7046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 172.72 50.8)
+		(size 50.8 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "96a10b2f-54c9-53ab-acc4-f517d26e4bb0")
+		(property "Sheetname" "MCU System, Clocks & Reset"
+			(at 172.72 50.0884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu_system.kicad_sch"
+			(at 172.72 71.7046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)
