@@ -62,10 +62,19 @@ Render pages for a visual check with `pdftoppm -r 90 -f N -l N -png hardware/bui
 - **Audio clock:** the 24.576 MHz XO feeds a CDCV304 buffer with three outputs.
   - Output 1 → SAI1_MCLK input (GPIO_08). Firmware sets GPR1 `SAI1_MCLK_DIR=0` and `SAI1_MCLK1_SEL=011`.
   - Output 2 → GPT2_CLK (GPIO_AD_03). It counts MCLK between USB start-of-frame packets to compute the async feedback value. GPT external clock must stay below ipg_clk/4, so ipg_clk must be at least 98.4 MHz.
-  - Output 3 → PMOD JB9.
+  - Outputs 3 and 4 → PMOD JB1 and JB7, the MCLK pin of each I2S row.
+  - The oscillator is an Epson SG-210STF 24.5760ML: ±50 ppm, and it has a KiCad 3D model.
 - **SPI pins:** LPSPI1 uses GPIO_AD_04/05/06. Its SDI moves to GPIO_SD_05 (ALT2, `LPSPI1_SDI_SELECT_INPUT=1`) because GPIO_AD_03 is taken by GPT2_CLK.
 - **Boot:** BOOT_MODE[1:0]=10 (internal boot from FlexSPI-A QSPI NOR) is the default strap. The BOOT button pulls BOOT_MODE1 low and, through the P-FET Q401, BOOT_MODE0 high. That gives 01, the serial downloader, whatever the eFuse state.
-- **Arty high-speed PMOD pairs:** pins (1,2), (3,4), (7,8) and (9,10) are routed as coupled pairs. The JB pinout therefore pairs MCLK with the quiet aux data line and never puts two clocks in one pair. JB follows PMOD Type 7; JC follows Type 2A.
+- **JB pinout:** JB matches the Digilent Pmod I2S2 (owner's requirement), with the FPGA as host.
+  - Top row, pins 1–4 (MCLK/LRCK/SCLK/SDIN): FPGA→RT1010 audio on SAI1 RX.
+  - Bottom row, pins 7–10 (MCLK/LRCK/SCLK/SDOUT): RT1010→FPGA audio on SAI1 TX.
+  - This board drives all the clocks, so the FPGA must treat them as inputs.
+  - SAI1 DATA1 (GPIO_05) has no free pin and is unconnected.
+- **JC pinout:** JC follows PMOD Type 2A (expanded SPI).
+- **Arty high-speed PMOD pairs:** pins (1,2), (3,4), (7,8) and (9,10) are routed as coupled pairs. With the I2S2 pinout, MCLK shares a pair with LRCK. That's accepted because LRCK changes slowly and is only sampled.
+- **USB D+/D−:** no series resistors, on purpose. The RT1010 high-speed PHY has calibrated on-die 45 Ω terminations (reference manual §36.3.5.1), and the NXP evaluation board routes D+/D− directly.
+- **Reset supervisor:** the MCP120T-300 trips at 2.925 V.
 - **PMOD connector footprint:** J601 and J602 use Digilent pin numbering (1–6 on one row, 7–12 on the other). The stock KiCad `PinHeader_2x06` footprint numbers pins odd/even, so the PCB needs a custom footprint or a pin-map check.
 
 ## Project acceptance criteria (from README)

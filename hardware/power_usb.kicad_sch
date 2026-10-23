@@ -3137,17 +3137,6 @@
 		)
 		(uuid "382e38cb-bf1f-564e-81e2-a4f17589a07b")
 	)
-	(text "ESD: place U101 at the connector,\nroute D+/D- through its pads (flow-through).\n90 ohm differential pair."
-		(exclude_from_sim no)
-		(at 119.38 86.36 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "40a2cda5-eb54-5276-92a1-25a62aa3990c")
-	)
 	(text "CC1/CC2 5.1k pull-downs\nadvertise a UFP (sink)"
 		(exclude_from_sim no)
 		(at 96.52 162.56 0)
@@ -3215,6 +3204,17 @@
 			(justify left)
 		)
 		(uuid "d8361ce5-bbf3-5ba1-a189-073b69e05693")
+	)
+	(text "ESD: place U101 at the connector,\nroute D+/D- through its pads (flow-through).\n90 ohm differential pair.\nNo series resistors: the RT1010 HS PHY has\ncalibrated on-die 45 ohm terminations (RM 36.3.5.1)."
+		(exclude_from_sim no)
+		(at 104.14 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dc505955-8498-531e-a6fc-0fc031b6e4f5")
 	)
 	(no_connect
 		(at 71.12 106.68)

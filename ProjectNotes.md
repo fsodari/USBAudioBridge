@@ -36,3 +36,11 @@ It claimed it did not have a final part selected for the oscillator and also cla
 It requested clarity on the MCP120 that the -300 grade had a 2.93V trip point. Digikey listed that it was a 2.925V trip point. Close enough?
 
 It asked if I wanted to edit the design or keep its design.py script. I let Claude stay as the captain and did not manually edit the schematic.
+
+## Post First Draft Design Review
+
+Claude noted that the EVK does not use series resistors.
+
+It updated the I2S PMOD to match digilent's PMOD i2S.
+
+It finalized a part for the oscillator.

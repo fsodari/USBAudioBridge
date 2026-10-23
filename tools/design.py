@@ -76,7 +76,7 @@ def build():
     g = {}
     for n in ["USB_DP", "USB_DN", "POR_B", "MCLK_SAI", "MCLK_GPT",
               "I2S_TX_BCLK", "I2S_TX_LRCLK", "I2S_TX_DATA", "I2S_RX_BCLK", "I2S_RX_LRCLK",
-              "I2S_RX_DATA", "I2S_AUX_DATA", "SPI_CS", "SPI_MOSI", "SPI_MISO", "SPI_SCK",
+              "I2S_RX_DATA", "SPI_CS", "SPI_MOSI", "SPI_MISO", "SPI_SCK",
               "PMOD_INT", "PMOD_RST", "PMOD_GPIO0", "PMOD_GPIO1"]:
         g[n] = "bidirectional"
     d.globals = g
@@ -115,11 +115,14 @@ def sheet_root(sh):
         "  Arty PMOD VCC (pins 6/12) is NOT connected to 3.3 V: JP601 is an open solder jumper. "
         "Grounds are common.\n"
         "Clocks: 24.000 MHz crystal (system/USB PLL), 32.768 kHz crystal (RTC), 24.576 MHz XO "
-        "(audio master) -> CDCV304 1:4 buffer:\n"
+        "(audio master, Epson SG-210STF) -> CDCV304 1:4 buffer:\n"
         "  Y0 -> GPIO_08 SAI1_MCLK (input, GPR1 SAI1_MCLK_DIR=0, SAI1_MCLK1_SEL=011)\n"
         "  Y1 -> GPIO_AD_03 GPT2_CLK (counts MCLK between USB SOFs for the async feedback "
         "endpoint; needs ipg_clk >= 98.4 MHz)\n"
-        "  Y2 -> PMOD JB9 MCLK to the FPGA.  RT1010 SAI1 is I2S clock master for both buses.\n"
+        "  Y2/Y3 -> PMOD JB1/JB7, the MCLK pin of each I2S row.  RT1010 SAI1 is I2S clock master for "
+        "both buses.\n"
+        "PMOD JB matches the Digilent Pmod I2S2: top row (1-4) MCLK/LRCK/SCLK/SDIN carries FPGA -> "
+        "RT1010 audio, bottom row (7-10) MCLK/LRCK/SCLK/SDOUT carries RT1010 -> FPGA audio.\n"
         "Boot: BOOT_MODE[1:0]=10 (internal boot, FlexSPI-A QSPI NOR) by default. Hold BOOT and "
         "press RESET for 01 (serial downloader over USB).\n"
         "Debug: MCU-Link 10-pin Cortex debug header (SWD + SWO), 3-pin LPUART1 console header.\n"
@@ -127,7 +130,7 @@ def sheet_root(sh):
         "PIN MAP\n"
         "  GPIO_01..03  SAI1 RX BCLK/SYNC/DATA0   (I2S input bus, FPGA -> RT1010)\n"
         "  GPIO_04,06,07 SAI1 TX DATA0/BCLK/SYNC  (I2S output bus, RT1010 -> FPGA)\n"
-        "  GPIO_05      SAI1 TX/RX DATA1 (aux)    GPIO_08  SAI1_MCLK in\n"
+        "  GPIO_08      SAI1_MCLK in              GPIO_00, 05, 13, AD_08, AD_14  spare (NC)\n"
         "  GPIO_09/10   LPUART1 RX/TX             GPIO_11/12  LED1/LED2\n"
         "  GPIO_AD_04/05/06 LPSPI1 SDO/PCS0/SCK   GPIO_SD_05  LPSPI1 SDI (daisy select 1)\n"
         "  GPIO_AD_00 PMOD_INT, AD_07 PMOD_RST, AD_01/02 PMOD_GPIO0/1 (LPI2C2 or LPUART4 capable)\n"
@@ -158,7 +161,9 @@ def sheet_power(sh):
                fields={"MPN": "USBLC6-2SC6", "Manufacturer": "STMicroelectronics"})
     u.connect({"1": "USB_DP", "6": "USB_DP", "3": "USB_DN", "4": "USB_DN", "5": "VBUS", "2": "GND"})
     sh.text("ESD: place U101 at the connector,\nroute D+/D- through its pads (flow-through).\n"
-            "90 ohm differential pair.", (119.38, 86.36))
+            "90 ohm differential pair.\n"
+            "No series resistors: the RT1010 HS PHY has\ncalibrated on-die 45 ohm terminations "
+            "(RM 36.3.5.1).", (104.14, 86.36))
 
     sh.box(172.72, 25.4, 398.78, 170.18, "Power")
     f = sh.add("Device:Polyfuse", "F101", "0.5A", (195.58, 50.8), angle=90,
@@ -291,7 +296,7 @@ def sheet_mcu_system(sh):
     sup = sh.add("Power_Supervisor:MCP120-xxxxTT", "U301", "MCP120T-300I/TT", (299.72, 66.04),
                  footprint="Package_TO_SOT_SMD:SOT-23",
                  fields={"MPN": "MCP120T-300I/TT", "Manufacturer": "Microchip",
-                         "Spec": "open-drain, Vtrip 2.93 V (> 2.6 V DCDC_IN UVLO)"})
+                         "Spec": "open-drain, Vtrip 2.925 V (> 2.6 V DCDC_IN UVLO)"})
     sup.connect({"1": "POR_B", "2": "+3V3", "3": "GND"})
     cap(sh, "C306", "0.1uF 16V", (284.48, 50.8), "+3V3")
     r = res(sh, "R302", "10k", (325.12, 50.8), "+3V3", "POR_B")
@@ -359,7 +364,7 @@ def sheet_io(sh):
     u = sh.add(RT, "U1", RT_NAME, (165.1, 104.14), unit=3,
                footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm")
     u.connect({"13": "NC", "12": "I2S_RX_BCLK", "11": "I2S_RX_LRCLK", "10": "I2S_RX_DATA",
-               "9": "I2S_TX_DATA", "8": "I2S_AUX_DATA", "6": "I2S_TX_BCLK", "5": "I2S_TX_LRCLK",
+               "9": "I2S_TX_DATA", "8": "NC", "6": "I2S_TX_BCLK", "5": "I2S_TX_LRCLK",
                "4": "MCLK_SAI", "3": "UART_RX", "2": "UART_TX", "1": "LED1", "80": "LED2",
                "79": "NC",
                "60": "PMOD_INT", "59": "PMOD_GPIO0", "58": "PMOD_GPIO1", "57": "MCLK_GPT",
@@ -398,11 +403,12 @@ def sheet_io(sh):
 
 def sheet_audio(sh):
     sh.box(20.32, 25.4, 205.74, 137.16, "24.576 MHz audio master clock")
-    xo = sh.add("Oscillator:ECS-2520MV-xxx-xx", "X601", "24.576MHz", (55.88, 71.12),
-                footprint="Oscillator:Oscillator_SMD_ECS_2520MV-xxx-xx-4Pin_2.5x2.0mm",
+    xo = sh.add("Oscillator:SG-210STF", "X601", "24.576MHz", (55.88, 71.12),
+                footprint="Oscillator:Oscillator_SMD_SeikoEpson_SG210-4Pin_2.5x2.0mm",
                 text=((-1.27, -9.65), (-1.27, -7.87), "right"),
-                fields={"Spec": "24.576 MHz CMOS XO, 3.3 V, +/-25 ppm or better, "
-                                "low phase jitter (<1 ps RMS), 2.5x2.0 mm, pin 1 OE"})
+                fields={"MPN": "SG-210STF 24.5760ML", "Manufacturer": "Epson",
+                        "Spec": "24.576 MHz CMOS SPXO, 1.62-3.63 V, +/-50 ppm, -40..85 C, "
+                                "2.5x2.0 mm, pin 1 /ST (high = run)"})
     xo.connect({"1": "+3V3_CLK", "4": "+3V3_CLK", "2": "GND"})
     cap(sh, "C601", "0.1uF 16V", (35.56, 50.8), "+3V3_CLK")
     r601 = res(sh, "R601", "22", (76.2, 71.12), "XO_OUT", "CLK_BUF_IN", horizontal=True)
@@ -410,39 +416,44 @@ def sheet_audio(sh):
                footprint="Package_SO:TSSOP-8_4.4x3mm_P0.65mm",
                fields={"MPN": "CDCV304PWR", "Manufacturer": "Texas Instruments",
                        "Spec": "1:4 LVCMOS clock fanout buffer"})
-    b.connect({"2": "+3V3_CLK", "6": "+3V3_CLK", "4": "GND", "8": "NC"})
+    b.connect({"2": "+3V3_CLK", "6": "+3V3_CLK", "4": "GND"})
     sh.link("XO_OUT", (xo, "3"), (r601, "1"), label=False)
     sh.link("CLK_BUF_IN", (r601, "2"), (b, "1"), label=False)
     cap(sh, "C602", "0.1uF 16V", (106.68, 50.8), "+3V3_CLK")
-    for ref, y_out, y_r, net, pin in (("R602", 66.04, 58.42, "MCLK_SAI", "3"),
-                                      ("R603", 68.58, 68.58, "MCLK_GPT", "5"),
-                                      ("R604", 71.12, 78.74, "JB_MCLK", "7")):
+    # buffer output -> series resistor; the turn columns keep the four routes from crossing
+    for ref, pin, y_r, mid, net in (("R602", "3", 58.42, 149.86, "MCLK_SAI"),
+                                    ("R603", "5", 68.58, None, "MCLK_GPT"),
+                                    ("R604", "7", 78.74, 149.86, "JB_RX_MCLK"),
+                                    ("R605", "8", 88.9, 144.78, "JB_TX_MCLK")):
         r = res(sh, ref, "33", (162.56, y_r), "CLK_" + ref, net, horizontal=True)
-        sh.link(f"CLK_Y{int(ref[-1]) - 2}", (b, pin), (r, "1"), label=False, mid=147.32)
+        sh.link(f"CLK_Y{int(ref[-1]) - 2}", (b, pin), (r, "1"), label=False, mid=mid)
     sh.text("Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\n"
-            "Y1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\nY2 -> FPGA via PMOD JB9",
+            "Y1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\n"
+            "Y2 -> PMOD JB1 (MCLK, top row)\nY3 -> PMOD JB7 (MCLK, bottom row)",
             (25.4, 109.22))
 
-    # PMOD JB: Digilent Type 7 (I2S) pin positions extended with a second I2S bus
-    sh.box(20.32, 144.78, 205.74, 264.16, "PMOD JB (Arty high-speed port): I2S")
-    jb = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J601", "PMOD_JB", (139.7, 200.66),
+    # PMOD JB: Digilent Pmod I2S2 pinout, viewed from the FPGA as the host
+    sh.box(20.32, 144.78, 205.74, 264.16, "PMOD JB (Arty high-speed port): I2S, Pmod I2S2 pinout")
+    jb = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J601", "PMOD_JB", (116.84, 200.66),
                 footprint="Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal",
                 fields={"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"})
-    jb.connect({"1": "JB_TX_LRCLK", "2": "JB_RX_DATA", "3": "JB_TX_DATA", "4": "JB_TX_BCLK",
-                "5": "GND", "6": "PMOD_VCC", "7": "JB_RX_BCLK", "8": "JB_RX_LRCLK",
-                "9": "JB_MCLK", "10": "JB_AUX_DATA", "11": "GND", "12": "PMOD_VCC"})
-    left = [("R605", "I2S_TX_LRCLK", "JB_TX_LRCLK"), ("R606", "I2S_RX_DATA", "JB_RX_DATA"),
-            ("R607", "I2S_TX_DATA", "JB_TX_DATA"), ("R608", "I2S_TX_BCLK", "JB_TX_BCLK")]
-    right = [("R609", "JB_RX_BCLK", "I2S_RX_BCLK"), ("R610", "JB_RX_LRCLK", "I2S_RX_LRCLK"),
-             ("R611", "JB_AUX_DATA", "I2S_AUX_DATA")]
+    jb.connect({"1": "JB_RX_MCLK", "2": "JB_RX_LRCLK", "3": "JB_RX_BCLK", "4": "JB_RX_DATA",
+                "5": "GND", "6": "PMOD_VCC", "7": "JB_TX_MCLK", "8": "JB_TX_LRCLK",
+                "9": "JB_TX_BCLK", "10": "JB_TX_DATA", "11": "GND", "12": "PMOD_VCC"})
+    left = [("R606", "I2S_RX_LRCLK", "JB_RX_LRCLK"), ("R607", "I2S_RX_BCLK", "JB_RX_BCLK"),
+            ("R608", "I2S_RX_DATA", "JB_RX_DATA")]
+    right = [("R609", "JB_TX_LRCLK", "I2S_TX_LRCLK"), ("R610", "JB_TX_BCLK", "I2S_TX_BCLK"),
+             ("R611", "JB_TX_DATA", "I2S_TX_DATA")]
     for i, (ref, a, b_) in enumerate(left):
-        res(sh, ref, "33", (66.04, 167.64 + i * 10.16), a, b_, horizontal=True)
+        res(sh, ref, "33", (55.88, 172.72 + i * 10.16), a, b_, horizontal=True)
     for i, (ref, a, b_) in enumerate(right):
-        res(sh, ref, "33", (175.26, 167.64 + i * 10.16), a, b_, horizontal=True)
-    sh.text("Pins 1-4 + 9 follow PMOD Type 7 (LRCLK, DAC data in, ADC data out, BCLK, MCLK)\n"
-            "for the RT1010 TX clocks. RX bus clocks on 7/8, aux SAI1 data line on 10.\n"
-            "Arty HS pairs: 1-2, 3-4, 7-8, 9-10 (MCLK paired with the quiet aux line).",
-            (25.4, 248.92))
+        res(sh, ref, "33", (172.72, 172.72 + i * 10.16), a, b_, horizontal=True)
+    sh.text("Pmod I2S2 pinout (host = FPGA):\n"
+            "  1-4  D/A row: MCLK, LRCK, SCLK, SDIN   = FPGA -> RT1010 (SAI1 RX)\n"
+            "  7-10 A/D row: MCLK, LRCK, SCLK, SDOUT = RT1010 -> FPGA (SAI1 TX)\n"
+            "All clocks are driven by this board: the FPGA must treat JB1-3 and JB7-9 as inputs.\n"
+            "Arty HS pairs 1-2 and 7-8 couple MCLK with LRCK (LRCK is a slow, sampled signal).",
+            (25.4, 238.76))
 
     sh.box(213.36, 144.78, 398.78, 264.16, "PMOD JC (Arty high-speed port): SPI + GPIO")
     jc = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J602", "PMOD_JC", (322.58, 200.66),
