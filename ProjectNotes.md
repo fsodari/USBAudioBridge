@@ -1,5 +1,6 @@
 # Project Notes
 
+## Project initialization and First Draft
 These are my observations about using Claude to vibe-code an entire PCB project.
 
 The project was created using Claude Opus 5.5 on high.
@@ -16,3 +17,22 @@ Once the design requirements were settled, I asked it to complete the schematic,
 
 Claude will create Python tools to do much of the design. Visual design aspects tend to be difficult for AI tools. Claude would often create a .png of the schematic sheet, review it, then fix any visual issues like crowded components, wrong rotations of components, misaligned connections, etc.
 
+Once finished with the design, it gave a summary of the design decisions it made. It listed several decisions "worth checking in your review".
+
+## First Draft Design Review
+
+There were no series resistors on the USB data lines. Claude made no mention of this. I reminded Claude that this is a high speed USB 2.0 device and asked about the series resistors.
+
+It said it followed digilent's PMOD I2S layout on pins 1-4 but it did not actually match. I added the PMOD I2S datasheet to the project and requested that it follow this standard.
+
+The SPI pinout did match digilent's standard.
+
+It caught that digilent's standards for PMOD footprints and KiCADs 2x6 header do not number their pins the same.
+
+Some part selections were left out and remained in the "Still to do" phase.
+
+It claimed it did not have a final part selected for the oscillator and also claimed that the oscillator did not have a 3D model. It appeared to have chosen an oscillator part number though.
+
+It requested clarity on the MCP120 that the -300 grade had a 2.93V trip point. Digikey listed that it was a 2.925V trip point. Close enough?
+
+It asked if I wanted to edit the design or keep its design.py script. I let Claude stay as the captain and did not manually edit the schematic.
