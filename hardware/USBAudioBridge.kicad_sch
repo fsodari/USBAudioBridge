@@ -10,7 +10,107 @@
 		(rev "A")
 		(comment 1 "Overview")
 	)
-	(lib_symbols)
+	(lib_symbols
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
 	(text "USB Audio Bridge"
 		(exclude_from_sim no)
 		(at 30.48 30.48 0)
@@ -23,7 +123,7 @@
 		)
 		(uuid "4af7ef0d-7d4d-54f1-8969-8eecc458dd24")
 	)
-	(text "DESIGN NOTES\nPower: USB VBUS (PTC fused) -> AP7361C 3.3 V main rail; LP5907 3.3 V low-noise rail (+3V3_CLK) for the audio clock.\n  RT1010 internal DC-DC (4.7 uH) generates the 1.1 V VDD_SOC rail. VDD_SNVS_IN is tied to 3.3 V (no backup battery).\n  Arty PMOD VCC (pins 6/12) is NOT connected to 3.3 V: JP601 is an open solder jumper. Grounds are common.\nClocks: 24.000 MHz crystal (system/USB PLL), 32.768 kHz crystal (RTC), 24.576 MHz XO (audio master, Epson SG-210STF) -> CDCV304 1:4 buffer:\n  Y0 -> GPIO_08 SAI1_MCLK (input, GPR1 SAI1_MCLK_DIR=0, SAI1_MCLK1_SEL=011)\n  Y1 -> GPIO_AD_03 GPT2_CLK (counts MCLK between USB SOFs for the async feedback endpoint; needs ipg_clk >= 98.4 MHz)\n  Y2/Y3 -> PMOD JB1/JB7, the MCLK pin of each I2S row.  RT1010 SAI1 is I2S clock master for both buses.\nPMOD JB matches the Digilent Pmod I2S2: top row (1-4) MCLK/LRCK/SCLK/SDIN carries FPGA -> RT1010 audio, bottom row (7-10) MCLK/LRCK/SCLK/SDOUT carries RT1010 -> FPGA audio.\nBoot: BOOT_MODE[1:0]=10 (internal boot, FlexSPI-A QSPI NOR) by default. Hold BOOT and press RESET for 01 (serial downloader over USB).\nDebug: MCU-Link 10-pin Cortex debug header (SWD + SWO), 3-pin LPUART1 console header.\n\nPIN MAP\n  GPIO_01..03  SAI1 RX BCLK/SYNC/DATA0   (I2S input bus, FPGA -> RT1010)\n  GPIO_04,06,07 SAI1 TX DATA0/BCLK/SYNC  (I2S output bus, RT1010 -> FPGA)\n  GPIO_08      SAI1_MCLK in              GPIO_00, 05, 13, AD_08, AD_14  spare (NC)\n  GPIO_09/10   LPUART1 RX/TX             GPIO_11/12  LED1/LED2\n  GPIO_AD_04/05/06 LPSPI1 SDO/PCS0/SCK   GPIO_SD_05  LPSPI1 SDI (daisy select 1)\n  GPIO_AD_00 PMOD_INT, AD_07 PMOD_RST, AD_01/02 PMOD_GPIO0/1 (LPI2C2 or LPUART4 capable)\n  GPIO_AD_09..13 SWO/TDI/JTAG_MOD/SWCLK/SWDIO\n  GPIO_SD_06..11 FlexSPI-A QSPI flash    GPIO_SD_00..04 BT_CFG / BOOT_MODE straps"
+	(text "DESIGN NOTES\nPower: USB VBUS (PTC fused) -> AP7361C 3.3 V main rail; LP5907 3.3 V low-noise rail (+3V3_CLK) for the audio clock.\n  RT1010 internal DC-DC (4.7 uH) generates the 1.1 V VDD_SOC rail. VDD_SNVS_IN is tied to 3.3 V (no backup battery).\n  Arty PMOD VCC (pins 6/12) is NOT connected to 3.3 V: JP601 is an open solder jumper. Grounds are common.\nClocks: 24.000 MHz crystal (system/USB PLL), 32.768 kHz crystal (RTC), 24.576 MHz XO (audio master, Epson SG-210STF) -> CDCV304 1:4 buffer:\n  Y0 -> GPIO_08 SAI1_MCLK (input, GPR1 SAI1_MCLK_DIR=0, SAI1_MCLK1_SEL=011)\n  Y1 -> GPIO_AD_03 GPT2_CLK (counts MCLK between USB SOFs for the async feedback endpoint; needs ipg_clk >= 98.4 MHz)\n  Y2/Y3 -> PMOD JC1/JC7, the MCLK pin of each I2S row.  RT1010 SAI1 is I2S clock master for both buses.\nPMOD JC matches the Digilent Pmod I2S2: top row (1-4) MCLK/LRCK/SCLK/SDIN carries FPGA -> RT1010 audio, bottom row (7-10) MCLK/LRCK/SCLK/SDOUT carries RT1010 -> FPGA audio.\nBoot: BOOT_MODE[1:0]=10 (internal boot, FlexSPI-A QSPI NOR) by default. Hold BOOT and press RESET for 01 (serial downloader over USB).\nDebug: MCU-Link 10-pin Cortex debug header (SWD + SWO), 3-pin LPUART1 console header.\n\nPIN MAP\n  GPIO_01..03  SAI1 RX BCLK/SYNC/DATA0   (I2S input bus, FPGA -> RT1010)\n  GPIO_04,06,07 SAI1 TX DATA0/BCLK/SYNC  (I2S output bus, RT1010 -> FPGA)\n  GPIO_08      SAI1_MCLK in              GPIO_00, 05, 13, AD_08, AD_14  spare (NC)\n  GPIO_09/10   LPUART1 RX/TX             GPIO_11/12  LED1/LED2\n  GPIO_AD_04/05/06 LPSPI1 SDO/PCS0/SCK   GPIO_SD_05  LPSPI1 SDI (daisy select 1)\n  GPIO_AD_00 PMOD_INT, AD_07 PMOD_RST, AD_01/02 PMOD_GPIO0/1 (LPI2C2 or LPUART4 capable)\n  GPIO_AD_09..13 SWO/TDI/JTAG_MOD/SWCLK/SWDIO\n  GPIO_SD_06..11 FlexSPI-A QSPI flash    GPIO_SD_00..04 BT_CFG / BOOT_MODE straps"
 		(exclude_from_sim no)
 		(at 30.48 152.4 0)
 		(effects
@@ -34,7 +134,18 @@
 		)
 		(uuid "a0204154-a7a0-5f05-9bda-e09078972627")
 	)
-	(text "NXP i.MX RT1010 USB 2.0 HS asynchronous audio device bridging to an Arty A7 FPGA board over two PMOD ports (JB: I2S, JC: SPI + GPIO)."
+	(text "H1, H2: M3 holes for a standoff that takes USB cable strain\noff the PMOD headers."
+		(exclude_from_sim no)
+		(at 205.74 73.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e649c8af-50f0-5c15-bba9-a85f4c603ffb")
+	)
+	(text "NXP i.MX RT1010 USB 2.0 HS asynchronous audio device bridging to an Arty A7 FPGA board over two PMOD ports (JB: SPI + GPIO, JC: I2S)."
 		(exclude_from_sim no)
 		(at 30.48 38.1 0)
 		(effects
@@ -44,6 +155,138 @@
 			(justify left)
 		)
 		(uuid "eff5a0e9-1610-5842-a175-051c55fd7e4f")
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 228.6 63.5 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "543d3611-9af8-5701-8464-cefa70343921")
+		(property "Reference" "H2"
+			(at 228.6 58.42 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MountingHole_M3"
+			(at 228.6 60.96 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 228.6 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 228.6 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 228.6 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 215.9 63.5 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "5e7457a6-ae11-5478-a11d-075df509d2c5")
+		(property "Reference" "H1"
+			(at 215.9 58.42 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MountingHole_M3"
+			(at 215.9 60.96 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3"
+			(at 215.9 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 215.9 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 215.9 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances)
 	)
 	(sheet
 		(at 101.6 88.9)

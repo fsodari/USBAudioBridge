@@ -8,6 +8,7 @@ attached to a named net, a power net, or "NC".
 import os
 import sys
 
+import footprints
 from projlib import RT_NAME, write_library
 from schgen import Design
 
@@ -22,6 +23,7 @@ C0603 = "Capacitor_SMD:C_0603_1608Metric"
 C0805 = "Capacitor_SMD:C_0805_2012Metric"
 LED0603 = "LED_SMD:LED_0603_1608Metric"
 TP_FP = "TestPoint:TestPoint_Pad_D1.0mm"
+PMOD_FP = "USBAudioBridge:PMOD_Peripheral_2x06_P2.54mm_Horizontal"
 SW_FP = "Button_Switch_SMD:SW_SPST_PTS810"
 
 CAP_FP = {"0402": C0402, "0603": C0603, "0805": C0805}
@@ -50,7 +52,7 @@ def led(sh, ref, value, at, anode, cathode="GND"):
 
 
 def testpoint(sh, ref, net, at):
-    return sh.add("Connector:TestPoint", ref, net, at, footprint=TP_FP,
+    return sh.add("Connector:TestPoint", ref, net, at, footprint=TP_FP, in_bom=False,
                   text=((1.905, -4.06), (1.905, -2.29), "left")).connect({"1": net})
 
 
@@ -105,7 +107,7 @@ def build():
 def sheet_root(sh):
     sh.text("USB Audio Bridge", (30.48, 30.48), size=5.0, bold=True)
     sh.text("NXP i.MX RT1010 USB 2.0 HS asynchronous audio device bridging to an Arty A7 "
-            "FPGA board over two PMOD ports (JB: I2S, JC: SPI + GPIO).", (30.48, 38.1), size=1.8)
+            "FPGA board over two PMOD ports (JB: SPI + GPIO, JC: I2S).", (30.48, 38.1), size=1.8)
     notes = (
         "DESIGN NOTES\n"
         "Power: USB VBUS (PTC fused) -> AP7361C 3.3 V main rail; LP5907 3.3 V low-noise rail "
@@ -119,9 +121,9 @@ def sheet_root(sh):
         "  Y0 -> GPIO_08 SAI1_MCLK (input, GPR1 SAI1_MCLK_DIR=0, SAI1_MCLK1_SEL=011)\n"
         "  Y1 -> GPIO_AD_03 GPT2_CLK (counts MCLK between USB SOFs for the async feedback "
         "endpoint; needs ipg_clk >= 98.4 MHz)\n"
-        "  Y2/Y3 -> PMOD JB1/JB7, the MCLK pin of each I2S row.  RT1010 SAI1 is I2S clock master for "
+        "  Y2/Y3 -> PMOD JC1/JC7, the MCLK pin of each I2S row.  RT1010 SAI1 is I2S clock master for "
         "both buses.\n"
-        "PMOD JB matches the Digilent Pmod I2S2: top row (1-4) MCLK/LRCK/SCLK/SDIN carries FPGA -> "
+        "PMOD JC matches the Digilent Pmod I2S2: top row (1-4) MCLK/LRCK/SCLK/SDIN carries FPGA -> "
         "RT1010 audio, bottom row (7-10) MCLK/LRCK/SCLK/SDOUT carries RT1010 -> FPGA audio.\n"
         "Boot: BOOT_MODE[1:0]=10 (internal boot, FlexSPI-A QSPI NOR) by default. Hold BOOT and "
         "press RESET for 01 (serial downloader over USB).\n"
@@ -138,6 +140,11 @@ def sheet_root(sh):
         "  GPIO_SD_06..11 FlexSPI-A QSPI flash    GPIO_SD_00..04 BT_CFG / BOOT_MODE straps"
     )
     sh.text(notes, (30.48, 152.4), size=1.6)
+    for i, ref in enumerate(("H1", "H2")):
+        sh.add("Mechanical:MountingHole", ref, "MountingHole_M3", (215.9 + i * 12.7, 63.5),
+               footprint="MountingHole:MountingHole_3.2mm_M3", in_bom=False)
+    sh.text("H1, H2: M3 holes for a standoff that takes USB cable strain\noff the PMOD headers.",
+            (205.74, 73.66))
 
 
 def sheet_power(sh):
@@ -423,60 +430,61 @@ def sheet_audio(sh):
     # buffer output -> series resistor; the turn columns keep the four routes from crossing
     for ref, pin, y_r, mid, net in (("R602", "3", 58.42, 149.86, "MCLK_SAI"),
                                     ("R603", "5", 68.58, None, "MCLK_GPT"),
-                                    ("R604", "7", 78.74, 149.86, "JB_RX_MCLK"),
-                                    ("R605", "8", 88.9, 144.78, "JB_TX_MCLK")):
+                                    ("R604", "7", 78.74, 149.86, "JC_RX_MCLK"),
+                                    ("R605", "8", 88.9, 144.78, "JC_TX_MCLK")):
         r = res(sh, ref, "33", (162.56, y_r), "CLK_" + ref, net, horizontal=True)
         sh.link(f"CLK_Y{int(ref[-1]) - 2}", (b, pin), (r, "1"), label=False, mid=mid)
     sh.text("Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\n"
             "Y1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\n"
-            "Y2 -> PMOD JB1 (MCLK, top row)\nY3 -> PMOD JB7 (MCLK, bottom row)",
+            "Y2 -> PMOD JC1 (MCLK, top row)\nY3 -> PMOD JC7 (MCLK, bottom row)",
             (25.4, 109.22))
 
-    # PMOD JB: Digilent Pmod I2S2 pinout, viewed from the FPGA as the host
-    sh.box(20.32, 144.78, 205.74, 264.16, "PMOD JB (Arty high-speed port): I2S, Pmod I2S2 pinout")
+    # PMOD JB (west port): SPI + GPIO, Digilent Type 2A
+    sh.box(20.32, 144.78, 205.74, 264.16, "PMOD JB (Arty high-speed port): SPI + GPIO")
     jb = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J601", "PMOD_JB", (116.84, 200.66),
-                footprint="Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal",
+                footprint=PMOD_FP,
                 fields={"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"})
-    jb.connect({"1": "JB_RX_MCLK", "2": "JB_RX_LRCLK", "3": "JB_RX_BCLK", "4": "JB_RX_DATA",
-                "5": "GND", "6": "PMOD_VCC", "7": "JB_TX_MCLK", "8": "JB_TX_LRCLK",
-                "9": "JB_TX_BCLK", "10": "JB_TX_DATA", "11": "GND", "12": "PMOD_VCC"})
-    left = [("R606", "I2S_RX_LRCLK", "JB_RX_LRCLK"), ("R607", "I2S_RX_BCLK", "JB_RX_BCLK"),
-            ("R608", "I2S_RX_DATA", "JB_RX_DATA")]
-    right = [("R609", "JB_TX_LRCLK", "I2S_TX_LRCLK"), ("R610", "JB_TX_BCLK", "I2S_TX_BCLK"),
-             ("R611", "JB_TX_DATA", "I2S_TX_DATA")]
+    jb.connect({"1": "JB_SPI_CS", "2": "JB_SPI_MOSI", "3": "JB_SPI_MISO", "4": "JB_SPI_SCK",
+                "5": "GND", "6": "PMOD_VCC", "7": "JB_INT", "8": "JB_RST",
+                "9": "JB_GPIO0", "10": "JB_GPIO1", "11": "GND", "12": "PMOD_VCC"})
+    left = [("R606", "SPI_CS", "JB_SPI_CS"), ("R607", "SPI_MOSI", "JB_SPI_MOSI"),
+            ("R608", "SPI_MISO", "JB_SPI_MISO"), ("R609", "SPI_SCK", "JB_SPI_SCK")]
+    right = [("R610", "JB_INT", "PMOD_INT"), ("R611", "JB_RST", "PMOD_RST"),
+             ("R612", "JB_GPIO0", "PMOD_GPIO0"), ("R613", "JB_GPIO1", "PMOD_GPIO1")]
     for i, (ref, a, b_) in enumerate(left):
-        res(sh, ref, "33", (55.88, 172.72 + i * 10.16), a, b_, horizontal=True)
+        res(sh, ref, "33", (55.88, 167.64 + i * 10.16), a, b_, horizontal=True)
     for i, (ref, a, b_) in enumerate(right):
-        res(sh, ref, "33", (172.72, 172.72 + i * 10.16), a, b_, horizontal=True)
+        res(sh, ref, "33", (172.72, 167.64 + i * 10.16), a, b_, horizontal=True)
+    sh.text("PMOD Type 2A (expanded SPI): RT1010 LPSPI1 is master by default;\n"
+            "LPSPI PINCFG can swap SDI/SDO if the FPGA is master. INT on 7, RST on 8.",
+            (25.4, 248.92))
+
+    # PMOD JC (east port): Digilent Pmod I2S2 pinout, viewed from the FPGA as the host
+    sh.box(213.36, 144.78, 398.78, 264.16, "PMOD JC (Arty high-speed port): I2S, Pmod I2S2 pinout")
+    jc = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J602", "PMOD_JC", (309.88, 200.66),
+                footprint=PMOD_FP,
+                fields={"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"})
+    jc.connect({"1": "JC_RX_MCLK", "2": "JC_RX_LRCLK", "3": "JC_RX_BCLK", "4": "JC_RX_DATA",
+                "5": "GND", "6": "PMOD_VCC", "7": "JC_TX_MCLK", "8": "JC_TX_LRCLK",
+                "9": "JC_TX_BCLK", "10": "JC_TX_DATA", "11": "GND", "12": "PMOD_VCC"})
+    left = [("R614", "I2S_RX_LRCLK", "JC_RX_LRCLK"), ("R615", "I2S_RX_BCLK", "JC_RX_BCLK"),
+            ("R616", "I2S_RX_DATA", "JC_RX_DATA")]
+    right = [("R617", "JC_TX_LRCLK", "I2S_TX_LRCLK"), ("R618", "JC_TX_BCLK", "I2S_TX_BCLK"),
+             ("R619", "JC_TX_DATA", "I2S_TX_DATA")]
+    for i, (ref, a, b_) in enumerate(left):
+        res(sh, ref, "33", (248.92, 172.72 + i * 10.16), a, b_, horizontal=True)
+    for i, (ref, a, b_) in enumerate(right):
+        res(sh, ref, "33", (365.76, 172.72 + i * 10.16), a, b_, horizontal=True)
     sh.text("Pmod I2S2 pinout (host = FPGA):\n"
             "  1-4  D/A row: MCLK, LRCK, SCLK, SDIN   = FPGA -> RT1010 (SAI1 RX)\n"
             "  7-10 A/D row: MCLK, LRCK, SCLK, SDOUT = RT1010 -> FPGA (SAI1 TX)\n"
-            "All clocks are driven by this board: the FPGA must treat JB1-3 and JB7-9 as inputs.\n"
+            "All clocks are driven by this board: the FPGA must treat JC1-3 and JC7-9 as inputs.\n"
             "Arty HS pairs 1-2 and 7-8 couple MCLK with LRCK (LRCK is a slow, sampled signal).",
-            (25.4, 238.76))
-
-    sh.box(213.36, 144.78, 398.78, 264.16, "PMOD JC (Arty high-speed port): SPI + GPIO")
-    jc = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J602", "PMOD_JC", (322.58, 200.66),
-                footprint="Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal",
-                fields={"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"})
-    jc.connect({"1": "JC_SPI_CS", "2": "JC_SPI_MOSI", "3": "JC_SPI_MISO", "4": "JC_SPI_SCK",
-                "5": "GND", "6": "PMOD_VCC", "7": "JC_INT", "8": "JC_RST",
-                "9": "JC_GPIO0", "10": "JC_GPIO1", "11": "GND", "12": "PMOD_VCC"})
-    left = [("R612", "SPI_CS", "JC_SPI_CS"), ("R613", "SPI_MOSI", "JC_SPI_MOSI"),
-            ("R614", "SPI_MISO", "JC_SPI_MISO"), ("R615", "SPI_SCK", "JC_SPI_SCK")]
-    right = [("R616", "JC_INT", "PMOD_INT"), ("R617", "JC_RST", "PMOD_RST"),
-             ("R618", "JC_GPIO0", "PMOD_GPIO0"), ("R619", "JC_GPIO1", "PMOD_GPIO1")]
-    for i, (ref, a, b_) in enumerate(left):
-        res(sh, ref, "33", (254.0, 167.64 + i * 10.16), a, b_, horizontal=True)
-    for i, (ref, a, b_) in enumerate(right):
-        res(sh, ref, "33", (360.68, 167.64 + i * 10.16), a, b_, horizontal=True)
-    sh.text("PMOD Type 2A (expanded SPI): RT1010 LPSPI1 is master by default;\n"
-            "LPSPI PINCFG can swap SDI/SDO if the FPGA is master. INT on 7, RST on 8.",
-            (218.44, 248.92))
+            (218.44, 238.76))
 
     sh.box(213.36, 25.4, 398.78, 99.06, "PMOD VCC")
     sh.add("Jumper:SolderJumper_2_Open", "JP601", "PMOD_VCC", (299.72, 55.88),
-           footprint="Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm",
+           footprint="Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm", in_bom=False,
            fields={"Spec": "Open by default"}).connect({"A": "PMOD_VCC", "B": "+3V3"})
     sh.text("Board is USB powered. Arty PMOD VCC (pins 6, 12) is isolated from +3V3\n"
             "by open jumper JP601 to avoid back-feeding either regulator.\n"
@@ -486,6 +494,7 @@ def sheet_audio(sh):
 def main():
     os.makedirs(OUT, exist_ok=True)
     write_library(os.path.join(OUT, "USBAudioBridge.kicad_sym"))
+    footprints.write_library(os.path.join(OUT, "USBAudioBridge.pretty"))
     d = build()
     d.write(mcu_prefix="USBAudioBridge:MIMXRT")
     return d

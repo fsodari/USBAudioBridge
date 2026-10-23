@@ -59,7 +59,7 @@ def dir_angle(dx, dy):
 
 class Part:
     def __init__(self, sheet, lib_id, ref, value, at, angle=0, unit=1, footprint="",
-                 fields=None, text=None, dnp=False):
+                 fields=None, text=None, dnp=False, in_bom=True):
         self.sheet = sheet
         self.lib_id = lib_id
         self.ref = ref
@@ -71,6 +71,7 @@ class Part:
         self.fields = fields or {}
         self.text = text  # override for ref/value placement: "right", "above", "left"
         self.dnp = dnp
+        self.in_bom = in_bom
         self.sym = sheet.lib(lib_id)
         self.pins = [p for p in pins(self.sym) if p["unit"] in (0, unit)]
         self.conns = {}
@@ -379,8 +380,9 @@ class Sheet:
                 numbers.append(p["number"])
         path = f"/{self.design.root_uuid}/{self.inst_uuid}"
         dnp = part.dnp if part is not None else False
+        in_bom = (not power) and (part is None or part.in_bom)
         return (["symbol", ["lib_id", QStr(lib_id)], ["at", x, y, angle], ["unit", unit],
-                 ["exclude_from_sim", "no"], ["in_bom", "no" if power else "yes"],
+                 ["exclude_from_sim", "no"], ["in_bom", "yes" if in_bom else "no"],
                  ["on_board", "no" if power else "yes"], ["dnp", "yes" if dnp else "no"],
                  ["uuid", uid(self.name, *key, x, y)]]
                 + props

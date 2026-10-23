@@ -1818,19 +1818,7 @@
 		)
 		(uuid "30ffd907-106c-5678-aa47-469aeb269569")
 	)
-	(text "PMOD JC (Arty high-speed port): SPI + GPIO"
-		(exclude_from_sim no)
-		(at 214.63 147.32 0)
-		(effects
-			(font
-				(size 2 2)
-				(bold yes)
-			)
-			(justify left)
-		)
-		(uuid "51e9901d-a87b-5055-8795-d9a737d9aa6c")
-	)
-	(text "PMOD JB (Arty high-speed port): I2S, Pmod I2S2 pinout"
+	(text "PMOD JB (Arty high-speed port): SPI + GPIO"
 		(exclude_from_sim no)
 		(at 21.59 147.32 0)
 		(effects
@@ -1840,7 +1828,18 @@
 			)
 			(justify left)
 		)
-		(uuid "6479de6f-1311-5bfa-89d2-3e85b26cd550")
+		(uuid "4416ad2d-14b6-57f0-a874-7d0cb14d6e38")
+	)
+	(text "PMOD Type 2A (expanded SPI): RT1010 LPSPI1 is master by default;\nLPSPI PINCFG can swap SDI/SDO if the FPGA is master. INT on 7, RST on 8."
+		(exclude_from_sim no)
+		(at 25.4 248.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6f0ad29c-6653-5956-8855-6861fdc05703")
 	)
 	(text "Board is USB powered. Arty PMOD VCC (pins 6, 12) is isolated from +3V3\nby open jumper JP601 to avoid back-feeding either regulator.\nDo not close with USB connected."
 		(exclude_from_sim no)
@@ -1853,18 +1852,7 @@
 		)
 		(uuid "7a7acce2-8a31-5871-82e4-625f29df920f")
 	)
-	(text "PMOD Type 2A (expanded SPI): RT1010 LPSPI1 is master by default;\nLPSPI PINCFG can swap SDI/SDO if the FPGA is master. INT on 7, RST on 8."
-		(exclude_from_sim no)
-		(at 218.44 248.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "a01afe8b-965e-5486-80ce-b49c9e2de751")
-	)
-	(text "Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\nY1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\nY2 -> PMOD JB1 (MCLK, top row)\nY3 -> PMOD JB7 (MCLK, bottom row)"
+	(text "Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\nY1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\nY2 -> PMOD JC1 (MCLK, top row)\nY3 -> PMOD JC7 (MCLK, bottom row)"
 		(exclude_from_sim no)
 		(at 25.4 109.22 0)
 		(effects
@@ -1875,16 +1863,28 @@
 		)
 		(uuid "ab4bc2a1-85f0-5c1c-aba1-17bf7aeeae5d")
 	)
-	(text "Pmod I2S2 pinout (host = FPGA):\n  1-4  D/A row: MCLK, LRCK, SCLK, SDIN   = FPGA -> RT1010 (SAI1 RX)\n  7-10 A/D row: MCLK, LRCK, SCLK, SDOUT = RT1010 -> FPGA (SAI1 TX)\nAll clocks are driven by this board: the FPGA must treat JB1-3 and JB7-9 as inputs.\nArty HS pairs 1-2 and 7-8 couple MCLK with LRCK (LRCK is a slow, sampled signal)."
+	(text "Pmod I2S2 pinout (host = FPGA):\n  1-4  D/A row: MCLK, LRCK, SCLK, SDIN   = FPGA -> RT1010 (SAI1 RX)\n  7-10 A/D row: MCLK, LRCK, SCLK, SDOUT = RT1010 -> FPGA (SAI1 TX)\nAll clocks are driven by this board: the FPGA must treat JC1-3 and JC7-9 as inputs.\nArty HS pairs 1-2 and 7-8 couple MCLK with LRCK (LRCK is a slow, sampled signal)."
 		(exclude_from_sim no)
-		(at 25.4 238.76 0)
+		(at 218.44 238.76 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "abe1f722-eb31-5d8b-9d04-575f0df112ef")
+		(uuid "bc553a04-f171-592c-a479-afdca2a5a167")
+	)
+	(text "PMOD JC (Arty high-speed port): I2S, Pmod I2S2 pinout"
+		(exclude_from_sim no)
+		(at 214.63 147.32 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "ee7c454a-b953-5fe9-977c-5932d8eb631f")
 	)
 	(text "PMOD VCC"
 		(exclude_from_sim no)
@@ -1900,6 +1900,16 @@
 	)
 	(wire
 		(pts
+			(xy 361.95 172.72) (xy 359.41 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0155458e-1c83-5e20-b4d1-8fd45f39ef42")
+	)
+	(wire
+		(pts
 			(xy 80.01 71.12) (xy 116.84 71.12)
 		)
 		(stroke
@@ -1910,23 +1920,13 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 172.72) (xy 179.07 172.72)
+			(xy 168.91 187.96) (xy 166.37 187.96)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0674ae5f-f97c-55b7-9ebb-714f7e993553")
-	)
-	(wire
-		(pts
-			(xy 317.5 208.28) (xy 314.96 208.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0b6783ec-65c1-5f11-9f29-7bd44e5f9cf3")
+		(uuid "0c50cde1-35b1-536c-94d6-ceab220a24ac")
 	)
 	(wire
 		(pts
@@ -1950,6 +1950,36 @@
 	)
 	(wire
 		(pts
+			(xy 168.91 177.8) (xy 166.37 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "163fe994-c23c-532e-9701-0dc47981b86a")
+	)
+	(wire
+		(pts
+			(xy 176.53 198.12) (xy 179.07 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c0f3dc6-f5c3-5880-a788-57a81cd9ef39")
+	)
+	(wire
+		(pts
+			(xy 176.53 187.96) (xy 179.07 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f5c0b1a-40dd-5bde-8736-65f0456506bb")
+	)
+	(wire
+		(pts
 			(xy 137.16 73.66) (xy 144.78 73.66)
 		)
 		(stroke
@@ -1957,6 +1987,16 @@
 			(type default)
 		)
 		(uuid "20e32584-6947-5643-a9d1-878d769ace60")
+	)
+	(wire
+		(pts
+			(xy 317.5 198.12) (xy 320.04 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24df039a-4faa-53e1-ac68-5456ed952504")
 	)
 	(wire
 		(pts
@@ -1970,43 +2010,13 @@
 	)
 	(wire
 		(pts
-			(xy 330.2 203.2) (xy 332.74 203.2)
+			(xy 245.11 193.04) (xy 242.57 193.04)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "28473d21-c9c1-596f-8317-e4d1e70d6bce")
-	)
-	(wire
-		(pts
-			(xy 356.87 177.8) (xy 354.33 177.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2c55b85e-2479-5f1e-9130-89c15070a50c")
-	)
-	(wire
-		(pts
-			(xy 59.69 172.72) (xy 62.23 172.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2cf3ca8a-a615-5f01-8ff7-f9f7728c66d1")
-	)
-	(wire
-		(pts
-			(xy 52.07 172.72) (xy 49.53 172.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2d9610c0-cf41-59b4-af33-696ff94d1141")
+		(uuid "2cc828b5-5d4f-5e8c-9ddb-16cd540dc252")
 	)
 	(wire
 		(pts
@@ -2040,13 +2050,23 @@
 	)
 	(wire
 		(pts
-			(xy 356.87 198.12) (xy 354.33 198.12)
+			(xy 304.8 200.66) (xy 302.26 200.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3951080d-c168-5bcf-9174-3663b876cdfa")
+		(uuid "3641c956-96f0-5141-b1e0-9b86e8898d22")
+	)
+	(wire
+		(pts
+			(xy 317.5 203.2) (xy 320.04 203.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39cf451b-a253-5521-905b-e05fe5269903")
 	)
 	(wire
 		(pts
@@ -2060,13 +2080,13 @@
 	)
 	(wire
 		(pts
-			(xy 330.2 205.74) (xy 332.74 205.74)
+			(xy 361.95 193.04) (xy 359.41 193.04)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "415172f0-acb0-5093-9c60-8c8a05d1a1a1")
+		(uuid "41e46660-ac1d-578d-91c0-b3ed42596e1d")
 	)
 	(wire
 		(pts
@@ -2087,16 +2107,6 @@
 			(type default)
 		)
 		(uuid "46a34464-94a1-5faf-9f63-787f549856d1")
-	)
-	(wire
-		(pts
-			(xy 330.2 200.66) (xy 332.74 200.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "46e5dac4-cff4-5d9f-8155-17d976b52171")
 	)
 	(wire
 		(pts
@@ -2130,6 +2140,16 @@
 	)
 	(wire
 		(pts
+			(xy 52.07 167.64) (xy 49.53 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4b23a863-be74-5089-8fa9-50597243828d")
+	)
+	(wire
+		(pts
 			(xy 124.46 200.66) (xy 127 200.66)
 		)
 		(stroke
@@ -2137,16 +2157,6 @@
 			(type default)
 		)
 		(uuid "4d205dbe-157c-56e2-be4e-6d6b9cd475b9")
-	)
-	(wire
-		(pts
-			(xy 317.5 203.2) (xy 314.96 203.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "506f7dc4-e7d1-5f0f-ae2e-66950aa6a8fb")
 	)
 	(wire
 		(pts
@@ -2170,43 +2180,23 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 193.04) (xy 62.23 193.04)
+			(xy 59.69 198.12) (xy 62.23 198.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "51fc0a14-c959-5b11-b2d6-d0bd63f03952")
+		(uuid "595f48ad-ab20-5fb3-85d9-a712aeaa4168")
 	)
 	(wire
 		(pts
-			(xy 317.5 198.12) (xy 314.96 198.12)
+			(xy 304.8 198.12) (xy 302.26 198.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "59bc1347-c29b-5773-aa60-0f2e60676b4d")
-	)
-	(wire
-		(pts
-			(xy 330.2 198.12) (xy 332.74 198.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "59d6c4a0-502e-5c46-9375-3d754923fb92")
-	)
-	(wire
-		(pts
-			(xy 250.19 198.12) (xy 247.65 198.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "59f27648-2ac1-5bdc-a650-8b36e845a55d")
+		(uuid "59f6215a-a285-5383-b719-0b800ab5e517")
 	)
 	(wire
 		(pts
@@ -2230,23 +2220,23 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 182.88) (xy 62.23 182.88)
+			(xy 52.07 198.12) (xy 49.53 198.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "63726bbb-c081-5d6e-859f-304ee72bb811")
+		(uuid "628d7c6d-eae9-51b3-98a5-7c95866deb85")
 	)
 	(wire
 		(pts
-			(xy 250.19 167.64) (xy 247.65 167.64)
+			(xy 252.73 193.04) (xy 255.27 193.04)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6750102c-658a-5b5d-b21f-25ba67bdb815")
+		(uuid "65754e86-0290-511c-9b56-2fa2149d4b38")
 	)
 	(wire
 		(pts
@@ -2257,16 +2247,6 @@
 			(type default)
 		)
 		(uuid "6751f708-9a59-53b7-840f-1e88c3405b07")
-	)
-	(wire
-		(pts
-			(xy 52.07 193.04) (xy 49.53 193.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "680b9d4f-451f-5711-a9df-671314e80207")
 	)
 	(wire
 		(pts
@@ -2290,13 +2270,23 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 167.64) (xy 260.35 167.64)
+			(xy 304.8 203.2) (xy 302.26 203.2)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7247cd26-f8ba-52a7-a281-64ac41e230dc")
+		(uuid "732453fa-329a-586b-bcc3-5448b0a0aa35")
+	)
+	(wire
+		(pts
+			(xy 245.11 172.72) (xy 242.57 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "743cd79f-eb07-5cbf-93f4-42fbce58577a")
 	)
 	(wire
 		(pts
@@ -2310,16 +2300,6 @@
 	)
 	(wire
 		(pts
-			(xy 364.49 187.96) (xy 367.03 187.96)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "76a91e0b-a416-5d22-8963-7c316223e593")
-	)
-	(wire
-		(pts
 			(xy 137.16 71.12) (xy 149.86 71.12)
 		)
 		(stroke
@@ -2330,63 +2310,63 @@
 	)
 	(wire
 		(pts
-			(xy 364.49 198.12) (xy 367.03 198.12)
+			(xy 369.57 172.72) (xy 372.11 172.72)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7becdc8f-f2cd-5600-8649-56236c901508")
+		(uuid "80bae9d9-a0cb-593d-8ce3-60faefaed424")
 	)
 	(wire
 		(pts
-			(xy 356.87 187.96) (xy 354.33 187.96)
+			(xy 317.5 205.74) (xy 320.04 205.74)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "89891961-1d0e-51a8-bb32-5677121d46bb")
+		(uuid "8dae6c1f-d10f-55b3-9f1f-cac73f5f7b29")
 	)
 	(wire
 		(pts
-			(xy 168.91 172.72) (xy 166.37 172.72)
+			(xy 176.53 177.8) (xy 179.07 177.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8d329546-a847-510f-a8aa-799854c62053")
+		(uuid "8eeb0ed2-6c12-5e20-beb0-a275e13d0081")
 	)
 	(wire
 		(pts
-			(xy 364.49 167.64) (xy 367.03 167.64)
+			(xy 317.5 200.66) (xy 320.04 200.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8d6efcf6-e0f4-5be5-b595-200aa3935358")
+		(uuid "8f4cfbf0-72da-5446-8ed9-aa0f04f9f3ed")
 	)
 	(wire
 		(pts
-			(xy 364.49 177.8) (xy 367.03 177.8)
+			(xy 176.53 167.64) (xy 179.07 167.64)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9e3dde8b-84bd-564b-89b8-8510d493c4c1")
+		(uuid "983bdac0-c492-560c-9c20-c2d86275bbe3")
 	)
 	(wire
 		(pts
-			(xy 250.19 187.96) (xy 247.65 187.96)
+			(xy 304.8 195.58) (xy 302.26 195.58)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9ff9f114-4f31-5731-b1e3-b0c3702011e7")
+		(uuid "a1c38209-4480-5f5f-95f2-4ea6c1e5944f")
 	)
 	(wire
 		(pts
@@ -2420,16 +2400,6 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 193.04) (xy 179.07 193.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "af1f827c-61bd-53ab-9f53-6ad2b66400e8")
-	)
-	(wire
-		(pts
 			(xy 137.16 68.58) (xy 158.75 68.58)
 		)
 		(stroke
@@ -2440,23 +2410,53 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 182.88) (xy 166.37 182.88)
+			(xy 304.8 208.28) (xy 302.26 208.28)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b125a020-b531-5e74-8f47-1c9a902343c5")
+		(uuid "b2dcf50f-46c8-5b55-9a3e-8c5e3a853628")
 	)
 	(wire
 		(pts
-			(xy 330.2 208.28) (xy 332.74 208.28)
+			(xy 168.91 167.64) (xy 166.37 167.64)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b398fa84-55f6-531e-9835-39e5aaef8b34")
+		(uuid "b431870d-9131-5827-8cd1-025a9121d892")
+	)
+	(wire
+		(pts
+			(xy 252.73 182.88) (xy 255.27 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4fbc9e4-6acf-5d3b-a61b-0989b6ee84ed")
+	)
+	(wire
+		(pts
+			(xy 317.5 208.28) (xy 320.04 208.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b51c55bd-128b-5cc5-af3d-451d47abab7c")
+	)
+	(wire
+		(pts
+			(xy 52.07 187.96) (xy 49.53 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b609135b-d89e-5a3d-8a0a-c9ef7c5a4373")
 	)
 	(wire
 		(pts
@@ -2470,6 +2470,16 @@
 	)
 	(wire
 		(pts
+			(xy 59.69 187.96) (xy 62.23 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b78f9dda-f1e6-510a-a7de-b747ca6c39cb")
+	)
+	(wire
+		(pts
 			(xy 48.26 71.12) (xy 45.72 71.12)
 		)
 		(stroke
@@ -2480,23 +2490,13 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 193.04) (xy 166.37 193.04)
+			(xy 369.57 182.88) (xy 372.11 182.88)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b9ad61c1-a49f-5aac-affd-1b85e6861d42")
-	)
-	(wire
-		(pts
-			(xy 176.53 182.88) (xy 179.07 182.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c5d30ad2-f17f-5467-b07c-52e49f124e3e")
+		(uuid "bd65376a-9e7a-5bc2-8afd-7dabafe6812d")
 	)
 	(wire
 		(pts
@@ -2510,13 +2510,13 @@
 	)
 	(wire
 		(pts
-			(xy 317.5 205.74) (xy 314.96 205.74)
+			(xy 317.5 195.58) (xy 320.04 195.58)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c8e214de-84db-5619-a41f-0ce9959fc526")
+		(uuid "ca467b30-5830-516f-aa6f-95b6a83d819c")
 	)
 	(wire
 		(pts
@@ -2530,13 +2530,13 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 198.12) (xy 260.35 198.12)
+			(xy 168.91 198.12) (xy 166.37 198.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cd4c078e-a4a1-5506-9065-370fa190b5e4")
+		(uuid "cebbcccb-9654-5548-831e-f5a5da3b795e")
 	)
 	(wire
 		(pts
@@ -2550,23 +2550,23 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 187.96) (xy 260.35 187.96)
+			(xy 245.11 182.88) (xy 242.57 182.88)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d3dd5e30-ed69-51e5-8f8a-5feff1e32579")
+		(uuid "d409c2f3-7ede-5777-b8de-63f505e4aa58")
 	)
 	(wire
 		(pts
-			(xy 330.2 195.58) (xy 332.74 195.58)
+			(xy 361.95 182.88) (xy 359.41 182.88)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d5c897fa-e21a-5c0b-ae2c-d4791356b706")
+		(uuid "d6fea1c1-2f94-5196-9997-f6b107b62c34")
 	)
 	(wire
 		(pts
@@ -2577,16 +2577,6 @@
 			(type default)
 		)
 		(uuid "da173f46-965d-5e7f-97db-d63d60c54bda")
-	)
-	(wire
-		(pts
-			(xy 317.5 200.66) (xy 314.96 200.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dad2c839-51b7-5694-9628-14290ebdeaac")
 	)
 	(wire
 		(pts
@@ -2610,23 +2600,53 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 177.8) (xy 260.35 177.8)
+			(xy 252.73 172.72) (xy 255.27 172.72)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e75f1dbe-2645-5f80-9d8d-f9edb5f00b37")
+		(uuid "e740ba31-a941-596b-a285-575757257d81")
 	)
 	(wire
 		(pts
-			(xy 52.07 182.88) (xy 49.53 182.88)
+			(xy 52.07 177.8) (xy 49.53 177.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f175e5e4-2b53-5671-b302-c3362a3a2d68")
+		(uuid "eb3a45ab-d418-5ee6-a878-c0287b77d325")
+	)
+	(wire
+		(pts
+			(xy 304.8 205.74) (xy 302.26 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ed894c3f-d051-5fd0-ab25-c791ea63fd0a")
+	)
+	(wire
+		(pts
+			(xy 369.57 193.04) (xy 372.11 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee8302ec-81cb-589f-8a7a-df7077d6bb1f")
+	)
+	(wire
+		(pts
+			(xy 59.69 167.64) (xy 62.23 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3bbb055-c014-5db6-8069-56fad6883d8b")
 	)
 	(wire
 		(pts
@@ -2650,26 +2670,6 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 177.8) (xy 247.65 177.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f65ff6a4-28d5-5a2c-b755-2f969bc3dcf2")
-	)
-	(wire
-		(pts
-			(xy 317.5 195.58) (xy 314.96 195.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f84ff1b8-4b96-5d3c-961d-18c3002b8330")
-	)
-	(wire
-		(pts
 			(xy 137.16 66.04) (xy 149.86 66.04)
 		)
 		(stroke
@@ -2677,6 +2677,16 @@
 			(type default)
 		)
 		(uuid "f8d25d7f-352f-5d98-bd41-108b7bbd631c")
+	)
+	(wire
+		(pts
+			(xy 59.69 177.8) (xy 62.23 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8da616a-c492-5cfe-be65-4b1bba9a9e36")
 	)
 	(wire
 		(pts
@@ -2688,157 +2698,57 @@
 		)
 		(uuid "fb4a0462-a028-5cfa-968c-75a59c18c0c7")
 	)
-	(wire
-		(pts
-			(xy 356.87 167.64) (xy 354.33 167.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fe4820a4-a67b-5cfd-bf4b-2f4328d3c04b")
-	)
-	(label "JB_RX_DATA"
-		(at 109.22 203.2 180)
+	(label "JB_INT"
+		(at 166.37 167.64 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "030207ed-9ef5-53d6-ad14-a14da5e5a8ef")
+		(uuid "11ee7df2-14dd-51f2-85b3-e241fb167487")
 	)
-	(label "JC_SPI_MISO"
-		(at 260.35 187.96 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "07bc6146-4fae-59fd-9e9f-9f5cd954aabe")
-	)
-	(label "JB_RX_DATA"
-		(at 62.23 193.04 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "10fbac47-0d35-53fe-9894-404705acc415")
-	)
-	(label "JB_RX_LRCLK"
-		(at 109.22 198.12 180)
+	(label "JB_RST"
+		(at 166.37 177.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "124d75c7-a322-54c9-ab19-d84dd35bf68f")
+		(uuid "1718b0e6-911c-5cb9-8141-fa0195a9400f")
 	)
-	(label "JB_TX_LRCLK"
-		(at 166.37 172.72 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "173bd10d-1005-5fbb-b652-5cd2a20aa59d")
-	)
-	(label "JB_TX_DATA"
-		(at 166.37 193.04 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2366888d-08b5-50f7-bac4-789f5365aff0")
-	)
-	(label "JC_GPIO1"
-		(at 354.33 198.12 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "24d0c76c-8fb5-5d4d-acb0-7adc1a4c09b6")
-	)
-	(label "JB_TX_BCLK"
-		(at 166.37 182.88 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "2e359163-2161-5c68-8158-4491c86f03aa")
-	)
-	(label "JB_RX_MCLK"
-		(at 168.91 78.74 0)
+	(label "JC_TX_LRCLK"
+		(at 320.04 198.12 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "335f49c8-7a66-5706-a18b-ab079db37caa")
+		(uuid "294b02f2-306e-5602-b7e5-e1530c0de5ad")
 	)
-	(label "JC_SPI_MISO"
-		(at 314.96 200.66 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "49078bd9-aaca-5ee9-b4a0-534018e4d263")
-	)
-	(label "JB_RX_LRCLK"
-		(at 62.23 172.72 0)
+	(label "JC_TX_BCLK"
+		(at 320.04 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "4f472190-c08a-59ce-9684-340be2b46105")
+		(uuid "38b6a3b3-abe6-5418-8b81-0c1698d78ea6")
 	)
-	(label "JC_RST"
-		(at 332.74 198.12 0)
+	(label "JB_SPI_MISO"
+		(at 62.23 187.96 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "55c3b07a-0722-54ba-a2b7-e25d72b3aa0e")
+		(uuid "3cc6c3de-cb07-5c7e-b757-62aa2e16080d")
 	)
-	(label "PMOD_VCC"
-		(at 332.74 208.28 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "56cec745-ca39-553b-84e6-2bdbb6887459")
-	)
-	(label "JC_INT"
-		(at 332.74 195.58 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "6926bce3-f746-55bd-a414-a307a23a5c11")
-	)
-	(label "JB_TX_BCLK"
+	(label "JB_GPIO0"
 		(at 127 200.66 0)
 		(effects
 			(font
@@ -2846,99 +2756,189 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "743e920a-5fb1-54b7-9e1e-1276c23de4b0")
+		(uuid "3efbd172-85ea-5ac7-8506-84cd858a270b")
 	)
-	(label "JC_SPI_MOSI"
-		(at 314.96 198.12 180)
+	(label "JC_TX_BCLK"
+		(at 359.41 182.88 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "76041653-01b5-5082-a5ea-e9464d856bf1")
+		(uuid "4a06aaa2-b7ba-5731-b638-255c71737557")
 	)
-	(label "JC_SPI_CS"
-		(at 260.35 167.64 0)
+	(label "JC_TX_MCLK"
+		(at 168.91 88.9 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "77129d0e-ab21-543f-8438-8f49d78afd4d")
+		(uuid "4c249929-32c4-59b2-85db-085b78d2dcd0")
 	)
-	(label "JB_TX_MCLK"
-		(at 127 195.58 0)
+	(label "JC_RX_MCLK"
+		(at 168.91 78.74 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "7a529250-3a56-5282-97ba-c037ca7556cc")
+		(uuid "59ea3771-2f6c-5cfc-80be-9eee08e7392c")
 	)
-	(label "JC_GPIO1"
-		(at 332.74 203.2 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "7cb561cb-8d07-5754-ac34-8af4603cc136")
-	)
-	(label "JC_SPI_CS"
-		(at 314.96 195.58 180)
+	(label "JB_SPI_MOSI"
+		(at 109.22 198.12 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "8a0cd6c8-ae99-5267-be3e-e788679c05dc")
+		(uuid "6c0558ae-fbd3-537e-a67f-a38483bfd543")
 	)
-	(label "JC_SPI_SCK"
-		(at 260.35 198.12 0)
+	(label "PMOD_VCC"
+		(at 320.04 208.28 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "99d5dcbc-adf0-5c9d-9b01-20cad1d1ee40")
+		(uuid "6ca54823-3db3-5e6e-be96-07115f806914")
 	)
-	(label "JB_TX_LRCLK"
-		(at 127 198.12 0)
+	(label "JC_RX_BCLK"
+		(at 255.27 182.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "adf23336-4b4d-591f-a000-1c5c6f803057")
+		(uuid "6d5bea4b-3bee-585c-9911-92ee29fe5251")
 	)
-	(label "JB_RX_BCLK"
-		(at 62.23 182.88 0)
+	(label "JB_GPIO0"
+		(at 166.37 187.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "6fc7cc94-be8a-5f43-9f43-42c27ead0833")
+	)
+	(label "JC_RX_DATA"
+		(at 255.27 193.04 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b41c08a4-05fd-5157-9465-cc1dd1000243")
+		(uuid "7ab3e2fa-d0f2-5653-8f0d-b5e0481fdac4")
 	)
-	(label "JB_TX_DATA"
-		(at 127 203.2 0)
+	(label "JC_TX_LRCLK"
+		(at 359.41 172.72 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7e11aaa7-b477-5506-9e38-8f65eafeb0a6")
+	)
+	(label "PMOD_VCC"
+		(at 302.26 208.28 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7ff719e8-1140-515d-b130-32a18ddeccda")
+	)
+	(label "JC_RX_MCLK"
+		(at 302.26 195.58 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "811fce24-9f45-5677-8f2e-a5742f61ee59")
+	)
+	(label "JB_GPIO1"
+		(at 166.37 198.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "81370551-56c4-55a4-ac13-4c96a456c3de")
+	)
+	(label "JB_SPI_SCK"
+		(at 109.22 203.2 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "84abd93b-5cd9-5804-9204-f9671c44cff3")
+	)
+	(label "JC_TX_MCLK"
+		(at 320.04 195.58 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "b6d8fb75-1224-52ff-9132-5f35cbbac2b4")
+		(uuid "852ec1db-447a-587d-96dc-4a23d0f27089")
 	)
-	(label "JB_RX_MCLK"
+	(label "JC_TX_DATA"
+		(at 320.04 203.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "863703ec-654c-5f3b-87eb-856df3c31985")
+	)
+	(label "JC_RX_LRCLK"
+		(at 255.27 172.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "877da9b6-329d-5062-8ca1-a1ce15839f8c")
+	)
+	(label "JB_SPI_SCK"
+		(at 62.23 198.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "93517f23-d7ba-543b-a5ed-71e1455babe0")
+	)
+	(label "JC_RX_BCLK"
+		(at 302.26 200.66 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "9f61d3ed-b87a-5090-8483-c35b73543fe6")
+	)
+	(label "JB_SPI_CS"
 		(at 109.22 195.58 180)
 		(effects
 			(font
@@ -2946,17 +2946,37 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b6e5f0a5-c176-5853-89cb-8491e944829d")
+		(uuid "acf52b5c-db24-502e-9f01-0941b538fed4")
 	)
-	(label "JC_SPI_MOSI"
-		(at 260.35 177.8 0)
+	(label "JB_INT"
+		(at 127 195.58 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "bbb51e45-3361-5ba9-961f-b6f5d793c868")
+		(uuid "b6385c6b-d7bc-5f67-a320-1fe0e22c3fae")
+	)
+	(label "JC_RX_LRCLK"
+		(at 302.26 198.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "bb8a8cbd-49a8-5184-879c-e6873d25a550")
+	)
+	(label "JB_SPI_MOSI"
+		(at 62.23 177.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "bf164d7c-efc1-51d7-bdbd-1cc93472c2a9")
 	)
 	(label "PMOD_VCC"
 		(at 292.1 55.88 180)
@@ -2968,35 +2988,25 @@
 		)
 		(uuid "c4f87591-7d4f-5736-9e64-e030000d0952")
 	)
-	(label "JC_RST"
-		(at 354.33 177.8 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c9e3f059-01f6-5224-9e81-a35d6da0d5a8")
-	)
-	(label "JC_GPIO0"
-		(at 332.74 200.66 0)
+	(label "JB_SPI_CS"
+		(at 62.23 167.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "cb1afaaa-ec1a-520a-985c-7de9674164ea")
+		(uuid "c95ff68a-ae51-5b8f-8e3f-5056d1e3b5b5")
 	)
-	(label "JC_INT"
-		(at 354.33 167.64 180)
+	(label "JC_RX_DATA"
+		(at 302.26 203.2 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "d0d57127-7cdd-59dd-9e0b-dceaaeea5309")
+		(uuid "c9e4a449-2eae-5352-9bcb-a423289901a4")
 	)
 	(label "PMOD_VCC"
 		(at 109.22 208.28 180)
@@ -3008,15 +3018,25 @@
 		)
 		(uuid "d5cde2f4-75ac-56cf-b4a5-f47784c5a5fc")
 	)
-	(label "JC_SPI_SCK"
-		(at 314.96 203.2 180)
+	(label "JC_TX_DATA"
+		(at 359.41 193.04 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "db71bab9-9786-5608-995c-80d41e609811")
+		(uuid "d98592a2-9d87-566c-b1b5-b27c8f47ac4b")
+	)
+	(label "JB_SPI_MISO"
+		(at 109.22 200.66 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "e3386490-bc07-5cd8-9b6e-ee04937d036b")
 	)
 	(label "PMOD_VCC"
 		(at 127 208.28 0)
@@ -3028,68 +3048,25 @@
 		)
 		(uuid "e8e39e95-8ccf-5136-8ac5-3103cad69005")
 	)
-	(label "PMOD_VCC"
-		(at 314.96 208.28 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "ecb01151-458d-5cfa-9d49-3d995fe97e22")
-	)
-	(label "JB_RX_BCLK"
-		(at 109.22 200.66 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "ef332190-172a-5c3c-b06b-e87f508b5276")
-	)
-	(label "JB_TX_MCLK"
-		(at 168.91 88.9 0)
+	(label "JB_GPIO1"
+		(at 127 203.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "f5f3a455-6047-5edb-94f9-cbe17639f52c")
+		(uuid "e9dcba8b-5e10-5ba5-94b4-55394ea933f9")
 	)
-	(label "JC_GPIO0"
-		(at 354.33 187.96 180)
+	(label "JB_RST"
+		(at 127 198.12 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
-		(uuid "f706fa89-d095-5651-b522-6510bf6c5c19")
-	)
-	(global_label "SPI_MISO"
-		(shape bidirectional)
-		(at 247.65 187.96 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1159d839-27ba-5716-8216-96b76574db32")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 247.65 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
+		(uuid "f95b7a28-3b4d-5e11-a7d7-8d040150b31e")
 	)
 	(global_label "MCLK_GPT"
 		(shape bidirectional)
@@ -3114,32 +3091,9 @@
 			)
 		)
 	)
-	(global_label "SPI_SCK"
+	(global_label "I2S_TX_BCLK"
 		(shape bidirectional)
-		(at 247.65 198.12 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "408175ce-8e54-51c2-9ea8-104f35fb2e76")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 247.65 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "PMOD_GPIO0"
-		(shape bidirectional)
-		(at 367.03 187.96 0)
+		(at 372.11 182.88 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3147,101 +3101,9 @@
 			)
 			(justify left)
 		)
-		(uuid "90738308-3842-5fa1-a08c-6db99929e85b")
+		(uuid "259acf58-b470-564f-819d-017998979cee")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 367.03 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "PMOD_GPIO1"
-		(shape bidirectional)
-		(at 367.03 198.12 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "93c3bef6-9bed-5aaa-b780-579fe50679d2")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 367.03 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "I2S_RX_LRCLK"
-		(shape bidirectional)
-		(at 49.53 172.72 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "99094aa9-f9c5-5560-841c-9035f4c83ef5")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.53 172.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "PMOD_INT"
-		(shape bidirectional)
-		(at 367.03 167.64 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "a35cbad8-35bf-5a6a-b4e8-1ef523e36842")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 367.03 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "I2S_RX_DATA"
-		(shape bidirectional)
-		(at 49.53 193.04 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "acc1b0fc-a634-511f-a187-23412397586e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.53 193.04 0)
+			(at 372.11 182.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3254,7 +3116,7 @@
 	)
 	(global_label "I2S_TX_LRCLK"
 		(shape bidirectional)
-		(at 179.07 172.72 0)
+		(at 372.11 172.72 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3262,9 +3124,9 @@
 			)
 			(justify left)
 		)
-		(uuid "ae4c9003-d3ad-578c-9727-6f4fdb1bdb7d")
+		(uuid "2bf55ac6-acfb-5e06-8eba-e64c2a8dc220")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 179.07 172.72 0)
+			(at 372.11 172.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3275,9 +3137,9 @@
 			)
 		)
 	)
-	(global_label "PMOD_RST"
+	(global_label "PMOD_INT"
 		(shape bidirectional)
-		(at 367.03 177.8 0)
+		(at 179.07 167.64 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3285,9 +3147,9 @@
 			)
 			(justify left)
 		)
-		(uuid "c32403e9-cb14-5ec9-8a2a-b1c4efbdcdc6")
+		(uuid "3df039d0-f45d-5f02-baff-cbaf943a7b32")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 367.03 177.8 0)
+			(at 179.07 167.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3298,9 +3160,9 @@
 			)
 		)
 	)
-	(global_label "SPI_MOSI"
+	(global_label "SPI_SCK"
 		(shape bidirectional)
-		(at 247.65 177.8 180)
+		(at 49.53 198.12 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3308,9 +3170,9 @@
 			)
 			(justify right)
 		)
-		(uuid "cf17a3c7-9476-598f-aa96-a4f7de714f46")
+		(uuid "4f75c474-bc6a-52c0-b726-bbe673fc799b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 247.65 177.8 0)
+			(at 49.53 198.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3323,7 +3185,7 @@
 	)
 	(global_label "I2S_TX_DATA"
 		(shape bidirectional)
-		(at 179.07 193.04 0)
+		(at 372.11 193.04 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3331,9 +3193,193 @@
 			)
 			(justify left)
 		)
-		(uuid "d0dafb3a-6a28-5748-853f-b4fa590ccaf5")
+		(uuid "544e2e4e-1e7c-5c87-be39-36f89d8cbc8c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 179.07 193.04 0)
+			(at 372.11 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "SPI_MISO"
+		(shape bidirectional)
+		(at 49.53 187.96 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "600f8849-b607-5ad1-afb5-fa68acd0a37e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 49.53 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "I2S_RX_DATA"
+		(shape bidirectional)
+		(at 242.57 193.04 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "70bad4b1-8d3a-547a-a0a6-3d913327817e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 242.57 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "SPI_MOSI"
+		(shape bidirectional)
+		(at 49.53 177.8 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8cd2364d-a1fe-5b6c-ad37-6b21aeeab25e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 49.53 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "PMOD_GPIO1"
+		(shape bidirectional)
+		(at 179.07 198.12 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9ff89a94-97c6-5920-9f2b-b02b48817b8b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 179.07 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "I2S_RX_BCLK"
+		(shape bidirectional)
+		(at 242.57 182.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a3fc45b0-56df-5ef2-bd5e-f14e749f4f2c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 242.57 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "PMOD_RST"
+		(shape bidirectional)
+		(at 179.07 177.8 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c655fe3c-9766-52f8-a3b8-f16c6be0b43c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 179.07 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "PMOD_GPIO0"
+		(shape bidirectional)
+		(at 179.07 187.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d78330b5-527a-56a9-a7ab-9b9ef654e0d7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 179.07 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "I2S_RX_LRCLK"
+		(shape bidirectional)
+		(at 242.57 172.72 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "dbcb5729-2994-5e2c-bf0e-fb48844839b1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 242.57 172.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3367,32 +3413,9 @@
 			)
 		)
 	)
-	(global_label "I2S_TX_BCLK"
-		(shape bidirectional)
-		(at 179.07 182.88 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "e4e1d95c-83d0-5798-af02-31ddac785b83")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 179.07 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
 	(global_label "SPI_CS"
 		(shape bidirectional)
-		(at 247.65 167.64 180)
+		(at 49.53 167.64 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3400,32 +3423,9 @@
 			)
 			(justify right)
 		)
-		(uuid "eab94d3e-a9d4-51e0-a836-246589e88c49")
+		(uuid "f48e9f5e-db2d-5422-93ca-4e81407b791c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 247.65 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "I2S_RX_BCLK"
-		(shape bidirectional)
-		(at 49.53 182.88 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "fa55c041-c235-56e5-901f-d578a0bbea04")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.53 182.88 0)
+			(at 49.53 167.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3619,96 +3619,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 254 198.12 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "0855c393-f822-552d-88df-0d5aced544fb")
-		(property "Reference" "R615"
-			(at 254 194.31 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 254 196.09 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 254 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 254 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 254 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 254 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6b26b17f-e911-5e4a-8308-817df38dda33")
-		)
-		(pin "2"
-			(uuid "54a58be3-1a27-55be-8397-199709e2cced")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R615")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Oscillator:SG-210STF")
 		(at 55.88 71.12 0)
 		(unit 1)
@@ -3830,7 +3740,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 254 167.64 90)
+		(at 172.72 177.8 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3838,9 +3748,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "0eb01b10-5f70-56f0-a369-856cef37ae17")
-		(property "Reference" "R612"
-			(at 254 163.83 90)
+		(uuid "1236a748-859c-5511-89b4-2947222b0191")
+		(property "Reference" "R611"
+			(at 172.72 173.99 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3850,7 +3760,7 @@
 			)
 		)
 		(property "Value" "33"
-			(at 254 165.61 90)
+			(at 172.72 175.77 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3860,7 +3770,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 254 167.64 0)
+			(at 172.72 177.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3871,7 +3781,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 254 167.64 0)
+			(at 172.72 177.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3882,7 +3792,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 254 167.64 0)
+			(at 172.72 177.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3893,7 +3803,7 @@
 			)
 		)
 		(property "Spec" "1% 0402"
-			(at 254 167.64 0)
+			(at 172.72 177.8 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3904,15 +3814,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "d0c434f3-bdee-50c8-9762-fd62ef6e234c")
+			(uuid "6d8d7634-ca61-55af-983e-945cf2cdcf91")
 		)
 		(pin "2"
-			(uuid "6df9727c-3c3e-56d4-9dcc-00d819b96986")
+			(uuid "f9b1571e-c9d2-5159-80e1-476322c33a95")
 		)
 		(instances
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R612")
+					(reference "R611")
 					(unit 1)
 				)
 			)
@@ -4151,7 +4061,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 360.68 198.12 90)
+		(at 365.76 182.88 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4159,9 +4069,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "30457fb0-db3e-5869-88aa-c2094ccc4bdb")
-		(property "Reference" "R619"
-			(at 360.68 194.31 90)
+		(uuid "3b63f24a-b380-5380-bee9-059dc7fdf2af")
+		(property "Reference" "R618"
+			(at 365.76 179.07 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4171,7 +4081,7 @@
 			)
 		)
 		(property "Value" "33"
-			(at 360.68 196.09 90)
+			(at 365.76 180.85 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4181,7 +4091,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 360.68 198.12 0)
+			(at 365.76 182.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4192,7 +4102,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 360.68 198.12 0)
+			(at 365.76 182.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4203,7 +4113,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 360.68 198.12 0)
+			(at 365.76 182.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4214,7 +4124,7 @@
 			)
 		)
 		(property "Spec" "1% 0402"
-			(at 360.68 198.12 0)
+			(at 365.76 182.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4225,274 +4135,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "2ac10696-ef42-56e3-a42f-d12e235bb48e")
+			(uuid "4e9c91e5-6cb6-51aa-a895-d97758075bb3")
 		)
 		(pin "2"
-			(uuid "9f0ec488-95e2-5923-a330-2d8c07550b68")
+			(uuid "f5374229-495f-5754-b2eb-dd0565a17194")
 		)
 		(instances
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R619")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 332.74 205.74 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board no)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "34ab08b5-c15e-5e96-ac09-d30d6e7bb982")
-		(property "Reference" "#PWR6014"
-			(at 339.09 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 336.55 206.14 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 332.74 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 332.74 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 332.74 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "623debdd-ba62-56be-997d-6f15560c0253")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "#PWR6014")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 172.72 193.04 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "36327083-7989-576c-9346-c1812969bc94")
-		(property "Reference" "R611"
-			(at 172.72 189.23 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 172.72 191.01 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 172.72 193.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 193.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 172.72 193.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 172.72 193.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6d8d7634-ca61-55af-983e-945cf2cdcf91")
-		)
-		(pin "2"
-			(uuid "f9b1571e-c9d2-5159-80e1-476322c33a95")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R611")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 254 177.8 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "37ce01bb-7cd9-5373-9027-b5becb32a304")
-		(property "Reference" "R613"
-			(at 254 173.99 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 254 175.77 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 254 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 254 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 254 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 254 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "4005d01d-023f-5848-85fb-8d6792f0fab4")
-		)
-		(pin "2"
-			(uuid "fc4d800d-faf7-54e6-8ed2-c1ddc4563c2c")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R613")
+					(reference "R618")
 					(unit 1)
 				)
 			)
@@ -4571,6 +4222,96 @@
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
 					(reference "#PWR6006")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 248.92 182.88 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3cd140a8-e6b5-5fff-8c60-b8ae807539a2")
+		(property "Reference" "R615"
+			(at 248.92 179.07 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 248.92 180.85 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 248.92 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 248.92 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 248.92 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6b26b17f-e911-5e4a-8308-817df38dda33")
+		)
+		(pin "2"
+			(uuid "54a58be3-1a27-55be-8397-199709e2cced")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R615")
 					(unit 1)
 				)
 			)
@@ -4659,7 +4400,7 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
@@ -4828,6 +4569,96 @@
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
 					(reference "R604")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 365.76 193.04 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "45e1328b-c4bc-5f3c-96a9-f60c2adf22c1")
+		(property "Reference" "R619"
+			(at 365.76 189.23 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 365.76 191.01 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 365.76 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 365.76 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 365.76 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 365.76 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2ac10696-ef42-56e3-a42f-d12e235bb48e")
+		)
+		(pin "2"
+			(uuid "9f0ec488-95e2-5923-a330-2d8c07550b68")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R619")
 					(unit 1)
 				)
 			)
@@ -5112,7 +4943,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal"
+		(property "Footprint" "USBAudioBridge:PMOD_Peripheral_2x06_P2.54mm_Horizontal"
 			(at 116.84 200.66 0)
 			(hide yes)
 			(show_name no)
@@ -5202,6 +5033,96 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 172.72 187.96 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6723e2f7-79bc-50ac-8888-0783c71fd845")
+		(property "Reference" "R612"
+			(at 172.72 184.15 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 172.72 185.93 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 172.72 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 172.72 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 172.72 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d0c434f3-bdee-50c8-9762-fd62ef6e234c")
+		)
+		(pin "2"
+			(uuid "6df9727c-3c3e-56d4-9dcc-00d819b96986")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R612")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3V3")
 		(at 307.34 55.88 270)
 		(unit 1)
@@ -5274,6 +5195,96 @@
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
 					(reference "#PWR6015")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 365.76 172.72 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6b3468a0-d062-5864-a878-452705996175")
+		(property "Reference" "R617"
+			(at 365.76 168.91 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 365.76 170.69 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 365.76 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 365.76 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 365.76 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 365.76 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "89e724db-d392-5b99-a8c6-43177ae8150e")
+		)
+		(pin "2"
+			(uuid "fc9c00db-6f15-5204-8675-e9ac6dc30a7d")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R617")
 					(unit 1)
 				)
 			)
@@ -5370,126 +5381,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_02x06_Top_Bottom")
-		(at 322.58 200.66 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6f58a981-676e-58bc-855f-f5727884539a")
-		(property "Reference" "J602"
-			(at 323.85 193.04 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PMOD_JC"
-			(at 323.85 210.82 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x06_P2.54mm_Horizontal"
-			(at 322.58 200.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 322.58 200.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x06, top/bottom pin numbering scheme (row 1: 1...pins_per_row, row2: pins_per_row+1 ... num_pins), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 322.58 200.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"
-			(at 322.58 200.66 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2eaf81f0-61d8-5cf5-b58b-1ea37bd7a7a0")
-		)
-		(pin "2"
-			(uuid "221f79ee-07ed-5398-8b48-6160687d359b")
-		)
-		(pin "3"
-			(uuid "83accb29-e236-5111-af23-e9860acbf658")
-		)
-		(pin "4"
-			(uuid "6cf37ccd-27c3-54af-ae55-358523b1e01d")
-		)
-		(pin "5"
-			(uuid "cde83a1c-0cc2-5224-8747-abb93493c2d9")
-		)
-		(pin "6"
-			(uuid "a817afe3-c64c-5a83-8b88-2e0475633b17")
-		)
-		(pin "7"
-			(uuid "9a5772c3-5d24-5fc4-9bd9-03e85fb003cf")
-		)
-		(pin "8"
-			(uuid "174d9c63-1281-519d-811f-bfee547d3c4b")
-		)
-		(pin "9"
-			(uuid "325f5b41-3ab5-5ac9-9d31-247dda64588b")
-		)
-		(pin "10"
-			(uuid "facccc7f-b156-5724-a085-f325f66ade1c")
-		)
-		(pin "11"
-			(uuid "75a887d9-6549-54aa-9538-0c66bee760f3")
-		)
-		(pin "12"
-			(uuid "cd72ba7f-2b0b-53e5-b6f7-c7c212bde0ae")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "J602")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 76.2 71.12 90)
 		(unit 1)
@@ -5574,6 +5465,186 @@
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
 					(reference "R601")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 172.72 198.12 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "73313967-da3c-5042-bfeb-46e9cc55a56b")
+		(property "Reference" "R613"
+			(at 172.72 194.31 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 172.72 196.09 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 172.72 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 172.72 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 172.72 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4005d01d-023f-5848-85fb-8d6792f0fab4")
+		)
+		(pin "2"
+			(uuid "fc4d800d-faf7-54e6-8ed2-c1ddc4563c2c")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R613")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 55.88 167.64 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "749cca55-7ecc-5ad7-a3d9-8872172b1d9f")
+		(property "Reference" "R606"
+			(at 55.88 163.83 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 55.88 165.61 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 55.88 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 55.88 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 55.88 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8b7d3df1-b865-5d67-b28e-b184abc03d0b")
+		)
+		(pin "2"
+			(uuid "e6d0307a-c718-5c92-9f02-7ae493d1ebdb")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R606")
 					(unit 1)
 				)
 			)
@@ -5737,7 +5808,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 55.88 193.04 90)
+		(at 248.92 193.04 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5745,9 +5816,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "809a363a-611c-5d9f-bfff-a2042efb8eaa")
-		(property "Reference" "R608"
-			(at 55.88 189.23 90)
+		(uuid "7fe41668-7c78-5d4d-9dae-0b9f0b770c4e")
+		(property "Reference" "R616"
+			(at 248.92 189.23 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5757,7 +5828,7 @@
 			)
 		)
 		(property "Value" "33"
-			(at 55.88 191.01 90)
+			(at 248.92 191.01 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5767,7 +5838,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 55.88 193.04 0)
+			(at 248.92 193.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5778,7 +5849,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 55.88 193.04 0)
+			(at 248.92 193.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5789,7 +5860,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 55.88 193.04 0)
+			(at 248.92 193.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5800,7 +5871,7 @@
 			)
 		)
 		(property "Spec" "1% 0402"
-			(at 55.88 193.04 0)
+			(at 248.92 193.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5811,105 +5882,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "c26b0ac1-6403-5ffe-88d0-35721259b106")
+			(uuid "4c21ed92-b052-5efa-b690-ce47f17ca54c")
 		)
 		(pin "2"
-			(uuid "e1f06b55-0386-555c-af94-e4e198ca944d")
+			(uuid "a940661c-e8bc-51df-bc95-59570cd7b1f2")
 		)
 		(instances
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R608")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 55.88 182.88 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "872f9056-ef39-5b24-9dac-cc52a7d7992b")
-		(property "Reference" "R607"
-			(at 55.88 179.07 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 55.88 180.85 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 55.88 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 55.88 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 55.88 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 55.88 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "112dadaa-2be6-590c-a7bc-5e6258d4b0e5")
-		)
-		(pin "2"
-			(uuid "ad927841-29e2-59a4-9025-9d864994aeda")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R607")
+					(reference "R616")
 					(unit 1)
 				)
 			)
@@ -6124,7 +6105,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 360.68 167.64 90)
+		(at 248.92 172.72 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6132,279 +6113,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9de54f0f-1419-5642-8064-41d6b8388ebb")
-		(property "Reference" "R616"
-			(at 360.68 163.83 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 360.68 165.61 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 360.68 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 360.68 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 360.68 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 360.68 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "4c21ed92-b052-5efa-b690-ce47f17ca54c")
-		)
-		(pin "2"
-			(uuid "a940661c-e8bc-51df-bc95-59570cd7b1f2")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R616")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 360.68 187.96 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b0dca60c-44bd-51ac-9116-e1eae25d4ba7")
-		(property "Reference" "R618"
-			(at 360.68 184.15 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 360.68 185.93 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 360.68 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 360.68 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 360.68 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 360.68 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "4e9c91e5-6cb6-51aa-a895-d97758075bb3")
-		)
-		(pin "2"
-			(uuid "f5374229-495f-5754-b2eb-dd0565a17194")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R618")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 55.88 172.72 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b5b45b57-2da1-5f3b-9685-bb3445ca8c2d")
-		(property "Reference" "R606"
-			(at 55.88 168.91 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 55.88 170.69 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 55.88 172.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 55.88 172.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 55.88 172.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 55.88 172.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "8b7d3df1-b865-5d67-b28e-b184abc03d0b")
-		)
-		(pin "2"
-			(uuid "e6d0307a-c718-5c92-9f02-7ae493d1ebdb")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R606")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 254 187.96 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b5dd4f84-180f-5a8b-93ab-df9025f4e4a5")
+		(uuid "96d2bb47-dc3d-5a2c-a5ae-fae88d53f023")
 		(property "Reference" "R614"
-			(at 254 184.15 90)
+			(at 248.92 168.91 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6414,7 +6125,7 @@
 			)
 		)
 		(property "Value" "33"
-			(at 254 185.93 90)
+			(at 248.92 170.69 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6424,7 +6135,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 254 187.96 0)
+			(at 248.92 172.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6435,7 +6146,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 254 187.96 0)
+			(at 248.92 172.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6446,7 +6157,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 254 187.96 0)
+			(at 248.92 172.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6457,7 +6168,7 @@
 			)
 		)
 		(property "Spec" "1% 0402"
-			(at 254 187.96 0)
+			(at 248.92 172.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6477,6 +6188,85 @@
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
 					(reference "R614")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 302.26 205.74 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a0ccee35-003b-54cc-b5ff-57996fd2595a")
+		(property "Reference" "#PWR6013"
+			(at 295.91 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 298.45 206.14 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 302.26 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 302.26 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 302.26 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6005e61d-d51b-5728-ad5b-2237a4b70888")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "#PWR6013")
 					(unit 1)
 				)
 			)
@@ -6639,7 +6429,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 172.72 182.88 90)
+		(at 55.88 198.12 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6647,99 +6437,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c634147f-8f84-5cea-a8d8-aed91618f26c")
-		(property "Reference" "R610"
-			(at 172.72 179.07 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "33"
-			(at 172.72 180.85 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 172.72 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 172.72 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Spec" "1% 0402"
-			(at 172.72 182.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e3ed59e6-c88f-5303-a64f-457f9ae83581")
-		)
-		(pin "2"
-			(uuid "81bbda4a-fdbc-571d-943a-98a0dca6b8b8")
-		)
-		(instances
-			(project "USBAudioBridge"
-				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R610")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 172.72 172.72 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "cae6caec-856c-5fc5-a922-ef2df998ec9c")
+		(uuid "cebf4b8e-c617-5fdc-9cc8-606842a620bc")
 		(property "Reference" "R609"
-			(at 172.72 168.91 90)
+			(at 55.88 194.31 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6749,7 +6449,7 @@
 			)
 		)
 		(property "Value" "33"
-			(at 172.72 170.69 90)
+			(at 55.88 196.09 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6759,7 +6459,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 172.72 172.72 0)
+			(at 55.88 198.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6770,7 +6470,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 172.72 172.72 0)
+			(at 55.88 198.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6781,7 +6481,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 172.72 172.72 0)
+			(at 55.88 198.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6792,7 +6492,7 @@
 			)
 		)
 		(property "Spec" "1% 0402"
-			(at 172.72 172.72 0)
+			(at 55.88 198.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6819,7 +6519,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 360.68 177.8 90)
+		(at 55.88 187.96 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6827,9 +6527,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "cbf251d0-7252-5450-8494-4ab0e0803e97")
-		(property "Reference" "R617"
-			(at 360.68 173.99 90)
+		(uuid "d26d1bb3-24e9-5f24-a3ef-3a99baa712cd")
+		(property "Reference" "R608"
+			(at 55.88 184.15 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6839,7 +6539,7 @@
 			)
 		)
 		(property "Value" "33"
-			(at 360.68 175.77 90)
+			(at 55.88 185.93 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6849,7 +6549,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 360.68 177.8 0)
+			(at 55.88 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6860,7 +6560,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 360.68 177.8 0)
+			(at 55.88 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6871,7 +6571,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 360.68 177.8 0)
+			(at 55.88 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6882,7 +6582,7 @@
 			)
 		)
 		(property "Spec" "1% 0402"
-			(at 360.68 177.8 0)
+			(at 55.88 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6893,15 +6593,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "89e724db-d392-5b99-a8c6-43177ae8150e")
+			(uuid "c26b0ac1-6403-5ffe-88d0-35721259b106")
 		)
 		(pin "2"
-			(uuid "fc9c00db-6f15-5204-8675-e9ac6dc30a7d")
+			(uuid "e1f06b55-0386-555c-af94-e4e198ca944d")
 		)
 		(instances
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "R617")
+					(reference "R608")
 					(unit 1)
 				)
 			)
@@ -6998,8 +6698,308 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_02x06_Top_Bottom")
+		(at 309.88 200.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "dff81bab-254d-5fe4-8d44-00de7b6fd0f8")
+		(property "Reference" "J602"
+			(at 311.15 193.04 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PMOD_JC"
+			(at 311.15 210.82 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "USBAudioBridge:PMOD_Peripheral_2x06_P2.54mm_Horizontal"
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, double row, 02x06, top/bottom pin numbering scheme (row 1: 1...pins_per_row, row2: pins_per_row+1 ... num_pins), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2eaf81f0-61d8-5cf5-b58b-1ea37bd7a7a0")
+		)
+		(pin "2"
+			(uuid "221f79ee-07ed-5398-8b48-6160687d359b")
+		)
+		(pin "3"
+			(uuid "83accb29-e236-5111-af23-e9860acbf658")
+		)
+		(pin "4"
+			(uuid "6cf37ccd-27c3-54af-ae55-358523b1e01d")
+		)
+		(pin "5"
+			(uuid "cde83a1c-0cc2-5224-8747-abb93493c2d9")
+		)
+		(pin "6"
+			(uuid "a817afe3-c64c-5a83-8b88-2e0475633b17")
+		)
+		(pin "7"
+			(uuid "9a5772c3-5d24-5fc4-9bd9-03e85fb003cf")
+		)
+		(pin "8"
+			(uuid "174d9c63-1281-519d-811f-bfee547d3c4b")
+		)
+		(pin "9"
+			(uuid "325f5b41-3ab5-5ac9-9d31-247dda64588b")
+		)
+		(pin "10"
+			(uuid "facccc7f-b156-5724-a085-f325f66ade1c")
+		)
+		(pin "11"
+			(uuid "75a887d9-6549-54aa-9538-0c66bee760f3")
+		)
+		(pin "12"
+			(uuid "cd72ba7f-2b0b-53e5-b6f7-c7c212bde0ae")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "J602")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 55.88 177.8 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "eab7705f-3fcf-5c41-95bb-a8c398c2145d")
+		(property "Reference" "R607"
+			(at 55.88 173.99 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 55.88 175.77 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 55.88 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 55.88 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 55.88 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "112dadaa-2be6-590c-a7bc-5e6258d4b0e5")
+		)
+		(pin "2"
+			(uuid "ad927841-29e2-59a4-9025-9d864994aeda")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R607")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 172.72 167.64 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f351fcf8-fa2a-5dee-9678-473b3cec9ec8")
+		(property "Reference" "R610"
+			(at 172.72 163.83 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33"
+			(at 172.72 165.61 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 172.72 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 172.72 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "1% 0402"
+			(at 172.72 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e3ed59e6-c88f-5303-a64f-457f9ae83581")
+		)
+		(pin "2"
+			(uuid "81bbda4a-fdbc-571d-943a-98a0dca6b8b8")
+		)
+		(instances
+			(project "USBAudioBridge"
+				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
+					(reference "R610")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
-		(at 314.96 205.74 270)
+		(at 320.04 205.74 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7007,9 +7007,9 @@
 		(on_board no)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e57e2fa5-9be7-5893-8cc5-488f2850fc23")
-		(property "Reference" "#PWR6013"
-			(at 308.61 205.74 0)
+		(uuid "fc2b4def-70e3-5930-832b-3358d8c32ca2")
+		(property "Reference" "#PWR6014"
+			(at 326.39 205.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7020,7 +7020,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 311.15 206.14 90)
+			(at 323.85 206.14 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7032,7 +7032,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 314.96 205.74 0)
+			(at 320.04 205.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7043,7 +7043,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 314.96 205.74 0)
+			(at 320.04 205.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7054,7 +7054,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 314.96 205.74 0)
+			(at 320.04 205.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7065,12 +7065,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "6005e61d-d51b-5728-ad5b-2237a4b70888")
+			(uuid "623debdd-ba62-56be-997d-6f15560c0253")
 		)
 		(instances
 			(project "USBAudioBridge"
 				(path "/0ded58eb-8323-599c-8959-289d67102a63/861ed8eb-67da-59ad-9878-fb1ab7e8e300"
-					(reference "#PWR6013")
+					(reference "#PWR6014")
 					(unit 1)
 				)
 			)

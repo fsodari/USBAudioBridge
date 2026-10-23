@@ -11,3 +11,4 @@ hardware/build/
 fp-info-cache
 ~*.lck
 .venv/
+tools/bin/

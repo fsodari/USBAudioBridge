@@ -1,0 +1,7 @@
+(version 1)
+# GCT USB4105 land pattern: GND pads sit ~0.18 mm from the plastic locating-peg
+# NPTH holes. This is the manufacturer's recommended footprint; allow it there only.
+# The board-level minimum is 0.15 mm; 0.25 mm applies everywhere else.
+(rule "hole clearance"
+  (constraint hole_clearance (min 0.25))
+  (condition "!(A.memberOfFootprint('J101') && B.memberOfFootprint('J101'))"))

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "USBAudioBridge")(type "KiCad")(uri "${KIPRJMOD}/USBAudioBridge.pretty")(options "")(descr "Project footprints"))
+)

@@ -29,6 +29,13 @@ def write_project_files():
                 '(uri "${KIPRJMOD}/USBAudioBridge.kicad_sym")(options "")(descr "Project symbols"))\n)\n')
 
 
+def write_fp_table():
+    with open(os.path.join(HW, "fp-lib-table"), "w") as f:
+        f.write('(fp_lib_table\n  (version 7)\n'
+                '  (lib (name "USBAudioBridge")(type "KiCad")'
+                '(uri "${KIPRJMOD}/USBAudioBridge.pretty")(options "")(descr "Project footprints"))\n)\n')
+
+
 def run(*args):
     r = subprocess.run(args, capture_output=True, text=True)
     out = (r.stdout + r.stderr).strip()
@@ -77,6 +84,7 @@ def compare(intended, actual, nc_pins):
 def main():
     d = design.main()
     write_project_files()
+    write_fp_table()
     if "--no-upgrade" not in sys.argv:
         for s in [d.root] + d.sheets:
             code, out = run("kicad-cli", "sch", "upgrade", os.path.join(HW, s.filename))
