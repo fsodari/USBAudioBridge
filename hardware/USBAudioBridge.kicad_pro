@@ -163,7 +163,7 @@
         "min_silk_clearance": 0.0,
         "min_text_height": 0.8,
         "min_text_thickness": 0.12,
-        "min_through_hole_diameter": 0.3,
+        "min_through_hole_diameter": 0.2,
         "min_track_width": 0.127,
         "min_via_annular_width": 0.075,
         "min_via_diameter": 0.45,
@@ -258,11 +258,11 @@
         },
         {
           "diameter": 0.5,
-          "drill": 0.3
+          "drill": 0.2
         },
         {
           "diameter": 0.6,
-          "drill": 0.3
+          "drill": 0.2
         }
       ],
       "zones_allow_external_fillets": false
@@ -319,7 +319,7 @@
         "track_width": 0.15,
         "tuning_profile": "",
         "via_diameter": 0.5,
-        "via_drill": 0.3,
+        "via_drill": 0.2,
         "wire_width": 6
       },
       {
@@ -338,7 +338,7 @@
         "track_width": 0.2,
         "tuning_profile": "",
         "via_diameter": 0.5,
-        "via_drill": 0.3,
+        "via_drill": 0.2,
         "wire_width": 6
       },
       {
@@ -357,7 +357,7 @@
         "track_width": 0.3,
         "tuning_profile": "",
         "via_diameter": 0.6,
-        "via_drill": 0.3,
+        "via_drill": 0.2,
         "wire_width": 6
       },
       {
@@ -376,7 +376,7 @@
         "track_width": 0.4,
         "tuning_profile": "",
         "via_diameter": 0.6,
-        "via_drill": 0.3,
+        "via_drill": 0.2,
         "wire_width": 6
       },
       {
@@ -395,7 +395,7 @@
         "track_width": 0.2,
         "tuning_profile": "",
         "via_diameter": 0.5,
-        "via_drill": 0.3,
+        "via_drill": 0.2,
         "wire_width": 6
       }
     ],

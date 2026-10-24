@@ -1,8 +1,10 @@
 """Design rules, net classes and stackup for JLCPCB 4-layer (JLC04161H-3313).
 
-JLCPCB 4-layer capabilities: 0.09 mm min track/space, 0.3 mm min via drill
-(0.2 mm at extra cost), 0.15 mm min via annular ring for free vias, 0.3 mm
-copper to routed edge.  The rules below keep comfortable margin above those.
+JLCPCB 4-layer capabilities: 0.09 mm min track/space, 0.2 mm preferred min
+via drill (no extra cost with a >= 0.45 mm via pad), 0.3 mm copper to routed
+edge.  PCBWay's standard process wants a >= 5 mil (0.127 mm) outer annular
+ring on vias, hence 0.2 mm via drills: 0.5 mm vias get a 0.15 mm ring, the
+few 0.45 mm USB/VBUS vias 0.125 mm.  The rules below keep margin above both.
 
 USB 90 ohm differential on F.Cu over the In1.Cu GND plane, 0.0994 mm 3313
 prepreg (er ~4.1): 0.20 mm width / 0.15 mm gap by microstrip estimate.
@@ -42,7 +44,7 @@ CLOCK_NETS = ["MCLK_SAI", "MCLK_GPT", "JB_RX_MCLK", "JB_TX_MCLK", "*CLK_Y*", "XO
               "CLK_BUF_IN"]
 
 
-def _netclass(name, track, clearance, via_d=0.5, via_drill=0.3, dp_w=None, dp_gap=None,
+def _netclass(name, track, clearance, via_d=0.5, via_drill=0.2, dp_w=None, dp_gap=None,
               priority=0):
     return {
         "name": name, "priority": priority,
@@ -65,7 +67,7 @@ def update_project(pro_path):
                      "zones": {"min_clearance": 0.2}},
         "rules": {
             "min_clearance": 0.127, "min_track_width": 0.127, "min_connection": 0.0,
-            "min_via_diameter": 0.45, "min_through_hole_diameter": 0.3,
+            "min_via_diameter": 0.45, "min_through_hole_diameter": 0.2,
             "min_via_annular_width": 0.075, "min_hole_clearance": 0.15,
             "min_hole_to_hole": 0.25, "min_copper_edge_clearance": 0.3,
             "min_silk_clearance": 0.0, "min_text_height": 0.8,
@@ -75,8 +77,8 @@ def update_project(pro_path):
             "use_height_for_length_calcs": True,
         },
         "track_widths": [0.0, 0.15, 0.2, 0.3, 0.4, 0.6],
-        "via_dimensions": [{"diameter": 0.0, "drill": 0.0}, {"diameter": 0.5, "drill": 0.3},
-                           {"diameter": 0.6, "drill": 0.3}],
+        "via_dimensions": [{"diameter": 0.0, "drill": 0.0}, {"diameter": 0.5, "drill": 0.2},
+                           {"diameter": 0.6, "drill": 0.2}],
         "diff_pair_dimensions": [{"gap": 0.0, "via_gap": 0.0, "width": 0.0},
                                  {"gap": 0.15, "via_gap": 0.25, "width": 0.2}],
         "drc_exclusions": [],

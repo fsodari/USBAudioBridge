@@ -4212,6 +4212,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 325.12 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 325.12 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
+			(at 325.12 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "f85f296e-3868-5a1c-934e-82de1c495a2c")
 		)
@@ -4294,6 +4327,39 @@
 			)
 		)
 		(property "Spec" "C0G 0402"
+			(at 86.36 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05C100JB5NNNC"
+			(at 86.36 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 86.36 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C32949"
 			(at 86.36 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -4460,7 +4526,40 @@
 				)
 			)
 		)
-		(property "Spec" "24.000 MHz fundamental, CL 8 pF, ESR <= 80 ohm, drive >= 250 uW, +/-20 ppm"
+		(property "Spec" "24.000 MHz fundamental, CL 8 pF, ESR <= 60 ohm, rated drive 200 uW, +/-10 ppm"
+			(at 66.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "3225-24-8-10-10/A"
+			(at 66.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Suzhou Liming"
+			(at 66.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C2981672"
 			(at 66.04 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -4635,7 +4734,7 @@
 				)
 			)
 		)
-		(property "MPN" "PTS810SJM250SMTRLFS"
+		(property "MPN" "PTS810SJG250SMTRLFS"
 			(at 350.52 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -4647,6 +4746,17 @@
 			)
 		)
 		(property "Manufacturer" "C&K"
+			(at 350.52 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C221895"
 			(at 350.52 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -4896,6 +5006,39 @@
 			)
 		)
 		(property "Spec" "C0G 0402"
+			(at 86.36 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05C100JB5NNNC"
+			(at 86.36 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 86.36 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C32949"
 			(at 86.36 165.1 0)
 			(hide yes)
 			(show_name no)
@@ -5306,6 +5449,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL05C100JB5NNNC"
+			(at 45.72 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 45.72 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C32949"
+			(at 45.72 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "4a367c61-42bc-512d-8f65-f04fdf55053e")
 		)
@@ -5464,7 +5640,40 @@
 				)
 			)
 		)
-		(property "Spec" "5% 0402"
+		(property "Spec" "1% 0402"
+			(at 30.48 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF2204TCE"
+			(at 30.48 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 30.48 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C11490"
 			(at 30.48 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -5557,6 +5766,39 @@
 			)
 		)
 		(property "Spec" "X5R 0402"
+			(at 284.48 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 284.48 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 284.48 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
 			(at 284.48 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -6121,6 +6363,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL10A105KB8NNNC"
+			(at 238.76 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 238.76 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C15849"
+			(at 238.76 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "4097b01e-6c9f-5185-a982-50ba1a2bb8ba")
 		)
@@ -6203,6 +6478,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 325.12 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1002TCE"
+			(at 325.12 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 325.12 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
 			(at 325.12 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -6303,6 +6611,39 @@
 				)
 			)
 		)
+		(property "MPN" "Q13FC13500002"
+			(at 66.04 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Seiko Epson"
+			(at 66.04 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C48615"
+			(at 66.04 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b93c13cd-bf0a-5adb-b821-f380643315a7")
 		)
@@ -6384,6 +6725,39 @@
 				)
 			)
 		)
+		(property "MPN" "MIMXRT1011DAE5A"
+			(at 165.1 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "NXP"
+			(at 165.1 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1575810"
+			(at 165.1 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "22"
 			(uuid "5456aac8-cfcf-5bae-9240-8de723ddd94a")
 		)
@@ -6421,208 +6795,208 @@
 			(uuid "d4243a10-aaed-539c-9d92-b1d059d2b334")
 		)
 		(pin "7"
-			(uuid "16d4e60c-3ecb-4956-98bd-0b9a7e97df70")
+			(uuid "e0d7d5dc-6066-40b8-a07e-cf273ad435a7")
 		)
 		(pin "14"
-			(uuid "f37fb815-80f1-4c47-b9c3-c3f9aa70c80d")
+			(uuid "f665b026-9483-4685-bad9-7476a9a7ae01")
 		)
 		(pin "15"
-			(uuid "ff98ae18-54a3-4eb7-b8b1-c555fcb91987")
+			(uuid "50eeb6b9-aa46-4eaf-abe3-8498d52e7ae1")
 		)
 		(pin "16"
-			(uuid "b3636d7f-1c06-487c-bcc5-40c0bc4e01f0")
+			(uuid "0b9c24e5-cad9-4bdf-93ae-3f43be5e44f6")
 		)
 		(pin "17"
-			(uuid "a4527b50-96d9-40c1-bfa2-f08b17c75c6a")
+			(uuid "f8df9595-15e2-4f36-889b-e2633e6aa328")
 		)
 		(pin "18"
-			(uuid "49708b2d-38b5-4a3f-b491-b1460daee069")
+			(uuid "9de9dc5f-1851-4d41-863e-f9f135cfd3b1")
 		)
 		(pin "19"
-			(uuid "98c14044-0d1b-4b7b-9578-610b020c3cbc")
+			(uuid "0238c829-54d5-494f-9377-42839ded5b3e")
 		)
 		(pin "20"
-			(uuid "13e7ca2c-ddea-4a1a-be90-41fd282829ef")
+			(uuid "613bff91-7e14-4fee-9bc1-08213a8412e5")
 		)
 		(pin "25"
-			(uuid "e50d8109-cc71-440c-a803-c0f12199fa69")
+			(uuid "70fdb215-35ee-41b3-8946-ba075c960577")
 		)
 		(pin "26"
-			(uuid "0d6db77d-a9cb-4636-9387-c23b1519a1b1")
+			(uuid "e9ee9310-ffc9-4b75-a065-3feb4ce409d8")
 		)
 		(pin "30"
-			(uuid "5d0e8484-c03b-45e6-a2fc-e8c91df2a753")
+			(uuid "e9308442-9020-44d3-aa8e-5875bfca6c0c")
 		)
 		(pin "31"
-			(uuid "5d7436bd-376b-4e4e-8cc5-a06dfe3d6616")
+			(uuid "e02e16c0-b4e5-40aa-a4d6-c5c288aec52f")
 		)
 		(pin "34"
-			(uuid "e76c6bf1-ba84-45b5-82af-4dbec2f8913e")
+			(uuid "f694f9d3-7f3c-4161-88c5-654bed31c87d")
 		)
 		(pin "35"
-			(uuid "ae90826a-398f-48bb-8a15-63656cf8ac76")
+			(uuid "4f4f9e27-4a62-4032-accb-9a3710995b40")
 		)
 		(pin "39"
-			(uuid "0a51a682-bb6d-443c-ad97-5ecb60ae37ef")
+			(uuid "702a4221-7f0b-44ec-89d2-bbdd8c198ad5")
 		)
 		(pin "40"
-			(uuid "3b536066-5f69-4b87-9f6e-d8907aa236a1")
+			(uuid "e2e1626b-b9d7-4dc3-8687-8e1ea352122f")
 		)
 		(pin "41"
-			(uuid "92403905-489b-446d-a046-fb66fea37127")
+			(uuid "2c868d33-19f8-4e12-b3cd-39f674c441aa")
 		)
 		(pin "42"
-			(uuid "01028ccc-0a49-445d-9731-9fdf450bfe2d")
+			(uuid "1a70ef18-ca82-49ba-9543-edb638af8175")
 		)
 		(pin "50"
-			(uuid "7c9c5cf7-9f41-4880-8d4d-a5b007a5dd20")
+			(uuid "e14cfe5e-f835-4473-ace3-5a4e68d0894a")
 		)
 		(pin "53"
-			(uuid "51900783-61a9-49d5-a589-03f9d5b5a75b")
+			(uuid "c42d8b6e-0305-441c-b493-8558575e25d4")
 		)
 		(pin "54"
-			(uuid "54572041-9955-402a-a4ca-aa42ba1e3f83")
+			(uuid "a4aacac7-d699-4584-88de-1540ec7d0412")
 		)
 		(pin "63"
-			(uuid "cfbfb050-155b-44e0-8fff-289c024366b7")
+			(uuid "b6c74803-27d7-4a72-9d1c-7cb8bd0a6a6d")
 		)
 		(pin "71"
-			(uuid "6dbe7c50-67d0-4e9f-94a1-82fa060f6d4e")
+			(uuid "d1babbca-032a-4d6a-bdd1-101b37fc2945")
 		)
 		(pin "77"
-			(uuid "3f384245-886b-4cc2-b24a-0278390c5acc")
+			(uuid "8729d3a5-0ed2-4afc-bc27-e81364a00f33")
 		)
 		(pin "78"
-			(uuid "1711bde3-b667-477d-812f-1a85b9477a72")
+			(uuid "0b924cd3-066f-4ebe-ae17-f0d67af410aa")
 		)
 		(pin "1"
-			(uuid "44b240dd-ce6f-4b63-84df-0fcbda018f46")
+			(uuid "673aa4e4-6bc4-4c25-88b2-32d6a509d656")
 		)
 		(pin "2"
-			(uuid "81ac9941-0fca-4008-9f0a-d712e21fb5eb")
+			(uuid "bf190552-b4f3-4a7e-8929-807c5381723f")
 		)
 		(pin "3"
-			(uuid "dea0c31f-a9b1-4141-ad61-6c0f21d713ce")
+			(uuid "472888be-261b-4a53-adc6-b35fcd88744d")
 		)
 		(pin "4"
-			(uuid "f073c6fe-6e7e-4b0d-b1a4-4c754d10bf2b")
+			(uuid "d64006a8-4cf2-49e9-82df-11aad2d2b75a")
 		)
 		(pin "5"
-			(uuid "245577a0-29cc-4290-b521-8206e0dc2f01")
+			(uuid "4906c52c-c9cd-4a95-a7ad-d423363be24d")
 		)
 		(pin "6"
-			(uuid "f929813c-cbe0-4239-a75a-8f9d05b3b1e1")
+			(uuid "d0012db8-8185-4ae7-a65f-bc411e641c8f")
 		)
 		(pin "8"
-			(uuid "8636b1f3-f26a-4da4-b082-d54ffc54cd8b")
+			(uuid "7212a1df-c7f9-4a8b-9b5d-cf021d64880a")
 		)
 		(pin "9"
-			(uuid "53636e72-56ce-4ab1-b120-807d38952851")
+			(uuid "09a31817-4b0e-43fd-bba6-bd34e95eea77")
 		)
 		(pin "10"
-			(uuid "66c0cbb1-7dd1-4608-9806-e911d50ec2bf")
+			(uuid "9bf2a5ea-e192-46ce-a134-620c0c401ef7")
 		)
 		(pin "11"
-			(uuid "78337114-738a-4091-87fb-973cd7e98ff4")
+			(uuid "fd6887fb-cde7-40b9-9178-a769f2f6acb8")
 		)
 		(pin "12"
-			(uuid "166511c5-b7d6-4d85-8617-efed8d9d09f4")
+			(uuid "1efb19fa-eedd-4775-b705-65094d7b38d8")
 		)
 		(pin "13"
-			(uuid "43761102-9e9e-4033-8a4b-d4ad23f609d7")
+			(uuid "305e38fd-e707-4dce-9416-10f83789474d")
 		)
 		(pin "43"
-			(uuid "fd582e7c-17a7-42d0-8331-a3c9cb13fed2")
+			(uuid "981fcb94-68e4-4ec7-ba96-1c931a0be4cf")
 		)
 		(pin "44"
-			(uuid "b6a83d76-a749-4c6c-8f6f-b7a95f2a8d05")
+			(uuid "cd8431d6-2df8-494e-96a0-8bf8fdd5848f")
 		)
 		(pin "45"
-			(uuid "dd2a3aa5-78f0-4f9d-892c-9a190e390fe7")
+			(uuid "52a561d2-c2e5-49b5-b331-0e5114f4a53c")
 		)
 		(pin "46"
-			(uuid "b9b79856-fb3e-4091-9715-eb17bc081d8a")
+			(uuid "cef51a76-9c24-4e34-9844-d431652645f1")
 		)
 		(pin "47"
-			(uuid "9be64656-712e-4d3a-a6a7-2f259cb57255")
+			(uuid "e078629b-7c59-41b8-91eb-d047d165075c")
 		)
 		(pin "48"
-			(uuid "64712a80-b2d6-469e-87a4-ffc112400958")
+			(uuid "91adbc0e-6e50-4712-9ef0-274a1119c473")
 		)
 		(pin "49"
-			(uuid "a348bff8-477c-4731-b3fd-fb0a167b2f94")
+			(uuid "13dda541-308b-4cc1-ab4b-e844a60297d2")
 		)
 		(pin "51"
-			(uuid "faea9a8f-3008-4e4a-a124-c62fc46ee7b7")
+			(uuid "be318a8d-0d62-4368-bbb0-9a562fc3cdef")
 		)
 		(pin "52"
-			(uuid "fcf46ac9-5d2d-4808-a0e7-7809c8b2bd94")
+			(uuid "203bf247-5095-4cc3-be10-ea8190dbc720")
 		)
 		(pin "55"
-			(uuid "d3179e4b-273e-4751-acba-d25ba753effb")
+			(uuid "900594f9-dec5-4a68-851b-59c85c280c6b")
 		)
 		(pin "56"
-			(uuid "486b98dc-047b-40cb-9321-03b8cf405558")
+			(uuid "d8823392-4444-4528-aaeb-a59e805b9dea")
 		)
 		(pin "57"
-			(uuid "c3e7be29-6580-474b-9258-cab72a14be4b")
+			(uuid "e5599265-fbbd-4422-9e99-1d876eb6fc78")
 		)
 		(pin "58"
-			(uuid "1a8900cc-99b0-4e67-9cdd-bfa80065de16")
+			(uuid "8e6cd913-44e3-4499-a958-cfffc0bb9845")
 		)
 		(pin "59"
-			(uuid "094c9a16-0529-4a8c-a2bc-f7c7de76d130")
+			(uuid "49a32218-258f-4f99-bbd5-ad7e420844e9")
 		)
 		(pin "60"
-			(uuid "0c70e555-4891-41b4-9d75-14b984880811")
+			(uuid "71adf127-85c9-4d67-aea1-fe72814edfeb")
 		)
 		(pin "79"
-			(uuid "35423aaf-d510-4f68-8f6a-0d46628c3a4a")
+			(uuid "926fbc2e-6e2b-4fe2-a76a-bc6b5dde27a3")
 		)
 		(pin "80"
-			(uuid "c89300cd-4099-4c45-a6a7-6b0d4b8ee31d")
+			(uuid "5e99eae1-1314-40a6-88f6-6033b5ebbc94")
 		)
 		(pin "61"
-			(uuid "36869e6a-e3bf-49a2-bcf0-0e97d7116d12")
+			(uuid "abd88a2f-f9ef-43d5-aa96-4e31494950e0")
 		)
 		(pin "62"
-			(uuid "0d1cd164-69ff-47ec-b6f9-be6790071d2c")
+			(uuid "050ecede-c307-4178-94d2-0323e746fb36")
 		)
 		(pin "64"
-			(uuid "2cb01819-50f5-44c1-a629-d137845257db")
+			(uuid "ee1f67e2-2b23-4f61-8b3f-db7b863a25f2")
 		)
 		(pin "65"
-			(uuid "e82173fe-7b1c-49d5-bf7c-c34638844ed6")
+			(uuid "4357dd45-0564-4429-b0c0-a800b89f2e69")
 		)
 		(pin "66"
-			(uuid "bc36a8cf-7215-4aab-8e90-0d7080fe0c3c")
+			(uuid "a3f2b393-af83-4f32-99c3-2cbef8315e32")
 		)
 		(pin "67"
-			(uuid "f1129949-29bc-449d-803b-065c73d5170f")
+			(uuid "c5f221e6-62f0-4688-a5b9-28a099652e27")
 		)
 		(pin "68"
-			(uuid "71fccf20-1f76-4039-a13d-5763fffbca92")
+			(uuid "e7858389-7159-4f1b-9738-a1c35413487b")
 		)
 		(pin "69"
-			(uuid "8da7d3a5-019c-4ef6-888d-8b62d9aa39d0")
+			(uuid "3dd52ab9-fb74-4156-b0ac-8248559f29e0")
 		)
 		(pin "70"
-			(uuid "24d65192-b20e-4c3b-bba4-1856ca8d4c9b")
+			(uuid "ae02a008-2ebf-4b1e-ab4d-ecfe50bc714e")
 		)
 		(pin "72"
-			(uuid "ed85eeb0-5d61-4353-a7c0-fb7918a15983")
+			(uuid "c18c4c9a-84cd-4c83-bb77-c764091ae5b5")
 		)
 		(pin "73"
-			(uuid "8cd89376-5e03-4bc6-b916-35490052755b")
+			(uuid "d4de0645-915a-4f5b-9e3f-f287b5d3358e")
 		)
 		(pin "74"
-			(uuid "3b50b438-f495-4696-8f2a-57d7793ce6f5")
+			(uuid "4344b547-9d5f-41d6-a2b5-0455a385e250")
 		)
 		(pin "75"
-			(uuid "67f8b3bf-1218-46f9-aa93-853919c274fb")
+			(uuid "865f1665-1f7b-4e23-b9b4-fbd05b7a39fe")
 		)
 		(pin "76"
-			(uuid "7dcf99bc-6853-4c1c-b719-190655a31cea")
+			(uuid "ae36a1a7-f77e-4ced-ac1d-183fd69790e5")
 		)
 		(instances
 			(project "USBAudioBridge"
@@ -6709,6 +7083,17 @@
 			)
 		)
 		(property "Manufacturer" "Microchip"
+			(at 299.72 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C625180"
 			(at 299.72 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -6815,6 +7200,39 @@
 			)
 		)
 		(property "Spec" "C0G 0402"
+			(at 45.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05C100JB5NNNC"
+			(at 45.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 45.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C32949"
 			(at 45.72 76.2 0)
 			(hide yes)
 			(show_name no)

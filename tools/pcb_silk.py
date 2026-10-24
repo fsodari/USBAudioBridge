@@ -32,6 +32,28 @@ def _overlap(a, b):
     return not (a[2] <= b[0] or a[0] >= b[2] or a[3] <= b[1] or a[1] >= b[3])
 
 
+def fab_ref(fp, side):
+    """Assembly-drawing reference: KiCad library footprints already carry a
+    ${REFERENCE} text on the fab layer, so the field is hidden there; otherwise
+    it is centred on the part, along its long axis, sized to fit the courtyard."""
+    ref = fp.Reference()
+    fab = pcbnew.B_Fab if side == "B" else pcbnew.F_Fab
+    if any(isinstance(g, pcbnew.PCB_TEXT) and g.GetLayer() == fab and
+           g.GetText() == "${REFERENCE}" for g in fp.GraphicalItems()):
+        ref.SetVisible(False)
+        return
+    ref.SetVisible(True)
+    x1, y1, x2, y2 = _courtyard_box(fp, side)
+    w, h = x2 - x1, y2 - y1
+    size = max(0.25, min(0.8, min(w, h) * 0.45, max(w, h) * 0.9 / max(1, len(fp.GetReference()))))
+    ref.SetTextSize(pcbnew.VECTOR2I(pcbnew.FromMM(size), pcbnew.FromMM(size)))
+    ref.SetTextThickness(pcbnew.FromMM(max(0.05, size * 0.15)))
+    ref.SetPosition(pcbnew.VECTOR2I(pcbnew.FromMM(L.ORIGIN[0] + (x1 + x2) / 2),
+                                    pcbnew.FromMM(L.ORIGIN[1] + (y1 + y2) / 2)))
+    ref.SetTextAngle(pcbnew.EDA_ANGLE(90 if h > w else 0, pcbnew.DEGREES_T))
+    ref.SetKeepUpright(True)
+
+
 def tidy(board):
     keep, obstacles = [], {}
     for fp in board.GetFootprints():
@@ -45,6 +67,7 @@ def tidy(board):
         wanted = name.startswith(KEEP_PREFIX) and not name.startswith("H")
         if not wanted or fp.IsExcludedFromBOM() and not name.startswith(("TP", "JP")):
             ref.SetLayer(fab)
+            fab_ref(fp, side)
         else:
             ref.SetLayer(silk)
             keep.append(fp)
@@ -86,6 +109,7 @@ def tidy(board):
             break
         if not placed:
             ref.SetLayer(pcbnew.B_Fab if s == "B" else pcbnew.F_Fab)
+            fab_ref(fp, s)
             print(f"  silk: no room for {fp.GetReference()}, moved to fab")
 
 

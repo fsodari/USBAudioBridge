@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-This is a KiCad 10 hardware project for a USB audio bridge built around an NXP i.MX RT1010 (MIMXRT1011DAE5A, LQFP-80). The schematic has been reviewed. The PCB (43.18 × 62 mm, 4 layers, double-sided assembly) is being re-laid out after the owner's first review: the MCU is moving to the bottom side so I2S can return to JB, and the debug header is now keyed. The fabrication output pipeline is not built yet.
+This is a KiCad 10 hardware project for a USB audio bridge built around an NXP i.MX RT1010 (MIMXRT1011DAE5A, LQFP-80). Revision v1.0 is complete and has been reviewed by the owner:
+- Schematic and PCB: 43.18 × 62 mm, 4 layers, double-sided assembly, MCU on the bottom. ERC/DRC are clean.
+- Every part has a 3D model and is sourced (MPN, manufacturer, LCSC number).
+- `tools/fab.py` builds the JLCPCB and PCBWay packages, locally or in GitHub Actions.
+- `docs/reference-manual.md` is the firmware/FPGA developer manual. Read it before writing RT1010 or Arty A7 code, and keep it in step with design changes.
 
 ## Layout
 
@@ -12,10 +16,12 @@ This is a KiCad 10 hardware project for a USB audio bridge built around an NXP i
   - The root sheet has design notes and the pin map. Six sub-sheets: `power_usb`, `mcu_power`, `mcu_system`, `boot_flash`, `mcu_io`, `audio_pmod`.
   - `USBAudioBridge.kicad_sym` is the project symbol library. It holds the RT1010 as 4 units (A Power, B System/USB, C GPIO bank, D FlexSPI/SD bank) and the `+3V3_CLK` power symbol.
 - `tools/`: a Python generator that produces the schematic. It uses only the standard library.
-  - `design.py` describes every part, value, footprint and net.
+  - `design.py` describes every part, value, footprint and net, plus sourcing. `CAP_SRC`/`RES_SRC`/`LED_SRC` tables and `src()` fields give every BOM line an MPN, Manufacturer and LCSC number; `fab.py` refuses to build if one is missing.
   - `projlib.py` builds the RT1010 symbol from datasheet Tables 51 and 52.
   - `schgen.py` handles placement and rendering. Each pin gets a short stub plus a label or power symbol. `Sheet.link`/`tap` draw direct wires for local chains.
   - `build.py` regenerates, normalises and verifies (see below).
+- `tools/fab.py`: fabrication outputs (see "Fabrication outputs" below). `.github/workflows/fab.yml` runs it in the `kicad/kicad:10.0.7` container.
+- `docs/reference-manual.md`: the developer manual (pin map, clocks, boot, SAI/USB/SPI, Arty constraints, errata).
 - `docs/datasheets/`: reference PDFs. These are gitignored.
   - RT1010 data sheet, reference manual and hardware development guide (HDUG)
   - EVK schematic `SPF-45852_C.pdf`
@@ -58,7 +64,8 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
   - MCU supply and GND fanout (a via just inside the pad ring for each pin, with its cap on the opposite side, behind the via)
   - bulk-cap placement
   - generic plane-net fanout
-- `pcb_silk.py` tidies the silkscreen. Reference designators stay on silk only for connectors, ICs, switches, LEDs, crystals and the like; the rest go to Fab.
+- `pcb_silk.py` tidies the silkscreen. Reference designators stay on silk only for connectors, ICs, switches, LEDs, crystals and the like; the rest go to Fab. On Fab, the moved field is hidden where the library footprint already has a `${REFERENCE}` text, otherwise it is centred on the part, so the assembly drawings stay legible.
+- `python3 tools/pcb.py --sync-fields` copies values, schematic fields and DNP flags onto the existing routed board without touching copper. Use it after a sourcing, value or DNP change; any footprint or part-count change needs a full rebuild and re-route.
 - `autoroute.py` runs these stages:
   1. DSN export, Freerouting, SES import.
   2. `--clean`: remove dangling copper, including Freerouting's duplicate segments.
@@ -77,7 +84,8 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 - Freerouting is `tools/bin/freerouting-2.1.0.jar` (gitignored). It is the newest release that runs on the installed Java 21; 2.2 and later need Java 25.
   - Before routing, the DSN is edited: In1/In2 become `(type power)` so no signals go in the planes, and the scripted copper becomes `(type protect)`.
   - The F.Cu/B.Cu GND pours are added only after routing, so the router doesn't treat them as obstacles.
-- VBUS and +5V use their own net class (PowerIn, 0.5 mm). Worst-case input current is under 0.4 A (RT1010 DCDC_IN 200 mA plus VDD_HIGH 75 mA max, plus flash, clocks and LEDs), and the PTC trips around 1 A.
+- Vias are 0.5 mm pad / 0.2 mm drill. The few 0.45 mm vias on USB and VBUS are deliberate. The 0.2 mm drill gives PCBWay's ≥ 5 mil outer annular ring, and JLCPCB charges nothing extra for it.
+- VBUS and +5V use their own net class (PowerIn, 0.4 mm; the VBUS bus itself is a scripted 0.5 mm track). Worst-case input current is under 0.4 A (RT1010 DCDC_IN 200 mA plus VDD_HIGH 75 mA max, plus flash, clocks and LEDs), and the PTC trips around 1 A.
 - Floorplan: the MCU is on the **bottom** side, mirrored, orientation 0 (`pcb_layout.MCU`, `MCU_LAYER`/`CAP_LAYER`).
   - The USB/crystal pins face the USB-C edge (north), the SAI pins face west toward JB (I2S), GPIO_AD (LPSPI1, SWD) faces east toward JC, and GPIO_SD (flash, straps) faces south.
   - This is the only arrangement where the I2S and SPI buses don't cross. With the MCU on top, SAI and LPSPI1 sit on opposite package sides that face the wrong ports.
@@ -102,18 +110,20 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 - The board mates with Arty A7 ports **JB + JC**, the two adjacent high-speed PMODs, which have no series resistors. JB carries I2S, JC carries SPI + GPIO.
 - Extras: reset button and serial-downloader boot button, power and GPIO status LEDs, a 3-pin UART console header, and a 32.768 kHz RTC crystal.
 - 44.1 kHz-family rates are out of scope: there is only a 24.576 MHz audio clock, so the 48 kHz family only.
-- PCB: 4 layers, built by JLCPCB (their stackup, LCSC part numbers, their BOM and pick-and-place formats). Two M3 mounting holes take USB cable strain off the PMOD headers.
+- PCB: 4 layers, built by JLCPCB (their JLC04161H-3313 stackup) or PCBWay; `fab.py` produces both packages. Two M3 mounting holes take USB cable strain off the PMOD headers.
   - The board sits flat beside the Arty. The JB/JC headers are on one edge, on 0.9" (22.86 mm) centres per the PMOD spec, and the USB-C connector is on the far edge.
 - Routing: critical nets are placed and routed by script through KiCad's `pcbnew` Python API. Freerouting finishes the rest headless.
 
 ## Design facts that took cross-referencing to establish
 
-- **Audio clock:** the 24.576 MHz XO feeds a CDCV304 buffer with three outputs.
-  - Output 1 → SAI1_MCLK input (GPIO_08). Firmware sets GPR1 `SAI1_MCLK_DIR=0` and `SAI1_MCLK1_SEL=011`.
-  - Output 2 → GPT2_CLK (GPIO_AD_03). It counts MCLK between USB start-of-frame packets to compute the async feedback value. GPT external clock must stay below ipg_clk/4, so ipg_clk must be at least 98.4 MHz.
-  - Outputs 3 and 4 → PMOD JB1 and JB7, the MCLK pin of each I2S row.
-  - The oscillator is an Epson SG-210STF 24.5760ML: ±50 ppm, and it has a KiCad 3D model.
-- **SPI pins:** LPSPI1 uses GPIO_AD_04/05/06. Its SDI moves to GPIO_SD_05 (ALT2, `LPSPI1_SDI_SELECT_INPUT=1`) because GPIO_AD_03 is taken by GPT2_CLK.
+- **Audio clock:** the 24.576 MHz XO feeds a CDCV304 1:4 buffer.
+  - Y0 → SAI1_MCLK input (GPIO_08). Firmware sets GPR1 `SAI1_MCLK_DIR=0` and `SAI1_MCLK1_SEL=011`, and must never set the direction to output. NXP EVK code does that with `BOARD_EnableSaiMclkOutput`.
+  - Y1 → R603 (**DNP**) → GPT2_CLK (GPIO_AD_03). The GPT can't count it: its external clock must be below the GPT peripheral clock/4. That clock is PERCLK_CLK_ROOT, at most 75 MHz (RM Table 14-5), so the limit is 18.75 MHz. Async feedback is computed from SAI sample counts at each USB SOF (reference manual §6.3).
+  - Y2/Y3 → PMOD JB1 and JB7, the MCLK pin of each I2S row.
+  - The oscillator is an Epson SG-210SCBA 24.576000 MHz L (ordering code X1G004591A052, LCSC C5154204): ±50 ppm, 2.7–3.6 V. It is the same SG-210 package and pinout as the SG-210STF it replaced, which is out of stock at JLCPCB, so it uses the same footprint and 3D model.
+- **Core voltage:** 500 MHz needs VDD_SOC 1.25–1.3 V (overdrive). The DC-DC resets to 1.15 V (`DCDC_REG3[TRG]`=0xE), which is good for 396 MHz.
+- **SPI pins:** LPSPI1 uses GPIO_AD_04/05/06. Its SDI is on GPIO_SD_05 (ALT2, `LPSPI1_SDI_SELECT_INPUT=1`) because GPIO_AD_03 was reserved for GPT2_CLK.
+- **Daisy defaults that bite:** `LPUART1_RXD_SELECT_INPUT` resets to GPIO_SD_11, which is the flash IO3 here, so it must be set to 1 for GPIO_09.
 - **Boot:** BOOT_MODE[1:0]=10 (internal boot from FlexSPI-A QSPI NOR) is the default strap. The BOOT button pulls BOOT_MODE1 low and, through the P-FET Q401, BOOT_MODE0 high. That gives 01, the serial downloader, whatever the eFuse state.
 - **I2S port (JB):** I2S is on **JB** (Digilent Pmod I2S2 pinout, FPGA as host) because the Arty's only clock-capable PMOD pins are on JB.
   - JB1 = E15 (IO_L11P_T1_SRCC_15) and JB3 = D15 (IO_L12P_T1_MRCC_15) are the clock-capable P pins, carrying MCLK and the top-row SCLK.
@@ -127,7 +137,27 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 - **Arty high-speed PMOD pairs:** pins (1,2), (3,4), (7,8) and (9,10) are routed as coupled pairs. With the I2S2 pinout, MCLK shares a pair with LRCK. That's accepted because LRCK changes slowly and is only sampled.
 - **USB D+/D−:** no series resistors, on purpose. The RT1010 high-speed PHY has calibrated on-die 45 Ω terminations (reference manual §36.3.5.1), and the NXP evaluation board routes D+/D− directly.
 - **Reset supervisor:** the MCP120T-300 trips at 2.925 V.
+- **Sourcing substitutions:** these were checked against the JLCPCB library on 2026-10-23.
+  - 24 MHz crystal: Suzhou Liming 3225-24-8-10-10/A. NXP wants a crystal rated ≥ 200 µW drive at ~50 Ω ESR; most 3225 parts are rated 100 µW.
+  - Switches: C&K PTS810**SJG** (the SJM is out of stock).
+  - USB-C: GCT USB4105-GF-A-**120**. The suffix is only the shell stake length.
+  - LEDs: the KENTO KT-0603YG/Y parts have Vf ≈ 2 V; a 3 V "green" would be dark through 1 kΩ.
 - **PMOD connector footprint:** J601 and J602 use Digilent pin numbering (1–6 on one row, 7–12 on the other). The stock KiCad `PinHeader_2x06` footprint numbers pins odd/even, so the PCB needs a custom footprint or a pin-map check.
+
+## Fabrication outputs
+
+```bash
+python3 tools/fab.py           # ERC + DRC gate, then hardware/build/fab/USBAudioBridge-<rev>-{jlcpcb,pcbway}[.zip]
+python3 tools/fab.py --step    # also a STEP model (local only: CI lacks the Samtec model)
+```
+
+- **Coordinates.** Gerbers, drill and placement files all use the drill/place origin, the board's lower-left corner (`pcb.set_origins`).
+- **JLCPCB package:**
+  - BOM columns Comment / Designator / Footprint / LCSC.
+  - CPL uses pad-centroid positions. Rotations follow the kicad-jlcpcb-tools conventions: the bottom side is mirrored as 180 − rot, plus `JLC_ROTATION` corrections from the community database.
+  - Check JLCPCB's placement preview when ordering.
+- **PCBWay package:** a BOM with MPNs, plus a centroid file in KiCad's rotation convention, plus assembly drawings.
+- **CI:** `.github/workflows/fab.yml` runs `fab.py` in the `kicad/kicad:10.0.7` container on pushes to main and on pull requests. A `v*` tag also attaches the zips to a GitHub release. The routed board is committed, so CI never needs Freerouting.
 
 ## Project acceptance criteria (from README)
 

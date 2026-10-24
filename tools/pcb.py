@@ -1,6 +1,8 @@
 """Build hardware/USBAudioBridge.kicad_pcb from the schematic netlist.
 
 Usage: python3 tools/pcb.py   (run tools/build.py first so the netlist exists)
+       python3 tools/pcb.py --sync-fields   (copy values and schematic fields such as
+                                            MPN/LCSC onto the existing, routed board)
 
 The board is regenerated from scratch each time: outline, footprints (with
 schematic links for DRC parity), nets, net classes, zones and the hand-routed
@@ -52,6 +54,7 @@ def read_netlist():
                                if find(p, "name")[1] == "Sheetname"), ""),
             "sheetfile": next((find(p, "value")[1] for p in find_all(c, "property")
                                if find(p, "name")[1] == "Sheetfile"), ""),
+            "dnp": any(find(p, "name")[1] == "dnp" for p in find_all(c, "property")),
         }
     pads = {}
     for n in find_all(find(root, "nets"), "net"):
@@ -70,6 +73,45 @@ def load_footprint(fpid):
         sys.exit(f"cannot load footprint {fpid}")
     fp.SetFPID(pcbnew.LIB_ID(lib, name))
     return fp
+
+
+def copy_fields(fp, comp):
+    """Mirror every schematic field (Datasheet, Description, MPN, LCSC, ...) for parity."""
+    fp.SetValue(comp["value"])
+    fp.SetDNP(comp["dnp"])
+    for k, v in comp["fields"].items():
+        if k == "Footprint":
+            continue
+        fp.SetField(k, v)
+        f = fp.GetField(k)
+        if f:
+            f.SetVisible(False)
+
+
+def sync_fields():
+    """Update values and fields on the existing board without touching copper."""
+    comps, _ = read_netlist()
+    board = pcbnew.LoadBoard(PCB)
+    seen = set()
+    for fp in board.GetFootprints():
+        c = comps.get(fp.GetReference())
+        if c is None:
+            sys.exit(f"{fp.GetReference()} is not in the netlist: rebuild with pcb.py")
+        if c["footprint"] != fp.GetFPIDAsString():
+            sys.exit(f"{fp.GetReference()}: footprint changed, rebuild with pcb.py")
+        copy_fields(fp, c)
+        seen.add(fp.GetReference())
+    if set(comps) - seen:
+        sys.exit("new parts in the netlist: rebuild with pcb.py")
+    set_origins(board)
+    pcbnew.SaveBoard(PCB, board)
+    print("synced fields for", len(seen), "footprints")
+
+
+def set_origins(board):
+    """Drill/place origin at the lower-left board corner: fab outputs then use
+    positive millimetre coordinates (Gerber, drill and placement agree)."""
+    board.GetDesignSettings().SetAuxOrigin(pt(0, L.H))
 
 
 def outline(board):
@@ -91,6 +133,7 @@ def build():
     board = pcbnew.CreateEmptyBoard()
     board.SetCopperLayerCount(4)
     outline(board)
+    set_origins(board)
 
     nets = {}
     for name in sorted(set(pad_nets.values())):
@@ -102,19 +145,11 @@ def build():
     for ref, c in sorted(comps.items()):
         fp = load_footprint(c["footprint"])
         fp.SetReference(ref)
-        fp.SetValue(c["value"])
         fp.SetPath(pcbnew.KIID_PATH(c["path"]))
         fp.SetSheetname(c["sheetname"])
         fp.SetSheetfile(c["sheetfile"])
         part = parts[ref]
-        # mirror every schematic field (Datasheet, Description, MPN, ...) for parity
-        for k, v in c["fields"].items():
-            if k == "Footprint":
-                continue
-            fp.SetField(k, v)
-            f = fp.GetField(k)
-            if f:
-                f.SetVisible(False)
+        copy_fields(fp, c)
         if not part.in_bom:
             fp.SetExcludedFromBOM(True)
             fp.SetExcludedFromPosFiles(True)
@@ -163,4 +198,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sync_fields() if "--sync-fields" in sys.argv else main()

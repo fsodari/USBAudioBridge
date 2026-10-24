@@ -1875,7 +1875,7 @@
 		)
 		(uuid "a01afe8b-965e-5486-80ce-b49c9e2de751")
 	)
-	(text "Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\nY1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\nY2 -> PMOD JB1 (MCLK, top row)\nY3 -> PMOD JB7 (MCLK, bottom row)"
+	(text "Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\nY1 -> R603 (DNP) -> GPIO_AD_03 GPT2_CLK, spare\nY2 -> PMOD JB1 (MCLK, top row)\nY3 -> PMOD JB7 (MCLK, bottom row)"
 		(exclude_from_sim no)
 		(at 25.4 109.22 0)
 		(effects
@@ -3511,6 +3511,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 162.56 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 162.56 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 162.56 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "6a076990-f700-59ce-b857-4292bdb747f6")
 		)
@@ -3603,6 +3636,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 35.56 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 35.56 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
+			(at 35.56 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "99af6b76-0f2f-58fe-9ef5-00aa25b24d4c")
 		)
@@ -3684,7 +3750,7 @@
 				)
 			)
 		)
-		(property "MPN" "SG-210STF 24.5760ML"
+		(property "MPN" "X1G004591A052"
 			(at 55.88 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -3695,7 +3761,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Epson"
+		(property "Manufacturer" "Seiko Epson"
 			(at 55.88 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -3706,7 +3772,18 @@
 				)
 			)
 		)
-		(property "Spec" "24.576 MHz CMOS SPXO, 1.62-3.63 V, +/-50 ppm, -40..85 C, 2.5x2.0 mm, pin 1 /ST (high = run)"
+		(property "LCSC" "C5154204"
+			(at 55.88 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "SG-210SCBA 24.576000 MHz L: CMOS SPXO, 2.7-3.6 V, +/-50 ppm, -40..85 C, 2.5x2.0 mm, pin 1 ST (high = run)"
 			(at 55.88 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -4034,6 +4111,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 172.72 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 172.72 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 172.72 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 172.72 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -4379,6 +4489,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 162.56 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 162.56 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 162.56 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "57d539d7-8a64-548f-a16a-61fdd0dcfc23")
 		)
@@ -4459,6 +4602,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 365.76 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 365.76 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 365.76 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 365.76 198.12 0)
 			(hide yes)
 			(show_name no)
@@ -4717,6 +4893,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 106.68 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 106.68 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
+			(at 106.68 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "1c351a94-6993-58b7-9a2f-6a302a887df4")
 		)
@@ -4797,6 +5006,39 @@
 			)
 		)
 		(property "Spec" "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"
+			(at 116.84 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "PZ254R-12-12P"
+			(at 116.84 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "XFCN"
+			(at 116.84 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C492434"
 			(at 116.84 200.66 0)
 			(hide yes)
 			(show_name no)
@@ -4917,6 +5159,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 365.76 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 365.76 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 365.76 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 365.76 187.96 0)
 			(hide yes)
 			(show_name no)
@@ -5095,6 +5370,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 365.76 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 365.76 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 365.76 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "4c21ed92-b052-5efa-b690-ce47f17ca54c")
 		)
@@ -5119,7 +5427,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "6baaa247-5b55-541c-aaef-47c8d4632d5f")
 		(property "Reference" "R603"
 			(at 162.56 64.77 90)
@@ -5175,6 +5483,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 162.56 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 162.56 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 162.56 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 162.56 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -5265,6 +5606,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 76.2 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF220JTCE"
+			(at 76.2 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 76.2 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25092"
 			(at 76.2 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -5521,6 +5895,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 55.88 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 55.88 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 55.88 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c26b0ac1-6403-5ffe-88d0-35721259b106")
 		)
@@ -5601,6 +6008,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 55.88 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 55.88 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 55.88 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 55.88 182.88 0)
 			(hide yes)
 			(show_name no)
@@ -5702,6 +6142,17 @@
 			)
 		)
 		(property "Manufacturer" "Texas Instruments"
+			(at 127 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C105237"
 			(at 127 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -5821,6 +6272,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 248.92 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 248.92 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 248.92 187.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 248.92 187.96 0)
 			(hide yes)
 			(show_name no)
@@ -6077,6 +6561,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 248.92 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 248.92 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 248.92 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "4005d01d-023f-5848-85fb-8d6792f0fab4")
 		)
@@ -6167,6 +6684,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 55.88 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 55.88 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 55.88 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "8b7d3df1-b865-5d67-b28e-b184abc03d0b")
 		)
@@ -6247,6 +6797,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 248.92 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 248.92 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 248.92 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 248.92 167.64 0)
 			(hide yes)
 			(show_name no)
@@ -6502,6 +7085,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 365.76 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 365.76 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 365.76 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "89e724db-d392-5b99-a8c6-43177ae8150e")
 		)
@@ -6582,6 +7198,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 172.72 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 172.72 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 172.72 182.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 172.72 182.88 0)
 			(hide yes)
 			(show_name no)
@@ -6682,6 +7331,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 172.72 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 172.72 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 172.72 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "2cd8eef3-6402-5ee4-90ec-c7341883b761")
 		)
@@ -6762,6 +7444,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 248.92 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 248.92 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 248.92 198.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
 			(at 248.92 198.12 0)
 			(hide yes)
 			(show_name no)
@@ -6862,6 +7577,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF330JTCE"
+			(at 162.56 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 162.56 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25105"
+			(at 162.56 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "d5c18944-c0e2-5c46-89b2-d27bb2cc72d6")
 		)
@@ -6942,6 +7690,39 @@
 			)
 		)
 		(property "Spec" "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "PZ254R-12-12P"
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "XFCN"
+			(at 309.88 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C492434"
 			(at 309.88 200.66 0)
 			(hide yes)
 			(show_name no)

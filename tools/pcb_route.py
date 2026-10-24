@@ -13,7 +13,7 @@ import pcbnew
 import pcb_layout as L
 
 CLEAR = 0.2          # clearance used for scripted copper (rule minimum is 0.15)
-VIA_D, VIA_DRILL = 0.5, 0.3
+VIA_D, VIA_DRILL = 0.5, 0.2
 PWR_VIA_D = 0.6
 LAYERS = {"F.Cu": pcbnew.F_Cu, "In1.Cu": pcbnew.In1_Cu, "In2.Cu": pcbnew.In2_Cu,
           "B.Cu": pcbnew.B_Cu}
@@ -176,7 +176,7 @@ class Router:
     def via_ok(self, net, c, d=VIA_D, keep_in=None, keep_out=(), clearance=CLEAR):
         if not self.free(circle(net, ALL, c, d), clearance):
             return False
-        # drill holes need 0.25 mm between them even on the same net
+        # drill holes need 0.25 mm between them even on the same net (0.3 for margin)
         for o in self.obs:
             if o.kind == "seg" and o.g["a"] == o.g["b"] and o.layers == set(ALL) and o.net == net:
                 if math.hypot(o.g["a"][0] - c[0], o.g["a"][1] - c[1]) < VIA_DRILL + 0.3:

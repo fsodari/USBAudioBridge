@@ -4315,7 +4315,40 @@
 				)
 			)
 		)
-		(property "Spec" "5% 0402"
+		(property "Spec" "1% 0402"
+			(at 45.72 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1004TCE"
+			(at 45.72 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 45.72 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C26083"
 			(at 45.72 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -4406,6 +4439,39 @@
 			)
 		)
 		(property "Spec" "PTC resettable, 0.5 A hold, >=6 V, 1206"
+			(at 195.58 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SMD1206P050TF/13.2"
+			(at 195.58 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "RUILON"
+			(at 195.58 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C43379"
 			(at 195.58 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -5060,6 +5126,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C80670"
+			(at 271.78 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "2c3c56e7-68cf-59e2-959d-60629be498ae")
 		)
@@ -5238,6 +5315,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 309.88 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 309.88 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
+			(at 309.88 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "dc810138-970f-5ace-9258-2cb0c478ab78")
 		)
@@ -5320,6 +5430,39 @@
 			)
 		)
 		(property "Spec" "X5R 0603"
+			(at 294.64 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL10A105KB8NNNC"
+			(at 294.64 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 294.64 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C15849"
 			(at 294.64 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -5489,6 +5632,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 116.84 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF5101TCE"
+			(at 116.84 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 116.84 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25905"
 			(at 116.84 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -5889,6 +6065,39 @@
 			)
 		)
 		(property "Spec" "X5R 0603"
+			(at 248.92 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL10A105KB8NNNC"
+			(at 248.92 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 248.92 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C15849"
 			(at 248.92 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -6531,6 +6740,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402B472K500NT"
+			(at 27.94 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "FH (Guangdong Fenghua)"
+			(at 27.94 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1538"
+			(at 27.94 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "3dd9e501-ca71-5cf4-bfc9-73e10e4a4bb9")
 		)
@@ -6613,6 +6855,39 @@
 			)
 		)
 		(property "Spec" "X5R 0603"
+			(at 294.64 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL10A106KP8NNNC"
+			(at 294.64 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 294.64 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C19702"
 			(at 294.64 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -6948,6 +7223,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL10A475KO8NNNC"
+			(at 213.36 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 213.36 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C19666"
+			(at 213.36 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "0c97433d-7329-52aa-aca0-8d7c7b1da2a6")
 		)
@@ -7030,6 +7338,39 @@
 			)
 		)
 		(property "Spec" "1% 0402"
+			(at 101.6 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF5101TCE"
+			(at 101.6 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 101.6 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25905"
 			(at 101.6 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -7748,6 +8089,39 @@
 				)
 			)
 		)
+		(property "MPN" "CL10A105KB8NNNC"
+			(at 248.92 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 248.92 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C15849"
+			(at 248.92 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "9f9890d0-27b7-5b2f-b31b-61b0097b646a")
 		)
@@ -8236,6 +8610,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C500795"
+			(at 271.78 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "1283e592-18b0-5716-bb35-e364c7903d15")
 		)
@@ -8331,6 +8716,39 @@
 				)
 			)
 		)
+		(property "MPN" "0402WGF1001TCE"
+			(at 342.9 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 342.9 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C11702"
+			(at 342.9 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "2e8f6c0b-b4ed-5121-9d95-c4a175d21b97")
 		)
@@ -8413,6 +8831,39 @@
 			)
 		)
 		(property "Spec" "0603, Vf ~2 V"
+			(at 342.9 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "KT-0603YG"
+			(at 342.9 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Hubei KENTO"
+			(at 342.9 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C2289"
 			(at 342.9 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -8580,7 +9031,7 @@
 				)
 			)
 		)
-		(property "MPN" "USB4105-GF-A"
+		(property "MPN" "USB4105-GF-A-120"
 			(at 55.88 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -8592,6 +9043,28 @@
 			)
 		)
 		(property "Manufacturer" "GCT"
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C5184243"
+			(at 55.88 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "-120: 1.20 mm shell stakes"
 			(at 55.88 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -9128,6 +9601,17 @@
 			)
 		)
 		(property "Manufacturer" "STMicroelectronics"
+			(at 134.62 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C7519"
 			(at 134.62 66.04 0)
 			(hide yes)
 			(show_name no)

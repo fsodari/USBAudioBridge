@@ -31,6 +31,47 @@ SW_FP = "Button_Switch_SMD:SW_SPST_PTS810"
 
 CAP_FP = {"0402": C0402, "0603": C0603, "0805": C0805}
 
+# ---------------------------------------------------------------------------
+# sourcing: (MPN, manufacturer, LCSC part number).  The LCSC number drives the
+# JLCPCB BOM; MPN + manufacturer drive the PCBWay BOM.  Checked against the
+# JLCPCB parts library (stock, "basic" status) on 2026-10-23.  Passives are
+# JLCPCB basic parts where one exists; their ratings meet or exceed the value
+# text (which states the minimum).
+
+CAP_SRC = {
+    ("4.7nF 50V", "0402"): ("0402B472K500NT", "FH (Guangdong Fenghua)", "C1538"),
+    ("0.1uF 16V", "0402"): ("CL05B104KO5NNNC", "Samsung Electro-Mechanics", "C1525"),
+    ("0.22uF 10V", "0402"): ("CL05B224KO5NNNC", "Samsung Electro-Mechanics", "C16772"),
+    ("1uF 10V", "0402"): ("CL05A105KA5NQNC", "Samsung Electro-Mechanics", "C52923"),
+    ("4.7uF 6.3V", "0402"): ("CL05A475MP5NRNC", "Samsung Electro-Mechanics", "C23733"),
+    ("10pF 50V", "0402"): ("CL05C100JB5NNNC", "Samsung Electro-Mechanics", "C32949"),
+    ("1uF 10V", "0603"): ("CL10A105KB8NNNC", "Samsung Electro-Mechanics", "C15849"),
+    ("4.7uF 10V", "0603"): ("CL10A475KO8NNNC", "Samsung Electro-Mechanics", "C19666"),
+    ("10uF 10V", "0603"): ("CL10A106KP8NNNC", "Samsung Electro-Mechanics", "C19702"),
+    ("22uF 6.3V", "0805"): ("CL21A226MAQNNNE", "Samsung Electro-Mechanics", "C45783"),
+}
+RES_SRC = {   # 0402 1% thick film, UNI-ROYAL
+    "22": ("0402WGF220JTCE", "C25092"), "33": ("0402WGF330JTCE", "C25105"),
+    "1k": ("0402WGF1001TCE", "C11702"), "4.7k": ("0402WGF4701TCE", "C25900"),
+    "5.1k": ("0402WGF5101TCE", "C25905"), "10k": ("0402WGF1002TCE", "C25744"),
+    "30k": ("0402WGF3002TCE", "C25776"), "1M": ("0402WGF1004TCE", "C26083"),
+    "2.2M": ("0402WGF2204TCE", "C11490"),
+}
+LED_SRC = {   # Vf ~2 V parts: a 3 V InGaN green would barely light from 3.3 V through 1k
+    "green": ("KT-0603YG", "Hubei KENTO", "C2289"),
+    "yellow": ("KT-0603Y", "Hubei KENTO", "C2287"),
+}
+
+
+def src(mpn, manufacturer, lcsc):
+    return {"MPN": mpn, "Manufacturer": manufacturer, "LCSC": lcsc}
+
+
+RT_FIELDS = src("MIMXRT1011DAE5A", "NXP", "C1575810")
+SW_FIELDS = src("PTS810SJG250SMTRLFS", "C&K", "C221895")
+PMOD_FIELDS = {"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering",
+               **src("PZ254R-12-12P", "XFCN", "C492434")}
+
 
 # ---------------------------------------------------------------------------
 # helpers
@@ -39,19 +80,23 @@ CAP_FP = {"0402": C0402, "0603": C0603, "0805": C0805}
 def cap(sh, ref, value, at, top, bot="GND", size="0402", spec="X5R", dnp=False):
     """Vertical capacitor: pin 1 on top."""
     return sh.add("Device:C", ref, value, at, footprint=CAP_FP[size], text="right",
-                  fields={"Spec": f"{spec} {size}"}, dnp=dnp).connect({"1": top, "2": bot})
+                  fields={"Spec": f"{spec} {size}", **src(*CAP_SRC[(value, size)])},
+                  dnp=dnp).connect({"1": top, "2": bot})
 
 
 def res(sh, ref, value, at, n1, n2, horizontal=False, spec="1% 0402", dnp=False):
     """Resistor; vertical has pin 1 on top, horizontal has pin 1 on the left."""
+    mpn, lcsc = RES_SRC[value]
     return sh.add("Device:R", ref, value, at, angle=90 if horizontal else 0,
                   footprint=R0402, text="above" if horizontal else "right",
-                  fields={"Spec": spec}, dnp=dnp).connect({"1": n1, "2": n2})
+                  fields={"Spec": spec, **src(mpn, "UNI-ROYAL", lcsc)},
+                  dnp=dnp).connect({"1": n1, "2": n2})
 
 
-def led(sh, ref, value, at, anode, cathode="GND"):
+def led(sh, ref, value, at, anode, colour, cathode="GND"):
     return sh.add("Device:LED", ref, value, at, angle=90, footprint=LED0603, text="right",
-                  fields={"Spec": "0603, Vf ~2 V"}).connect({"A": anode, "K": cathode})
+                  fields={"Spec": "0603, Vf ~2 V", **src(*LED_SRC[colour])}
+                  ).connect({"A": anode, "K": cathode})
 
 
 def testpoint(sh, ref, net, at):
@@ -120,10 +165,11 @@ def sheet_root(sh):
         "  Arty PMOD VCC (pins 6/12) is NOT connected to 3.3 V: JP601 is an open solder jumper. "
         "Grounds are common.\n"
         "Clocks: 24.000 MHz crystal (system/USB PLL), 32.768 kHz crystal (RTC), 24.576 MHz XO "
-        "(audio master, Epson SG-210STF) -> CDCV304 1:4 buffer:\n"
+        "(audio master, Epson SG-210SCBA) -> CDCV304 1:4 buffer:\n"
         "  Y0 -> GPIO_08 SAI1_MCLK (input, GPR1 SAI1_MCLK_DIR=0, SAI1_MCLK1_SEL=011)\n"
-        "  Y1 -> GPIO_AD_03 GPT2_CLK (counts MCLK between USB SOFs for the async feedback "
-        "endpoint; needs ipg_clk >= 98.4 MHz)\n"
+        "  Y1 -> R603 (DNP) -> GPIO_AD_03 GPT2_CLK: not usable, GPT external clock must stay "
+        "below PERCLK/4 (<= 18.75 MHz).\n"
+        "  Async feedback is computed from the SAI1 sample count at each USB SOF.\n"
         "  Y2/Y3 -> PMOD JB1/JB7, the MCLK pin of each I2S row.  RT1010 SAI1 is I2S clock master for "
         "both buses.\n"
         "PMOD JB matches the Digilent Pmod I2S2 (JB1/JB3 are Artix-7 clock-capable pins): top row (1-4) MCLK/LRCK/SCLK/SDIN carries FPGA -> "
@@ -155,20 +201,21 @@ def sheet_power(sh):
     j = sh.add("Connector:USB_C_Receptacle_USB2.0_16P", "J101", "USB_C_Receptacle",
                (55.88, 91.44),
                footprint="Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
-               fields={"MPN": "USB4105-GF-A", "Manufacturer": "GCT"})
+               fields={**src("USB4105-GF-A-120", "GCT", "C5184243"),
+                       "Spec": "-120: 1.20 mm shell stakes"})
     j.connect({"A4": "VBUS", "A5": "CC1", "B5": "CC2", "A6": "USB_DP", "B6": "USB_DP",
                "A7": "USB_DN", "B7": "USB_DN", "A8": "NC", "B8": "NC", "A1": "GND",
                "SH": "USB_SHIELD"})
     res(sh, "R101", "5.1k", (101.6, 147.32), "CC1", "GND")
     res(sh, "R102", "5.1k", (116.84, 147.32), "CC2", "GND")
-    res(sh, "R103", "1M", (45.72, 147.32), "USB_SHIELD", "GND", spec="5% 0402")
+    res(sh, "R103", "1M", (45.72, 147.32), "USB_SHIELD", "GND")
     cap(sh, "C101", "4.7nF 50V", (27.94, 147.32), "USB_SHIELD", spec="X7R")
     sh.text("CC1/CC2 5.1k pull-downs\nadvertise a UFP (sink)", (96.52, 162.56))
     sh.text("Shield: 1M || 4.7nF to GND", (25.4, 162.56))
 
     u = sh.add("Power_Protection:USBLC6-2SC6", "U101", "USBLC6-2SC6", (134.62, 66.04),
                footprint="Package_TO_SOT_SMD:SOT-23-6", text=((3.81, -6.35), (3.81, -4.32), "left"),
-               fields={"MPN": "USBLC6-2SC6", "Manufacturer": "STMicroelectronics"})
+               fields=src("USBLC6-2SC6", "STMicroelectronics", "C7519"))
     u.connect({"1": "USB_DP", "6": "USB_DP", "3": "USB_DN", "4": "USB_DN", "5": "VBUS", "2": "GND"})
     sh.text("ESD: place U101 at the connector,\nroute D+/D- through its pads (flow-through).\n"
             "90 ohm differential pair.\n"
@@ -178,7 +225,8 @@ def sheet_power(sh):
     sh.box(172.72, 25.4, 398.78, 170.18, "Power")
     f = sh.add("Device:Polyfuse", "F101", "0.5A", (195.58, 50.8), angle=90,
                footprint="Fuse:Fuse_1206_3216Metric", text="above",
-               fields={"Spec": "PTC resettable, 0.5 A hold, >=6 V, 1206"})
+               fields={"Spec": "PTC resettable, 0.5 A hold, >=6 V, 1206",
+                       **src("SMD1206P050TF/13.2", "RUILON", "C43379")})
     f.connect({"1": "VBUS", "2": "+5V"})
     sh.flag("VBUS", (182.88, 66.04))
     sh.flag("+5V", (228.6, 38.1))
@@ -187,7 +235,7 @@ def sheet_power(sh):
 
     reg = sh.add("Regulator_Linear:AP7361C-33E", "U102", "AP7361C-33E", (271.78, 60.96),
                  footprint="Package_TO_SOT_SMD:SOT-223-3_TabPin2",
-                 fields={"MPN": "AP7361C-33E-13", "Manufacturer": "Diodes Inc."})
+                 fields=src("AP7361C-33E-13", "Diodes Inc.", "C500795"))
     reg.connect({"1": "+5V", "2": "GND", "3": "+3V3"})
     cap(sh, "C103", "1uF 10V", (248.92, 71.12), "+5V", size="0603")
     cap(sh, "C105", "10uF 10V", (294.64, 71.12), "+3V3", size="0603")
@@ -196,14 +244,14 @@ def sheet_power(sh):
 
     ldo = sh.add("Regulator_Linear:LP5907MFX-3.3", "U103", "LP5907MFX-3.3", (271.78, 124.46),
                  footprint="Package_TO_SOT_SMD:SOT-23-5",
-                 fields={"MPN": "LP5907MFX-3.3/NOPB", "Manufacturer": "Texas Instruments"})
+                 fields=src("LP5907MFX-3.3/NOPB", "Texas Instruments", "C80670"))
     ldo.connect({"1": "+5V", "3": "+5V", "5": "+3V3_CLK", "2": "GND"})
     cap(sh, "C104", "1uF 10V", (248.92, 134.62), "+5V", size="0603")
     cap(sh, "C107", "1uF 10V", (294.64, 134.62), "+3V3_CLK", size="0603")
     sh.text("Low-noise 3.3 V for the 24.576 MHz XO\nand clock buffer only", (256.54, 152.4))
 
     r = res(sh, "R104", "1k", (342.9, 60.96), "+3V3", "LED_PWR")
-    dd = led(sh, "D101", "PWR (green)", (342.9, 76.2), "LED_PWR")
+    dd = led(sh, "D101", "PWR (green)", (342.9, 76.2), "LED_PWR", "green")
     sh.link("LED_PWR", (r, "2"), (dd, "A"), label=False)
     testpoint(sh, "TP101", "+5V", (360.68, 63.5))
     testpoint(sh, "TP102", "+3V3", (370.84, 63.5))
@@ -214,7 +262,7 @@ def sheet_power(sh):
 
 def sheet_mcu_power(sh):
     u = sh.add(RT, "U1", RT_NAME, (139.7, 88.9), unit=1,
-               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm")
+               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm", fields=RT_FIELDS)
     u.connect({"18": "+3V3", "17": "+3V3", "15": "DCDC_PSWITCH", "39": "+3V3", "25": "+3V3",
                "42": "+3V3", "7": "+3V3", "50": "+3V3", "63": "+3V3", "71": "+3V3",
                "16": "GND", "30": "GND", "54": "GND", "78": "GND",
@@ -225,7 +273,7 @@ def sheet_mcu_power(sh):
     sh.box(228.6, 25.4, 398.78, 99.06, "Internal DC-DC (VDD_SOC 1.1 V)")
     sh.add("Device:L", "L201", "4.7uH", (254.0, 55.88), angle=90, text="above",
            footprint="Inductor_SMD:L_Bourns-SRN4018",
-           fields={"MPN": "SRN4018-4R7M", "Manufacturer": "Bourns",
+           fields={**src("SRN4018-4R7M", "Bourns", "C780206"),
                    "Spec": "4.7 uH, Isat >= 1 A, DCR <= 0.2 ohm"}).connect({"1": "DCDC_LP", "2": "+1V1"})
     sh.flag("+1V1", (274.32, 43.18))
     cap_row(sh, 281.94, 63.5, [("C201", "22uF 6.3V", "+1V1", "GND", "0805"),
@@ -271,7 +319,7 @@ def sheet_mcu_power(sh):
 
 def sheet_mcu_system(sh):
     u = sh.add(RT, "U1", RT_NAME, (165.1, 101.6), unit=2,
-               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm")
+               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm", fields=RT_FIELDS)
     u.connect({"22": "POR_B", "21": "NC", "23": "GND", "24": "NC",
                "37": "XTALI", "38": "XTALO", "27": "RTC_XTALI", "28": "RTC_XTALO",
                "33": "USB_DP", "32": "USB_DN", "29": "+5V", "36": "NC"})
@@ -284,11 +332,13 @@ def sheet_mcu_system(sh):
     y = sh.add("Device:Crystal_GND24", "Y301", "24MHz", (66.04, 50.8),
                footprint="Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
                text=((0, -5.59), (0, -3.81), None),
-               fields={"Spec": "24.000 MHz fundamental, CL 8 pF, ESR <= 80 ohm, drive >= 250 uW, +/-20 ppm"})
+               fields={"Spec": "24.000 MHz fundamental, CL 8 pF, ESR <= 60 ohm, rated drive 200 uW, "
+                               "+/-10 ppm",
+                       **src("3225-24-8-10-10/A", "Suzhou Liming", "C2981672")})
     y.connect({"1": "XTALI", "3": "XTALO", "2": "GND"})
     cap(sh, "C302", "10pF 50V", (45.72, 76.2), "XTALI", spec="C0G")
     cap(sh, "C303", "10pF 50V", (86.36, 76.2), "XTALO", spec="C0G")
-    res(sh, "R301", "2.2M", (30.48, 76.2), "XTALI", "GND", spec="5% 0402")
+    res(sh, "R301", "2.2M", (30.48, 76.2), "XTALI", "GND")
     sh.text("Load caps sized for CL = 8 pF (~3 pF stray).\nR301 per NXP EVK (start-up aid).",
             (25.4, 101.6))
 
@@ -296,7 +346,8 @@ def sheet_mcu_system(sh):
     sh.add("Device:Crystal", "Y302", "32.768kHz", (66.04, 142.24),
            footprint="Crystal:Crystal_SMD_3215-2Pin_3.2x1.5mm",
            text=((0, -5.08), (0, -3.3), None),
-           fields={"Spec": "32.768 kHz, CL 7 pF, ESR <= 70 kohm"}).connect(
+           fields={"Spec": "32.768 kHz, CL 7 pF, ESR <= 70 kohm",
+                   **src("Q13FC13500002", "Seiko Epson", "C48615")}).connect(
         {"1": "RTC_XTALI", "2": "RTC_XTALO"})
     cap(sh, "C304", "10pF 50V", (45.72, 165.1), "RTC_XTALI", spec="C0G")
     cap(sh, "C305", "10pF 50V", (86.36, 165.1), "RTC_XTALO", spec="C0G")
@@ -305,7 +356,7 @@ def sheet_mcu_system(sh):
     sh.box(271.78, 25.4, 398.78, 132.08, "Reset (POR_B)")
     sup = sh.add("Power_Supervisor:MCP120-xxxxTT", "U301", "MCP120T-300I/TT", (299.72, 66.04),
                  footprint="Package_TO_SOT_SMD:SOT-23",
-                 fields={"MPN": "MCP120T-300I/TT", "Manufacturer": "Microchip",
+                 fields={**src("MCP120T-300I/TT", "Microchip", "C625180"),
                          "Spec": "open-drain, Vtrip 2.925 V (> 2.6 V DCDC_IN UVLO)"})
     sup.connect({"1": "POR_B", "2": "+3V3", "3": "GND"})
     cap(sh, "C306", "0.1uF 16V", (284.48, 50.8), "+3V3")
@@ -313,7 +364,7 @@ def sheet_mcu_system(sh):
     c = cap(sh, "C307", "0.1uF 16V", (325.12, 76.2), "POR_B")
     sh.link("POR_B", (r, "2"), (c, "1"))
     sw = sh.add("Switch:SW_Push", "SW301", "RESET", (350.52, 81.28), angle=90, footprint=SW_FP,
-                text="right", fields={"MPN": "PTS810SJM250SMTRLFS", "Manufacturer": "C&K"})
+                text="right", fields=SW_FIELDS)
     sw.connect({"1": "GND", "2": "POR_B"})
     sh.text("POR_B also driven by MCU-Link nRESET (J501-10).\nPull-up to 3.3 V = VDD_SNVS_IN.",
             (276.86, 116.84))
@@ -321,7 +372,7 @@ def sheet_mcu_system(sh):
 
 def sheet_boot(sh):
     u = sh.add(RT, "U1", RT_NAME, (190.5, 106.68), unit=4,
-               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm")
+               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm", fields=RT_FIELDS)
     u.connect({"76": "BT_CFG2", "75": "BT_CFG1", "74": "BT_CFG0", "73": "BOOT_MODE1",
                "72": "BOOT_MODE0", "70": "SPI_MISO", "69": "FLASH_CS",
                "68": "FLASH_IO1", "67": "FLASH_IO2", "66": "FLASH_IO0", "65": "FLASH_CLK",
@@ -341,13 +392,14 @@ def sheet_boot(sh):
     sh.box(20.32, 109.22, 147.32, 195.58, "BOOT button: serial downloader")
     q = sh.add("Transistor_FET:BSS84", "Q401", "BSS84", (76.2, 142.24), angle=180,
                footprint="Package_TO_SOT_SMD:SOT-23", text=((-6.35, -1.27), (-6.35, 1.27), "right"),
-               fields={"MPN": "BSS84", "Spec": "P-MOSFET, Vgs(th) -0.8..-2.0 V"})
+               fields={**src("BSS84LT1G", "onsemi", "C82079"),
+                       "Spec": "P-MOSFET, Vgs(th) -0.8..-2.0 V"})
     q.connect({"2": "+3V3"})
     r406 = res(sh, "R406", "1k", (73.66, 157.48), "BOOT_FET_D", "BOOT_MODE0")
     sh.link("BOOT_FET_D", (q, "3"), (r406, "1"), label=False)
     r405 = res(sh, "R405", "1k", (101.6, 132.08), "BOOT_MODE1", "BOOT_SW")
     sw = sh.add("Switch:SW_Push", "SW401", "BOOT", (101.6, 154.94), angle=90, footprint=SW_FP,
-                text="right", fields={"MPN": "PTS810SJM250SMTRLFS", "Manufacturer": "C&K"})
+                text="right", fields=SW_FIELDS)
     sw.connect({"1": "GND"})
     sh.link("BOOT_SW", (r405, "2"), (sw, "2"))
     sh.tap("BOOT_SW", (q, "1"), (101.6, 142.24))
@@ -357,7 +409,7 @@ def sheet_boot(sh):
     sh.box(259.08, 25.4, 398.78, 152.4, "QSPI NOR flash (FlexSPI port A)")
     f = sh.add("Memory_Flash:W25Q128JVS", "U401", "W25Q128JVSIQ", (330.2, 88.9),
                footprint="Package_SO:SOIC-8_5.3x5.3mm_P1.27mm",
-               fields={"MPN": "W25Q128JVSIQ", "Manufacturer": "Winbond",
+               fields={**src("W25Q128JVSIQ", "Winbond", "C97521"),
                        "Spec": "128 Mbit, 3.3 V QSPI NOR, SOIC-8 208 mil"})
     f.connect({"1": "FLASH_CS", "6": "FLASH_CLK", "5": "FLASH_IO0", "2": "FLASH_IO1",
                "3": "FLASH_IO2", "7": "FLASH_IO3", "8": "+3V3", "4": "GND"})
@@ -372,7 +424,7 @@ def sheet_boot(sh):
 
 def sheet_io(sh):
     u = sh.add(RT, "U1", RT_NAME, (165.1, 104.14), unit=3,
-               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm")
+               footprint="Package_QFP:LQFP-80_12x12mm_P0.5mm", fields=RT_FIELDS)
     u.connect({"13": "NC", "12": "I2S_RX_BCLK", "11": "I2S_RX_LRCLK", "10": "I2S_RX_DATA",
                "9": "I2S_TX_DATA", "8": "NC", "6": "I2S_TX_BCLK", "5": "I2S_TX_LRCLK",
                "4": "MCLK_SAI", "3": "UART_RX", "2": "UART_TX", "1": "LED1", "80": "LED2",
@@ -387,7 +439,7 @@ def sheet_io(sh):
     sh.box(274.32, 25.4, 398.78, 106.68, "MCU-Link debug (10-pin Cortex, 1.27 mm, keyed)")
     j = sh.add("Connector_Generic:Conn_02x05_Odd_Even", "J501", "SWD", (325.12, 63.5),
                footprint="USBAudioBridge:Samtec_FTSH-105-01-L-DV-K",
-               fields={"MPN": "FTSH-105-01-L-DV-K", "Manufacturer": "Samtec",
+               fields={**src("FTSH-105-01-L-DV-K", "Samtec", "C5155080"),
                        "Spec": "2x5 1.27 mm SMD header with keying shroud (Cortex debug)"})
     j.connect({"1": "+3V3", "2": "SWDIO", "3": "GND", "4": "SWCLK", "5": "GND", "6": "SWO",
                "7": "NC", "8": "JTAG_TDI", "9": "GND", "10": "POR_B"})
@@ -398,7 +450,8 @@ def sheet_io(sh):
     sh.box(274.32, 114.3, 398.78, 177.8, "UART console (LPUART1, ROM serial-download port)")
     sh.add("Connector_Generic:Conn_01x03", "J502", "UART", (370.84, 147.32),
            footprint="Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
-           fields={"Spec": "1x3 2.54 mm header: 1 TX(out) 2 RX(in) 3 GND"}).connect(
+           fields={"Spec": "1x3 2.54 mm header: 1 TX(out) 2 RX(in) 3 GND",
+                   **src("PZ254V-11-03P", "XFCN", "C2937625")}).connect(
         {"1": "UART_TX", "2": "UART_RX", "3": "GND"})
     res(sh, "R503", "10k", (299.72, 137.16), "+3V3", "UART_TX")
     res(sh, "R504", "10k", (325.12, 137.16), "+3V3", "UART_RX")
@@ -408,7 +461,7 @@ def sheet_io(sh):
     for ref_r, ref_d, net, colour, x in (("R505", "D501", "LED1", "green", 299.72),
                                          ("R506", "D502", "LED2", "yellow", 340.36)):
         r = res(sh, ref_r, "1k", (x, 208.28), net, net + "_A")
-        dd = led(sh, ref_d, f"{net} ({colour})", (x, 223.52), net + "_A")
+        dd = led(sh, ref_d, f"{net} ({colour})", (x, 223.52), net + "_A", colour)
         sh.link(net + "_A", (r, "2"), (dd, "A"), label=False)
 
 
@@ -417,15 +470,15 @@ def sheet_audio(sh):
     xo = sh.add("Oscillator:SG-210STF", "X601", "24.576MHz", (55.88, 71.12),
                 footprint="Oscillator:Oscillator_SMD_SeikoEpson_SG210-4Pin_2.5x2.0mm",
                 text=((-1.27, -9.65), (-1.27, -7.87), "right"),
-                fields={"MPN": "SG-210STF 24.5760ML", "Manufacturer": "Epson",
-                        "Spec": "24.576 MHz CMOS SPXO, 1.62-3.63 V, +/-50 ppm, -40..85 C, "
-                                "2.5x2.0 mm, pin 1 /ST (high = run)"})
+                fields={**src("X1G004591A052", "Seiko Epson", "C5154204"),
+                        "Spec": "SG-210SCBA 24.576000 MHz L: CMOS SPXO, 2.7-3.6 V, +/-50 ppm, "
+                                "-40..85 C, 2.5x2.0 mm, pin 1 ST (high = run)"})
     xo.connect({"1": "+3V3_CLK", "4": "+3V3_CLK", "2": "GND"})
     cap(sh, "C601", "0.1uF 16V", (35.56, 50.8), "+3V3_CLK")
     r601 = res(sh, "R601", "22", (76.2, 71.12), "XO_OUT", "CLK_BUF_IN", horizontal=True)
     b = sh.add("Buffer:CDCV304", "U601", "CDCV304PW", (127.0, 71.12),
                footprint="Package_SO:TSSOP-8_4.4x3mm_P0.65mm",
-               fields={"MPN": "CDCV304PWR", "Manufacturer": "Texas Instruments",
+               fields={**src("CDCV304PWR", "Texas Instruments", "C105237"),
                        "Spec": "1:4 LVCMOS clock fanout buffer"})
     b.connect({"2": "+3V3_CLK", "6": "+3V3_CLK", "4": "GND"})
     sh.link("XO_OUT", (xo, "3"), (r601, "1"), label=False)
@@ -436,10 +489,12 @@ def sheet_audio(sh):
                                     ("R603", "5", 68.58, None, "MCLK_GPT"),
                                     ("R604", "7", 78.74, 149.86, "JB_RX_MCLK"),
                                     ("R605", "8", 88.9, 144.78, "JB_TX_MCLK")):
-        r = res(sh, ref, "33", (162.56, y_r), "CLK_" + ref, net, horizontal=True)
+        # R603 DNP: GPT2 cannot count 24.576 MHz (external clock < PERCLK/4, PERCLK <= 75 MHz)
+        r = res(sh, ref, "33", (162.56, y_r), "CLK_" + ref, net, horizontal=True,
+                dnp=ref == "R603")
         sh.link(f"CLK_Y{int(ref[-1]) - 2}", (b, pin), (r, "1"), label=False, mid=mid)
     sh.text("Series terminations at the buffer outputs.\nY0 -> RT1010 SAI1_MCLK (GPIO_08)\n"
-            "Y1 -> RT1010 GPT2_CLK (GPIO_AD_03), async feedback\n"
+            "Y1 -> R603 (DNP) -> GPIO_AD_03 GPT2_CLK, spare\n"
             "Y2 -> PMOD JB1 (MCLK, top row)\nY3 -> PMOD JB7 (MCLK, bottom row)",
             (25.4, 109.22))
 
@@ -448,7 +503,7 @@ def sheet_audio(sh):
     sh.box(20.32, 144.78, 205.74, 264.16, "PMOD JB (Arty high-speed port): I2S, Pmod I2S2 pinout")
     jb = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J601", "PMOD_JB", (116.84, 200.66),
                 footprint=PMOD_FP,
-                fields={"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"})
+                fields=PMOD_FIELDS)
     jb.connect({"1": "JB_RX_MCLK", "2": "JB_RX_LRCLK", "3": "JB_RX_BCLK", "4": "JB_RX_DATA",
                 "5": "GND", "6": "PMOD_VCC", "7": "JB_TX_MCLK", "8": "JB_TX_LRCLK",
                 "9": "JB_TX_BCLK", "10": "JB_TX_DATA", "11": "GND", "12": "PMOD_VCC"})
@@ -472,7 +527,7 @@ def sheet_audio(sh):
     sh.box(213.36, 144.78, 398.78, 264.16, "PMOD JC (Arty high-speed port): SPI + GPIO")
     jc = sh.add("Connector_Generic:Conn_02x06_Top_Bottom", "J602", "PMOD_JC", (309.88, 200.66),
                 footprint=PMOD_FP,
-                fields={"Spec": "2x6 2.54 mm right-angle male header, Digilent PMOD pin numbering"})
+                fields=PMOD_FIELDS)
     jc.connect({"1": "JC_SPI_CS", "2": "JC_SPI_MOSI", "3": "JC_SPI_MISO", "4": "JC_SPI_SCK",
                 "5": "GND", "6": "PMOD_VCC", "7": "JC_INT", "8": "JC_RST",
                 "9": "JC_GPIO0", "10": "JC_GPIO1", "11": "GND", "12": "PMOD_VCC"})

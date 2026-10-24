@@ -1,0 +1,63 @@
+# ERC + DRC, then the JLCPCB and PCBWay fabrication packages (tools/fab.py).
+#
+#   push to main / pull request touching the design  -> packages as workflow artifacts
+#   tag v*  (e.g. git tag v1.0 && git push origin v1.0) -> also attached to a GitHub release
+#   Actions tab -> "Fabrication outputs" -> Run workflow  -> on demand
+#
+# The board is committed fully routed, so CI needs only KiCad: no Freerouting,
+# no schematic regeneration.  The Samtec 3D model is not in the repo (licence),
+# so CI skips the STEP export; run `python3 tools/fab.py --step` locally for it.
+name: Fabrication outputs
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+    paths: ["hardware/**", "tools/**", ".github/workflows/fab.yml"]
+  pull_request:
+    paths: ["hardware/**", "tools/**", ".github/workflows/fab.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # create releases for tags
+
+jobs:
+  fab:
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:10.0.7   # keep in step with the KiCad version that saved the files
+      options: --user root        # the runner's workspace is not owned by the image's user
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Trust the checkout (git describe in the order notes)
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: ERC, DRC and fabrication outputs
+        run: python3 tools/fab.py --out fab
+
+      - name: Upload JLCPCB package
+        uses: actions/upload-artifact@v7
+        with:
+          name: jlcpcb
+          path: fab/USBAudioBridge-*-jlcpcb/
+
+      - name: Upload PCBWay package
+        uses: actions/upload-artifact@v7
+        with:
+          name: pcbway
+          path: fab/USBAudioBridge-*-pcbway/
+
+      - name: Upload ERC/DRC reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: reports
+          path: fab/work/*.rpt
+          if-no-files-found: ignore
+
+      - name: Attach packages to the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v3
+        with:
+          files: fab/*.zip
