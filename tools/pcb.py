@@ -126,8 +126,10 @@ def build():
         placed[ref] = fp
 
     mcu = placed["U1"]
-    mx, my, mr = L.MCU
+    mx, my, mr, *side = L.MCU
     mcu.SetPosition(pt(mx, my))
+    if side == ["B"]:
+        mcu.Flip(mcu.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
     mcu.SetOrientationDegrees(mr)
     positions = dict(L.PLACEMENT)
     # decoupling caps are positioned by pcb_copper; park them off-board for now
@@ -138,6 +140,8 @@ def build():
     if missing:
         print("unplaced:", ", ".join(missing))
     for ref, (x, y, r, *side) in positions.items():
+        if ref == "U1":
+            continue
         if ref not in placed:
             sys.exit(f"placement for unknown ref {ref}")
         fp = placed[ref]

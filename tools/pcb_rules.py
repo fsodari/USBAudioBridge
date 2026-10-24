@@ -34,7 +34,10 @@ STACKUP = """		(stackup
 		)
 """
 
-POWER_NETS = ["GND", "VBUS", "+5V", "+3V3", "+1V1", "+3V3_CLK", "DCDC_LP"]
+POWER_NETS = ["GND", "+3V3", "+1V1", "+3V3_CLK", "DCDC_LP"]
+INPUT_NETS = ["VBUS", "+5V"]     # USB input current (<0.4 A worst case, PTC trips ~1 A)
+# VBUS itself is scripted at 0.5 mm (pcb_copper.vbus); 0.4 mm lets the router
+# reach the +5V loads' small pads
 CLOCK_NETS = ["MCLK_SAI", "MCLK_GPT", "JB_RX_MCLK", "JB_TX_MCLK", "*CLK_Y*", "XO_OUT",
               "CLK_BUF_IN"]
 
@@ -80,12 +83,14 @@ def update_project(pro_path):
         "meta": {"version": 2},
     }
     patterns = [{"netclass": "Power", "pattern": n} for n in POWER_NETS]
+    patterns += [{"netclass": "PowerIn", "pattern": n} for n in INPUT_NETS]
     patterns += [{"netclass": "USB90", "pattern": n} for n in ("USB_DP", "USB_DN")]
     patterns += [{"netclass": "Clock", "pattern": n} for n in CLOCK_NETS]
     d["net_settings"] = {
         "classes": [
             _netclass("Default", 0.15, 0.15, priority=2147483647),
             _netclass("Power", 0.3, 0.2, via_d=0.6, priority=0),
+            _netclass("PowerIn", 0.4, 0.2, via_d=0.6, priority=3),
             _netclass("USB90", 0.2, 0.2, dp_w=0.2, dp_gap=0.15, priority=1),
             _netclass("Clock", 0.2, 0.2, priority=2),
         ],

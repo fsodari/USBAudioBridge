@@ -16,6 +16,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "hardware")
 
 RT = f"USBAudioBridge:{RT_NAME}"
+TITLE = "USB Audio Bridge"
+REV = "v1.0"
+DATE = "2026-10-22"
 
 R0402 = "Resistor_SMD:R_0402_1005Metric"
 C0402 = "Capacitor_SMD:C_0402_1005Metric"
@@ -66,7 +69,7 @@ def cap_row(sh, x, y, specs, pitch=10.16):
 
 
 def build():
-    d = Design(OUT, "USB Audio Bridge", "A", "2026-10-22")
+    d = Design(OUT, TITLE, REV, DATE)
     d.power_nets = {
         "GND": "power:GND",
         "VBUS": "power:VBUS",

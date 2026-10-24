@@ -1,11 +1,11 @@
 """Planes, critical routes and fanout for the USB Audio Bridge board.
 
 Layer plan (JLC04161H-3313):
-  F.Cu    components, signals, GND pour (also catches the MCU GND pins from inside)
+  F.Cu    components, MCU decoupling (under the MCU), signals, GND pour
   In1.Cu  solid GND
   In2.Cu  +3V3 plane with a +1V1 island under the MCU (fingers to the three
-          VDD_SOC pins, corridor to the DC-DC inductor)
-  B.Cu    MCU decoupling caps, a few signals, GND pour
+          VDD_SOC pins' vias; fed from L201 by a protected In2 track)
+  B.Cu    the MCU itself (mirrored), crystals, DC-DC, flash, signals, GND pour
 """
 
 import math
@@ -18,19 +18,43 @@ from pcb_route import (ALL, CLEAR, PWR_VIA_D, VIA_D, Router, circle, pad, pad_xy
 
 MCU_C = (L.MCU[0], L.MCU[1])
 BOARD = [(0, 0), (L.W, 0), (L.W, L.H), (0, L.H)]
+ML, CL = L.MCU_LAYER, L.CAP_LAYER     # MCU pad layer, decoupling-cap layer
 
-# +1V1 island on In2.Cu (board mm)
-ISL = 4.8
-V1_POLY = [
-    (MCU_C[0] - ISL, MCU_C[1] - ISL),          # island NW corner
-    (MCU_C[0] + ISL, MCU_C[1] - ISL),
-    (MCU_C[0] + ISL, 24.65), (27.75, 24.65), (27.75, 25.85), (MCU_C[0] + ISL, 25.85),  # pin 14
-    (MCU_C[0] + ISL, MCU_C[1] + ISL),
-    (25.45, MCU_C[1] + ISL), (25.45, 33.15), (24.25, 33.15), (24.25, MCU_C[1] + ISL),  # pin 77
-    (MCU_C[0] - ISL, MCU_C[1] + ISL),
-    (MCU_C[0] - ISL, 28.85), (15.45, 28.85), (15.45, 27.65), (MCU_C[0] - ISL, 27.65),  # pin 53
-]
-V1_VIAS = {"14": (27.14, 25.25), "53": (16.04, 28.25), "77": (24.84, 32.55)}
+ISL = 4.8           # +1V1 island half-size on In2.Cu
+V1_POLY = []        # filled by v1_geometry()
+V1_VIAS = {}        # VDD_SOC pin -> its via (inside the pad ring, on a finger)
+
+
+def v1_geometry(board):
+    """Island square under the MCU plus a finger out to each VDD_SOC pin's via."""
+    u1 = board.FindFootprintByReference("U1")
+    x0, y0, x1, y1 = MCU_C[0] - ISL, MCU_C[1] - ISL, MCU_C[0] + ISL, MCU_C[1] + ISL
+    fingers = {"N": [], "E": [], "S": [], "W": []}
+    V1_VIAS.clear()
+    for p in u1.Pads():
+        if p.GetNetname() != "+1V1":
+            continue
+        c = rel(p.GetPosition())
+        n, _ = _normal(c)
+        inner = (c[0] - n[0] * 0.7375, c[1] - n[1] * 0.7375)
+        v = (round(inner[0] - n[0] * 0.45, 3), round(inner[1] - n[1] * 0.45, 3))
+        V1_VIAS[p.GetNumber()] = v
+        side = {(0, -1): "N", (1, 0): "E", (0, 1): "S", (-1, 0): "W"}[n]
+        fingers[side].append(v)
+    poly = [(x0, y0)]
+    for v in sorted(fingers["N"]):
+        poly += [(v[0] - 0.6, y0), (v[0] - 0.6, v[1] - 0.6), (v[0] + 0.6, v[1] - 0.6), (v[0] + 0.6, y0)]
+    poly.append((x1, y0))
+    for v in sorted(fingers["E"], key=lambda v: v[1]):
+        poly += [(x1, v[1] - 0.6), (v[0] + 0.6, v[1] - 0.6), (v[0] + 0.6, v[1] + 0.6), (x1, v[1] + 0.6)]
+    poly.append((x1, y1))
+    for v in sorted(fingers["S"], reverse=True):
+        poly += [(v[0] + 0.6, y1), (v[0] + 0.6, v[1] + 0.6), (v[0] - 0.6, v[1] + 0.6), (v[0] - 0.6, y1)]
+    poly.append((x0, y1))
+    for v in sorted(fingers["W"], key=lambda v: -v[1]):
+        poly += [(x0, v[1] + 0.6), (v[0] - 0.6, v[1] + 0.6), (v[0] - 0.6, v[1] - 0.6), (x0, v[1] - 0.6)]
+    V1_POLY[:] = poly
+
 
 PLANE_NETS = ("GND", "+3V3", "+1V1")
 LOCAL_LDO = ("VDD_HIGH_CAP", "NVCC_PLL", "VDD_SNVS_CAP", "VDD_USB_CAP")
@@ -131,10 +155,20 @@ def usb(r):
     r.track("USB_DN", "F.Cu", [(22.34, 7.355), (22.34, 9.3), (22.34, 10.0), (22.54, 10.2),
                                (22.54, 11.062)], w)
     r.track("USB_DN", "F.Cu", [(22.95, 9.3), (22.34, 9.3)], w)
-    # U101 -> MCU pins 33 (D+) and 32 (D-), coupled from y=15.84
-    r.track("USB_DP", "F.Cu", [(20.64, 13.338), (20.64, 18.2), (20.34, 18.5), (20.34, 20.312)], w)
-    r.track("USB_DN", "F.Cu", [(22.54, 13.338), (22.54, 14.3), (21.0, 15.84), (21.0, 18.65),
-                               (20.84, 18.81), (20.84, 20.312)], w)
+    # U101 -> MCU (on B.Cu, mirrored: D- pin 32 at x=22.34, D+ pin 33 at x=22.84).
+    # D- drops straight to B.Cu below the ESD array; D+ crosses over it on F.Cu
+    # and drops just before the MCU, so the pair swaps sides without crossing.
+    u1 = r.board.FindFootprintByReference("U1")
+    dp = rel(next(p for p in u1.Pads() if p.GetNumber() == "33").GetPosition())
+    dn = rel(next(p for p in u1.Pads() if p.GetNumber() == "32").GetPosition())
+    r.track("USB_DN", "F.Cu", [(22.54, 13.338), (22.54, 14.75)], w)
+    r.via("USB_DN", (22.54, 14.75), d=0.45)
+    r.track("USB_DN", "B.Cu", [(22.54, 14.75), (dn[0], 14.95), (dn[0], dn[1])], w)
+    v = (dp[0] + 0.6, 17.4)
+    r.track("USB_DP", "F.Cu", [(20.64, 13.338), (20.64, 14.6), (v[0] - 2.2, 14.6),
+                               (v[0], 16.8), v], w)
+    r.via("USB_DP", v, d=0.45)
+    r.track("USB_DP", "B.Cu", [v, (dp[0], v[1] + 0.6), (dp[0], dp[1])], w)
 
 
 def usb_shield(r, board):
@@ -152,18 +186,61 @@ def usb_shield(r, board):
     raise RuntimeError("no room for the USB shield link")
 
 
+def vbus(r):
+    """USB VBUS, scripted: the USB-C VBUS pads sit between CC/GND pads at 0.5 mm
+    pitch, so each pad drops through its own via to a 0.5 mm B.Cu bus that feeds
+    the PTC fuse (F101 pin 1) and, through a 0.45 mm via in the one gap the USB
+    pair leaves, the ESD array's VBUS reference (U101 pin 5)."""
+    b = r.board
+    left, right = pad_xy(b, "J101", "A9"), pad_xy(b, "J101", "A4")
+    fuse = pad_xy(b, "F101", 1)
+    esd = pad_xy(b, "U101", 5)
+    lv, rv = (left[0], 8.6), (right[0], 10.4)
+    ev = (esd[0], 10.1)
+    fv = (fuse[0], 6.0)
+    r.track("VBUS", "F.Cu", [left, lv], 0.5)
+    r.track("VBUS", "F.Cu", [right, rv], 0.5)
+    r.track("VBUS", "F.Cu", [ev, esd], 0.3)
+    r.track("VBUS", "F.Cu", [fv, fuse], 0.5)
+    for v, d in ((lv, 0.6), (rv, 0.6), (ev, 0.45), (fv, 0.6)):
+        r.via("VBUS", v, d=d)
+    r.track("VBUS", "B.Cu", [rv, (ev[0], rv[1]), ev], 0.5)
+    r.track("VBUS", "B.Cu", [ev, (lv[0], ev[1]), lv], 0.5)
+    r.track("VBUS", "B.Cu", [lv, (fv[0] + 1.0, lv[1]), (fv[0], lv[1] - 1.0), fv], 0.5)
+
+
 def dcdc(r):
-    """Pin 19 (DCDC_LP) straight east into L201 pin 1; L201 pin 2 (+1V1) to its
-    output caps on F.Cu and to the In2 +1V1 island through a protected In2 track
-    (a zone corridor would be cut by other nets' via antipads)."""
-    r.track("DCDC_LP", "F.Cu", [(28.278, 22.75), (29.7, 22.75)], 0.25)
-    r.track("DCDC_LP", "F.Cu", [(29.7, 22.75), (33.2, 22.75)], 0.6)
-    r.track("+1V1", "F.Cu", [(35.0, 20.55), (39.8, 20.55), (39.8, 20.08)], 0.6)
-    r.track("+1V1", "F.Cu", [(32.6, 20.075), (31.4, 20.075)], 0.6)
-    for v in ((31.4, 19.55), (31.4, 20.6)):
+    """DC-DC on the MCU's side: pin 19 (DCDC_LP) to L201 pin 1; L201 pin 2 (+1V1)
+    to its output caps and, through vias, to the In2 +1V1 island via a protected
+    In2 track (a zone corridor would be cut by other nets' via antipads)."""
+    b = r.board
+    u1 = b.FindFootprintByReference("U1")
+    p19 = rel(next(p for p in u1.Pads() if p.GetNumber() == "19").GetPosition())
+    l1, l2 = pad_xy(b, "L201", 1), pad_xy(b, "L201", 2)
+    n, _ = _normal(p19)
+    tip = (p19[0] + n[0] * 0.7375, p19[1] + n[1] * 0.7375)
+    knee = (tip[0] + n[0] * 0.8, tip[1])
+    r.track("DCDC_LP", ML, [p19, tip, knee], 0.25)
+    r.track("DCDC_LP", ML, [knee, (l1[0], knee[1]), l1], 0.6)
+    for ref in ("C201", "C202"):
+        # turn each output cap so its pad 1 (+1V1) faces L201 pin 2
+        fp = b.FindFootprintByReference(ref)
+        d1 = math.dist(pad_xy(b, ref, 1), l2)
+        if d1 > math.dist(pad_xy(b, ref, 2), l2):
+            fp.SetOrientationDegrees((fp.GetOrientationDegrees() + 180) % 360)
+        for q in fp.Pads():
+            r.obs.append(r._pad_shape(q))
+        c1 = pad_xy(b, ref, 1)
+        r.track("+1V1", ML, [l2, (c1[0], l2[1]), c1], 0.6)
+    # +1V1 vias just north of L201 pin 2, then In2 to the finger of the nearest VDD_SOC via
+    vias = [(l2[0] + 0.3, l2[1] - 1.55), (l2[0] + 1.4, l2[1] - 1.55)]
+    r.track("+1V1", ML, [l2, (l2[0] + 0.3, l2[1]), vias[0]], 0.6)
+    r.track("+1V1", ML, [vias[0], vias[1]], 0.6)
+    for v in vias:
         r.via("+1V1", v, d=0.6)
-    r.track("+1V1", "F.Cu", [(31.4, 19.55), (31.4, 20.6)], 0.6)
-    r.track("+1V1", "In2.Cu", [(31.4, 19.55), (31.4, 25.25), (27.6, 25.25)], 0.8)
+    tgt = min(V1_VIAS.values(), key=lambda v: math.hypot(v[0] - l2[0], v[1] - l2[1]))
+    xm = tgt[0] - 2.6
+    r.track("+1V1", "In2.Cu", [vias[1], (xm, vias[1][1]), (xm, tgt[1]), tgt], 0.8)
 
 
 def _normal(c):
@@ -173,11 +250,11 @@ def _normal(c):
     return (0, 1 if dy > 0 else -1), (1, 0)
 
 
-def _place_cap(board, ref, centre, outward, flip=True):
-    """Put a two-pad cap at centre on B.Cu with pad 1 towards `outward`."""
+def _place_cap(board, ref, centre, outward):
+    """Put a two-pad cap at centre on CAP_LAYER with pad 1 towards `outward`."""
     fp = board.FindFootprintByReference(ref)
     fp.SetPosition(pt(*centre))
-    if flip and not fp.IsFlipped():
+    if fp.IsFlipped() != (CL == "B.Cu"):
         fp.Flip(fp.GetPosition(), pcbnew.FLIP_DIRECTION_LEFT_RIGHT)
     for rot in (0, 90, 180, 270):
         fp.SetOrientationDegrees(rot)
@@ -195,7 +272,7 @@ def _register_fp(r, fp):
 
 def mcu_power(r, board):
     """Fan out every MCU supply pin to a via just inside the pad ring and put
-    its decoupling cap on B.Cu right behind the via."""
+    its decoupling cap on the opposite side (CAP_LAYER) right behind the via."""
     caps_by_pin = {}
     for ref, (num, kind) in L.DECOUPLING.items():
         caps_by_pin.setdefault(num, []).append((ref, kind))
@@ -245,7 +322,7 @@ def mcu_power(r, board):
             path = [c, inner, knee, v] if s else [c, inner, v]
             if not r.via_ok(net, v, keep_out=[L1V1_KEEP] if net == "+3V3" else []):
                 continue
-            if not r.path_free(net, "F.Cu", path[1:], 0.25, clearance=0.2):
+            if not r.path_free(net, ML, path[1:], 0.25, clearance=0.2):
                 continue
             if ring:
                 cc = (v[0] - n[0] * 1.15, v[1] - n[1] * 1.15)   # cap centre on B.Cu
@@ -254,7 +331,7 @@ def mcu_power(r, board):
                 gv = (v[0] - n[0] * 2.35, v[1] - n[1] * 2.35)   # GND via behind the cap
                 if not box_free(box) or not r.via_ok("GND", gv):
                     continue
-                if not r.free(rect("?", ["B.Cu"], box), clearance=0.15):
+                if not r.free(rect("?", [CL], box), clearance=0.15):
                     continue
             best = (v, path, s)
             break
@@ -269,8 +346,8 @@ def mcu_power(r, board):
                 for kd in (0.0, 0.2, 0.4, 0.6, 0.8):
                     knee = (inner[0] - n[0] * kd, inner[1] - n[1] * kd)
                     path = [c, inner, knee, g] if kd else [c, inner, g]
-                    if r.path_free("GND", "F.Cu", path[1:], 0.2, clearance=0.2):
-                        r.track("GND", "F.Cu", path, 0.2)
+                    if r.path_free("GND", ML, path[1:], 0.2, clearance=0.2):
+                        r.track("GND", ML, path, 0.2)
                         tied = True
                         break
                 if tied:
@@ -279,8 +356,8 @@ def mcu_power(r, board):
                 tip = (c[0] + n[0] * 0.7375, c[1] + n[1] * 0.7375)
                 for dist in (0.45, 0.6, 0.8, 1.0):
                     v = (tip[0] + n[0] * dist, tip[1] + n[1] * dist)
-                    if r.via_ok("GND", v) and r.path_free("GND", "F.Cu", [tip, v], 0.2):
-                        r.track("GND", "F.Cu", [c, tip, v], 0.2)
+                    if r.via_ok("GND", v) and r.path_free("GND", ML, [tip, v], 0.2):
+                        r.track("GND", ML, [c, tip, v], 0.2)
                         r.via("GND", v)
                         tied = True
                         print(f"  U1 pin {num} (GND): via outside the pad ring")
@@ -291,7 +368,7 @@ def mcu_power(r, board):
         if best is None:
             raise RuntimeError(f"no fanout for U1 pin {num}")
         v, path, s = best
-        r.track(net, "F.Cu", path, 0.25)
+        r.track(net, ML, path, 0.25)
         r.via(net, v)
         if ring:
             ref = ring[0]
@@ -302,9 +379,9 @@ def mcu_power(r, board):
                                  cc[0] + (0.55 if t[0] else 1.0), cc[1] + (0.55 if t[1] else 1.0)))
             p1 = rel(next(q for q in fp.Pads() if q.GetNumber() == "1").GetPosition())
             p2 = rel(next(q for q in fp.Pads() if q.GetNumber() == "2").GetPosition())
-            r.track(net, "B.Cu", [v, p1], 0.3)
+            r.track(net, CL, [v, p1], 0.3)
             gv = (v[0] - n[0] * 2.35, v[1] - n[1] * 2.35)
-            r.track("GND", "B.Cu", [p2, gv], 0.3)
+            r.track("GND", CL, [p2, gv], 0.3)
             r.via("GND", gv)
         caps_by_pin[num] = [(ref, kind) for ref, kind in caps_by_pin.get(num, []) if kind != "ring"]
         r.pin_vias = getattr(r, "pin_vias", {})
@@ -312,7 +389,7 @@ def mcu_power(r, board):
     return caps_by_pin
 
 
-L1V1_KEEP = V1_POLY
+L1V1_KEEP = V1_POLY      # same list object; filled in by v1_geometry()
 
 
 def _box_free(r, box):
@@ -329,8 +406,8 @@ def _courtyard(fp):
 
 
 def bulk_caps(r, board, leftovers):
-    """Bulk caps on B.Cu: +3V3 ones just outside the pad ring, local-LDO ones
-    outside too (wired back to the pin's via), +1V1 ones in the island."""
+    """Bulk caps on CAP_LAYER: +3V3 ones just outside the pad ring, local-LDO
+    ones outside too (wired back to the pin's via), +1V1 ones in the island."""
     u1 = board.FindFootprintByReference("U1")
     for num, items in leftovers.items():
         for ref, kind in items:
@@ -362,7 +439,7 @@ def bulk_caps(r, board, leftovers):
                 keep = {"in": V1_POLY}.get(kind)
                 if net in LOCAL_LDO:
                     pv = r.pin_vias[num][0]
-                    if not r.via_ok("GND", v2) or not r.path_free(net, "B.Cu", [pv, p1], 0.3):
+                    if not r.via_ok("GND", v2) or not r.path_free(net, CL, [pv, p1], 0.3):
                         continue
                 else:
                     if not r.via_ok(net, v1, keep_in=keep,
@@ -374,11 +451,11 @@ def bulk_caps(r, board, leftovers):
                     r.obs.append(sh)
                 r.bottom_boxes.append(_courtyard(fp))
                 if net in LOCAL_LDO:
-                    r.track(net, "B.Cu", [r.pin_vias[num][0], p1], 0.3)
+                    r.track(net, CL, [r.pin_vias[num][0], p1], 0.3)
                 else:
-                    r.track(net, "B.Cu", [p1, v1], 0.3)
+                    r.track(net, CL, [p1, v1], 0.3)
                     r.via(net, v1)
-                r.track("GND", "B.Cu", [p2, v2], 0.3)
+                r.track("GND", CL, [p2, v2], 0.3)
                 r.via("GND", v2)
                 placed = True
                 break
@@ -437,7 +514,9 @@ def _near_pad(v, p):
     return math.hypot(v[0] - c[0], v[1] - c[1]) < 1.6
 
 
-SOUTH_TO_BOTTOM = ("FLASH_", "BT_CFG", "BOOT_MODE")
+# loads of these MCU pins sit on the other side of the board; empty now that the
+# flash and boot straps share the MCU's (bottom) side
+SOUTH_TO_BOTTOM = ()
 
 
 def south_fanout(r, board):
@@ -449,7 +528,7 @@ def south_fanout(r, board):
     done = 0
     for p in u1.Pads():
         net = p.GetNetname()
-        if not net.startswith(SOUTH_TO_BOTTOM):
+        if not SOUTH_TO_BOTTOM or not net.startswith(SOUTH_TO_BOTTOM):
             continue
         c = rel(p.GetPosition())
         n, _ = _normal(c)
@@ -470,12 +549,15 @@ def south_fanout(r, board):
 
 def build(board):
     r = Router(board)
-    # bottom-side parts placed by pcb_layout (flash, straps, boot logic) are fixed obstacles
+    r.board = board
+    # parts already on the cap side are fixed obstacles for decoupling placement
     r.bottom_boxes = [_courtyard(fp) for fp in board.GetFootprints()
-                      if fp.IsFlipped() and fp.GetReference() not in L.DECOUPLING]
+                      if fp.IsFlipped() == (CL == "B.Cu") and fp.GetReference() not in L.DECOUPLING]
+    v1_geometry(board)
     zones(r)
     usb(r)
     usb_shield(r, board)
+    vbus(r)
     dcdc(r)
     leftovers = mcu_power(r, board)
     print(f"south fanout vias: {south_fanout(r, board)}")

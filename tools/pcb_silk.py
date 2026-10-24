@@ -4,6 +4,7 @@ move the rest to the fab layer; then nudge the kept ones to free spots."""
 
 import pcbnew
 
+import design
 import pcb_layout as L
 from pcb_route import rel
 
@@ -90,23 +91,31 @@ def tidy(board):
 
 # (text, layer, size, candidate centres in board mm); first free spot wins
 LABELS = [
-    # (text, size, [(side, x, y), ...]) in board mm; the first free spot wins
-    ("USB Audio Bridge rev A", 0.9, [("B", 21.59, 47.0), ("B", 11.0, 35.0), ("B", 11.0, 33.0),
-                                     ("B", 11.0, 21.0), ("B", 11.0, 46.0), ("B", 21.59, 14.0)]),
-    # bottom text is read from below, where west and east swap: list it east-to-west
-    ({"F": "JB: SPI+GPIO   JC: I2S (Pmod I2S2)", "B": "JC: I2S (Pmod I2S2)   JB: SPI+GPIO"}, 0.8,
-     [("B", 21.59, 49.2), ("B", 21.59, 35.2), ("B", 21.59, 16.0), ("B", 21.59, 12.0),
-      ("B", 21.59, 44.6), ("B", 21.59, 20.0)]),
+    # (text, size, [(side, x, y[, angle]), ...]) in board mm; the first free spot wins.
+    # Bottom text is read from below, where west and east swap: list it east-to-west.
+    (f"{design.TITLE} {design.REV}", 0.9,
+     [("B", 21.59, 47.0), ("F", 1.3, 34.0, 90), ("F", 41.9, 42.0, 90), ("B", 41.9, 30.0, 90),
+      ("B", 1.3, 34.0, 90)]),
+    ({"F": "JB: I2S (Pmod I2S2)   JC: SPI+GPIO", "B": "JC: SPI+GPIO   JB: I2S (Pmod I2S2)"}, 0.8,
+     [("B", 21.59, 49.2), ("B", 21.59, 51.2), ("B", 21.59, 44.6)]),
     ("Hold BOOT + tap RESET = USB serial downloader", 0.8,
-     [("B", 21.59, 51.2), ("B", 21.59, 37.0), ("B", 21.59, 18.0)]),
+     [("B", 21.59, 51.2), ("B", 21.59, 53.2), ("B", 21.59, 37.0)]),
     ({"F": "TX RX GND", "B": "GND RX TX"}, 0.8, [("F", 31.3, 5.4), ("B", 31.3, 4.9),
                                                 ("B", 31.3, 5.8)]),
-    ("SPI+GPIO", 0.8, [("F", 10.16, 49.6), ("F", 10.16, 47.4)]),
-    ("I2S", 0.8, [("F", 33.02, 50.0), ("F", 37.4, 49.6), ("F", 37.4, 47.4)]),
+    ("I2S", 0.8, [("F", 8.0, 49.6), ("F", 8.0, 47.4)]),
+    ("SPI+GPIO", 0.8, [("F", 31.0, 49.6), ("F", 31.0, 47.4), ("F", 37.4, 47.4)]),
 ]
 
 
+def title_block(board):
+    tb = board.GetTitleBlock()
+    tb.SetTitle(design.TITLE)
+    tb.SetRevision(design.REV)
+    tb.SetDate(design.DATE)
+
+
 def labels(board):
+    title_block(board)
     obstacles = {}
     for fp in board.GetFootprints():
         for item in list(fp.GraphicalItems()) + [fp.Reference()]:
@@ -118,10 +127,12 @@ def labels(board):
                 if p.IsOnLayer(lay):
                     obstacles.setdefault(s_, []).append(_box(p, 0.15))
     for texts, size, cands in LABELS:
-        for side, x, y in cands:
+        for side, x, y, *ang in cands:
             text = texts[side] if isinstance(texts, dict) else texts
             w = len(text) * size * 0.95 + 0.4   # KiCad stroke font runs ~0.9 em per glyph
             h = size + 0.4
+            if ang and ang[0] in (90, 270):
+                w, h = h, w
             box = (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
             if not (0.4 < box[0] and box[2] < L.W - 0.4 and 0.4 < box[1] and box[3] < L.H - 0.4):
                 continue
@@ -135,6 +146,8 @@ def labels(board):
             t.SetPosition(pcbnew.VECTOR2I(pcbnew.FromMM(L.ORIGIN[0] + x), pcbnew.FromMM(L.ORIGIN[1] + y)))
             if side == "B":
                 t.SetMirrored(True)
+            if ang:
+                t.SetTextAngle(pcbnew.EDA_ANGLE(ang[0], pcbnew.DEGREES_T))
             board.Add(t)
             obstacles.setdefault(side, []).append(box)
             break

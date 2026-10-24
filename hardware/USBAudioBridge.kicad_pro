@@ -363,6 +363,25 @@
       {
         "bus_width": 12,
         "clearance": 0.2,
+        "diff_pair_gap": 0.2,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.4,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "PowerIn",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.4,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
         "diff_pair_gap": 0.15,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -392,14 +411,6 @@
       },
       {
         "netclass": "Power",
-        "pattern": "VBUS"
-      },
-      {
-        "netclass": "Power",
-        "pattern": "+5V"
-      },
-      {
-        "netclass": "Power",
         "pattern": "+3V3"
       },
       {
@@ -413,6 +424,14 @@
       {
         "netclass": "Power",
         "pattern": "DCDC_LP"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "VBUS"
+      },
+      {
+        "netclass": "PowerIn",
+        "pattern": "+5V"
       },
       {
         "netclass": "USB90",
@@ -432,11 +451,11 @@
       },
       {
         "netclass": "Clock",
-        "pattern": "JC_RX_MCLK"
+        "pattern": "JB_RX_MCLK"
       },
       {
         "netclass": "Clock",
-        "pattern": "JC_TX_MCLK"
+        "pattern": "JB_TX_MCLK"
       },
       {
         "netclass": "Clock",

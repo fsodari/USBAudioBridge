@@ -7,7 +7,7 @@
 	(title_block
 		(title "USB Audio Bridge")
 		(date "2026-10-22")
-		(rev "A")
+		(rev "v1.0")
 		(comment 1 "USB-C & Power")
 	)
 	(lib_symbols

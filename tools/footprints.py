@@ -137,9 +137,10 @@ def ftsh_footprint():
     items.append(["fp_circle", ["center", -2.54, 3.9], ["end", -2.39, 3.9],
                   ["stroke", ["width", 0.3], ["type", "solid"]], ["fill", "yes"],
                   ["layer", QStr("F.SilkS")]])
+    # Samtec's STEP is modelled Y-up; -90 deg about X stands it on the board
     items.append(["model", QStr("${KIPRJMOD}/3rdparty/" + FTSH_STEP),
                   ["offset", ["xyz", 0, 0, 0]], ["scale", ["xyz", 1, 1, 1]],
-                  ["rotate", ["xyz", 0, 0, 0]]])
+                  ["rotate", ["xyz", -90, 0, 0]]])
     return items
 
 

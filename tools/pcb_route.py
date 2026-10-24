@@ -176,6 +176,11 @@ class Router:
     def via_ok(self, net, c, d=VIA_D, keep_in=None, keep_out=(), clearance=CLEAR):
         if not self.free(circle(net, ALL, c, d), clearance):
             return False
+        # drill holes need 0.25 mm between them even on the same net
+        for o in self.obs:
+            if o.kind == "seg" and o.g["a"] == o.g["b"] and o.layers == set(ALL) and o.net == net:
+                if math.hypot(o.g["a"][0] - c[0], o.g["a"][1] - c[1]) < VIA_DRILL + 0.3:
+                    return False
         if not (0.6 < c[0] < L.W - 0.6 and 0.6 < c[1] < L.H - 0.6):
             return False
         if keep_in is not None and not (point_in_poly(c, keep_in) and

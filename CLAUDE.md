@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-This is a KiCad 10 hardware project for a USB audio bridge built around an NXP i.MX RT1010 (MIMXRT1011DAE5A, LQFP-80). The schematic has been reviewed. The PCB (43.18 × 62 mm, 4 layers, double-sided assembly) is routed with ERC and DRC clean (including warnings and schematic parity) and is awaiting the owner's review. The fabrication output pipeline is not built yet.
+This is a KiCad 10 hardware project for a USB audio bridge built around an NXP i.MX RT1010 (MIMXRT1011DAE5A, LQFP-80). The schematic has been reviewed. The PCB (43.18 × 62 mm, 4 layers, double-sided assembly) is being re-laid out after the owner's first review: the MCU is moving to the bottom side so I2S can return to JB, and the debug header is now keyed. The fabrication output pipeline is not built yet.
 
 ## Layout
 
@@ -55,7 +55,7 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 - `pcb_copper.py` handles copper:
   - the plane zones
   - the scripted USB and DC-DC routes
-  - MCU supply and GND fanout (a via just inside the pad ring for each pin, with its bottom-side cap behind it)
+  - MCU supply and GND fanout (a via just inside the pad ring for each pin, with its cap on the opposite side, behind the via)
   - bulk-cap placement
   - generic plane-net fanout
 - `pcb_silk.py` tidies the silkscreen. Reference designators stay on silk only for connectors, ICs, switches, LEDs, crystals and the like; the rest go to Fab.
@@ -73,18 +73,22 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
   - DCDC_LP
   - +1V1 from L201 to the island: a protected In2.Cu track, not a zone corridor, because other nets' via antipads cut corridors
   - MCU supply/GND fanout
-  - dog-bone fanout of the south-side MCU pins whose loads are on B.Cu (flash, boot straps)
+  - `south_fanout()` dog-bone vias for MCU pins whose loads are on the opposite side (currently none: the flash and straps share the MCU's side)
 - Freerouting is `tools/bin/freerouting-2.1.0.jar` (gitignored). It is the newest release that runs on the installed Java 21; 2.2 and later need Java 25.
   - Before routing, the DSN is edited: In1/In2 become `(type power)` so no signals go in the planes, and the scripted copper becomes `(type protect)`.
   - The F.Cu/B.Cu GND pours are added only after routing, so the router doesn't treat them as obstacles.
-- Floorplan: MCU rotated 180° so the USB/crystal side faces the USB-C edge. SAI pins are then on the east side and SPI/GPIO_AD pins on the west, which is why I2S goes to JC (east) and SPI to JB (west).
-- Boot flash and its passives are on the bottom side. Double-sided assembly is required anyway for the MCU decoupling caps under the chip.
+- VBUS and +5V use their own net class (PowerIn, 0.5 mm). Worst-case input current is under 0.4 A (RT1010 DCDC_IN 200 mA plus VDD_HIGH 75 mA max, plus flash, clocks and LEDs), and the PTC trips around 1 A.
+- Floorplan: the MCU is on the **bottom** side, mirrored, orientation 0 (`pcb_layout.MCU`, `MCU_LAYER`/`CAP_LAYER`).
+  - The USB/crystal pins face the USB-C edge (north), the SAI pins face west toward JB (I2S), GPIO_AD (LPSPI1, SWD) faces east toward JC, and GPIO_SD (flash, straps) faces south.
+  - This is the only arrangement where the I2S and SPI buses don't cross. With the MCU on top, SAI and LPSPI1 sit on opposite package sides that face the wrong ports.
+  - MCU decoupling caps are on the top side under the chip. The crystals, DC-DC inductor and output caps, reset supervisor, flash and boot straps are on the bottom next to their pins.
+  - The USB pair runs on F.Cu from the connector through the ESD array, then each line takes one via down to the MCU. D+ crosses over D− so the pair swaps sides, which matches the mirrored pin order.
 
 ## Design requirements (from README)
 
 - MCU: NXP i.MX RT1010.
 - High-speed USB-C connector.
-- MCU-Link compatible SWD debug header.
+- MCU-Link compatible SWD debug header. It's keyed: a Samtec FTSH-105-01-L-DV-K with a keying shroud. The footprint is built from Samtec's land pattern in `footprints.py`. Its 3D model may not be redistributed (SnapMagic terms), so `footprints.extract_models()` unpacks it from the owner's `docs/datasheets/FTSH-105-01-L-DV-K.zip` into gitignored `hardware/3rdparty/`.
 - Two PMOD headers designed to mate with a Digilent Arty A7 FPGA board:
   - PMOD 1: two I2S buses, one input and one output.
   - PMOD 2: SPI and GPIO.
@@ -95,7 +99,7 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 
 - Power: USB VBUS only, through a 3.3 V LDO. The Arty PMOD VCC pins are not connected to the board's 3.3 V rail (at most a DNP solder jumper) so the two boards never back-feed each other. Grounds are shared.
 - I2S: the RT1010 SAI is the clock master. It generates BCLK and LRCLK for both buses from the 24.576 MHz oscillator, and the oscillator's MCLK is buffered out to the FPGA on the I2S PMOD.
-- The board mates with Arty A7 ports **JB + JC**, the two adjacent high-speed PMODs, which have no series resistors. JB carries SPI + GPIO, JC carries I2S.
+- The board mates with Arty A7 ports **JB + JC**, the two adjacent high-speed PMODs, which have no series resistors. JB carries I2S, JC carries SPI + GPIO.
 - Extras: reset button and serial-downloader boot button, power and GPIO status LEDs, a 3-pin UART console header, and a 32.768 kHz RTC crystal.
 - 44.1 kHz-family rates are out of scope: there is only a 24.576 MHz audio clock, so the 48 kHz family only.
 - PCB: 4 layers, built by JLCPCB (their stackup, LCSC part numbers, their BOM and pick-and-place formats). Two M3 mounting holes take USB cable strain off the PMOD headers.
@@ -107,16 +111,19 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 - **Audio clock:** the 24.576 MHz XO feeds a CDCV304 buffer with three outputs.
   - Output 1 → SAI1_MCLK input (GPIO_08). Firmware sets GPR1 `SAI1_MCLK_DIR=0` and `SAI1_MCLK1_SEL=011`.
   - Output 2 → GPT2_CLK (GPIO_AD_03). It counts MCLK between USB start-of-frame packets to compute the async feedback value. GPT external clock must stay below ipg_clk/4, so ipg_clk must be at least 98.4 MHz.
-  - Outputs 3 and 4 → PMOD JC1 and JC7, the MCLK pin of each I2S row.
+  - Outputs 3 and 4 → PMOD JB1 and JB7, the MCLK pin of each I2S row.
   - The oscillator is an Epson SG-210STF 24.5760ML: ±50 ppm, and it has a KiCad 3D model.
 - **SPI pins:** LPSPI1 uses GPIO_AD_04/05/06. Its SDI moves to GPIO_SD_05 (ALT2, `LPSPI1_SDI_SELECT_INPUT=1`) because GPIO_AD_03 is taken by GPT2_CLK.
 - **Boot:** BOOT_MODE[1:0]=10 (internal boot from FlexSPI-A QSPI NOR) is the default strap. The BOOT button pulls BOOT_MODE1 low and, through the P-FET Q401, BOOT_MODE0 high. That gives 01, the serial downloader, whatever the eFuse state.
-- **I2S port (JC):** I2S is on **JC** and SPI+GPIO on **JB**, swapped with the owner's approval to avoid the two buses crossing under the MCU. JC matches the Digilent Pmod I2S2 (owner's requirement), with the FPGA as host.
+- **I2S port (JB):** I2S is on **JB** (Digilent Pmod I2S2 pinout, FPGA as host) because the Arty's only clock-capable PMOD pins are on JB.
+  - JB1 = E15 (IO_L11P_T1_SRCC_15) and JB3 = D15 (IO_L12P_T1_MRCC_15) are the clock-capable P pins, carrying MCLK and the top-row SCLK.
+  - JC (bank 14, pairs L20–L23) has no clock-capable pins.
+  - Run SAI1 TX synchronous to RX so the JB3 bit clock serves both directions.
   - Top row, pins 1–4 (MCLK/LRCK/SCLK/SDIN): FPGA→RT1010 audio on SAI1 RX.
   - Bottom row, pins 7–10 (MCLK/LRCK/SCLK/SDOUT): RT1010→FPGA audio on SAI1 TX.
   - This board drives all the clocks, so the FPGA must treat them as inputs.
   - SAI1 DATA1 (GPIO_05) has no free pin and is unconnected.
-- **SPI port (JB):** JB follows PMOD Type 2A (expanded SPI).
+- **SPI port (JC):** JC follows PMOD Type 2A (expanded SPI).
 - **Arty high-speed PMOD pairs:** pins (1,2), (3,4), (7,8) and (9,10) are routed as coupled pairs. With the I2S2 pinout, MCLK shares a pair with LRCK. That's accepted because LRCK changes slowly and is only sampled.
 - **USB D+/D−:** no series resistors, on purpose. The RT1010 high-speed PHY has calibrated on-die 45 Ω terminations (reference manual §36.3.5.1), and the NXP evaluation board routes D+/D− directly.
 - **Reset supervisor:** the MCP120T-300 trips at 2.925 V.

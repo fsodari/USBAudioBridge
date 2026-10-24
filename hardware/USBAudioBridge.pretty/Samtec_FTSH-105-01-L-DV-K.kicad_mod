@@ -1,0 +1,261 @@
+(footprint "Samtec_FTSH-105-01-L-DV-K"
+	(version 20241229)
+	(generator "usbaudiobridge")
+	(layer "F.Cu")
+	(descr "Samtec FTSH-105-01-L-DV-K 2x5 1.27 mm SMD header, keying shroud")
+	(tags "Cortex debug SWD 10-pin keyed")
+	(property "Reference" "REF**"
+		(at 0 -4.6 0)
+		(layer "F.SilkS")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Samtec_FTSH-105-01-L-DV-K"
+		(at 0 4.6 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(pad "1" smd rect
+		(at -2.54 2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "2" smd rect
+		(at -2.54 -2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "3" smd rect
+		(at -1.27 2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "4" smd rect
+		(at -1.27 -2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "5" smd rect
+		(at 0 2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "6" smd rect
+		(at 0 -2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "7" smd rect
+		(at 1.27 2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "8" smd rect
+		(at 1.27 -2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "9" smd rect
+		(at 2.54 2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(pad "10" smd rect
+		(at 2.54 -2.032)
+		(size 0.7366 2.794)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+	)
+	(fp_line
+		(start -3.175 -1.7145)
+		(end -2.54 -1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -2.54 -1.7145)
+		(end -2.54 -2.54)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -2.54 -2.54)
+		(end 2.54 -2.54)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start 2.54 -2.54)
+		(end 2.54 -1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start 2.54 -1.7145)
+		(end 3.175 -1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start 3.175 -1.7145)
+		(end 3.175 1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start 3.175 1.7145)
+		(end 2.54 1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start 2.54 1.7145)
+		(end 2.54 2.54)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start 2.54 2.54)
+		(end -2.54 2.54)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -2.54 2.54)
+		(end -2.54 1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -2.54 1.7145)
+		(end -3.175 1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -3.175 1.7145)
+		(end -3.175 -1.7145)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+	)
+	(fp_line
+		(start -3.425 -3.679)
+		(end 3.425 -3.679)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start 3.425 -3.679)
+		(end 3.425 3.679)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start 3.425 3.679)
+		(end -3.425 3.679)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -3.425 3.679)
+		(end -3.425 -3.679)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+	)
+	(fp_line
+		(start -3.255 -1.7145)
+		(end -3.255 1.7145)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start 3.255 -1.7145)
+		(end 3.255 1.7145)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_circle
+		(center -2.54 3.9)
+		(end -2.39 3.9)
+		(stroke
+			(width 0.3)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+	)
+	(model "${KIPRJMOD}/3rdparty/FTSH-105-01-L-DV-K.stp"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 0)
+		)
+	)
+)
