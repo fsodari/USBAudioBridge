@@ -94,7 +94,71 @@ def pmod_footprint():
     return out
 
 
+FTSH_NAME = "Samtec_FTSH-105-01-L-DV-K"
+FTSH_ZIP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs", "datasheets",
+                        "FTSH-105-01-L-DV-K.zip")
+FTSH_STEP = "FTSH-105-01-L-DV-K.stp"
+
+
+def ftsh_footprint():
+    """Samtec FTSH-105-01-L-DV-K, 2x5 1.27 mm SMD header with keying shroud
+    (ARM Cortex 10-pin debug).  Pad geometry from Samtec's recommended land
+    pattern: 0.7366 x 2.794 mm pads, rows at +/-2.032 mm; odd pins on the +y
+    row with pin 1 at x = -2.54."""
+    fx = ["effects", ["font", ["size", 1.0, 1.0], ["thickness", 0.15]]]
+    items = ["footprint", QStr(FTSH_NAME), ["version", "20241229"],
+             ["generator", QStr("usbaudiobridge")], ["layer", QStr("F.Cu")],
+             ["descr", QStr("Samtec FTSH-105-01-L-DV-K 2x5 1.27 mm SMD header, keying shroud")],
+             ["tags", QStr("Cortex debug SWD 10-pin keyed")],
+             ["property", QStr("Reference"), QStr("REF**"), ["at", 0, -4.6, 0],
+              ["layer", QStr("F.SilkS")], fx],
+             ["property", QStr("Value"), QStr(FTSH_NAME), ["at", 0, 4.6, 0],
+              ["layer", QStr("F.Fab")], fx],
+             ["attr", "smd"]]
+    for i in range(5):
+        x = round(-2.54 + i * 1.27, 3)
+        for num, y in ((2 * i + 1, 2.032), (2 * i + 2, -2.032)):
+            items.append(["pad", QStr(str(num)), "smd", "rect", ["at", x, y],
+                          ["size", 0.7366, 2.794],
+                          ["layers", QStr("F.Cu"), QStr("F.Mask"), QStr("F.Paste")]])
+    fab = [(-3.175, -1.7145), (-2.54, -1.7145), (-2.54, -2.54), (2.54, -2.54), (2.54, -1.7145),
+           (3.175, -1.7145), (3.175, 1.7145), (2.54, 1.7145), (2.54, 2.54), (-2.54, 2.54),
+           (-2.54, 1.7145), (-3.175, 1.7145)]
+    for a, b in zip(fab, fab[1:] + fab[:1]):
+        items.append(["fp_line", ["start", *a], ["end", *b],
+                      ["stroke", ["width", 0.1], ["type", "solid"]], ["layer", QStr("F.Fab")]])
+    for a, b in (((-3.425, -3.679), (3.425, -3.679)), ((3.425, -3.679), (3.425, 3.679)),
+                 ((3.425, 3.679), (-3.425, 3.679)), ((-3.425, 3.679), (-3.425, -3.679))):
+        items.append(["fp_line", ["start", *a], ["end", *b],
+                      ["stroke", ["width", 0.05], ["type", "solid"]], ["layer", QStr("F.CrtYd")]])
+    for x in (-3.255, 3.255):     # shroud end walls
+        items.append(["fp_line", ["start", x, -1.7145], ["end", x, 1.7145],
+                      ["stroke", ["width", 0.12], ["type", "solid"]], ["layer", QStr("F.SilkS")]])
+    items.append(["fp_circle", ["center", -2.54, 3.9], ["end", -2.39, 3.9],
+                  ["stroke", ["width", 0.3], ["type", "solid"]], ["fill", "yes"],
+                  ["layer", QStr("F.SilkS")]])
+    items.append(["model", QStr("${KIPRJMOD}/3rdparty/" + FTSH_STEP),
+                  ["offset", ["xyz", 0, 0, 0]], ["scale", ["xyz", 1, 1, 1]],
+                  ["rotate", ["xyz", 0, 0, 0]]])
+    return items
+
+
+def extract_models(hw_dir):
+    """Samtec's 3D model may not be redistributed: unpack it from the owner's
+    download into the gitignored hardware/3rdparty folder."""
+    import zipfile
+    dest = os.path.join(hw_dir, "3rdparty")
+    if os.path.exists(FTSH_ZIP):
+        os.makedirs(dest, exist_ok=True)
+        with zipfile.ZipFile(FTSH_ZIP) as z:
+            with open(os.path.join(dest, FTSH_STEP), "wb") as f:
+                f.write(z.read(FTSH_STEP))
+
+
 def write_library(pretty_dir):
     os.makedirs(pretty_dir, exist_ok=True)
     with open(os.path.join(pretty_dir, PMOD_NAME + ".kicad_mod"), "w") as f:
         f.write(dumps(pmod_footprint()) + "\n")
+    with open(os.path.join(pretty_dir, FTSH_NAME + ".kicad_mod"), "w") as f:
+        f.write(dumps(ftsh_footprint()) + "\n")
+    extract_models(os.path.dirname(os.path.abspath(pretty_dir)))

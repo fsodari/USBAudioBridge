@@ -95,3 +95,29 @@ Some of the freerouting failures are due to poor component placement. Claude is 
 It is taking several iterations of running Freerouting for about 20 minutes at a time. The issues that come up seem like they would be easy for a human to spot and fix.
 
 
+## PCB Layout Design Review
+
+A number of traces are not 45 degrees. Not a big deal.
+
+Debug header is not shrouded/keyed.
+
+There are thermal reliefs on the surface mount components. This board will of course be perfect with no rework necessary so these aren't needed.
+
+A few connections to pins enter at an angle. At least one circular track extending past pad that doesn't need to be there.
+
+Not the cleanest routing I've seen. Not the ugliest.
+
+5V/VBUS trace to LDO is pretty narrow.
+
+Check flash size, may want extra storage space.
+
+Check that the i2s mclks are routed to clock capable pins on the artix 7.
+
+## Post PCB Layout Design Review
+
+The JC header does not have clock capable inputs. Need to reroute.
+
+Using generic box header (shrouded and keyed) for debug header and samtec header as a fallback.
+
+Moving the microcontroller to the bottom for cleaner routing.
+

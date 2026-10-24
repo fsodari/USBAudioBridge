@@ -35,7 +35,7 @@ STACKUP = """		(stackup
 """
 
 POWER_NETS = ["GND", "VBUS", "+5V", "+3V3", "+1V1", "+3V3_CLK", "DCDC_LP"]
-CLOCK_NETS = ["MCLK_SAI", "MCLK_GPT", "JC_RX_MCLK", "JC_TX_MCLK", "*CLK_Y*", "XO_OUT",
+CLOCK_NETS = ["MCLK_SAI", "MCLK_GPT", "JB_RX_MCLK", "JB_TX_MCLK", "*CLK_Y*", "XO_OUT",
               "CLK_BUF_IN"]
 
 

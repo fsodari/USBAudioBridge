@@ -2900,7 +2900,7 @@
 		)
 		(uuid "6eae458e-2cc1-5a2d-b0fc-85102c49338b")
 	)
-	(text "MCU-Link debug (10-pin Cortex, 1.27 mm)"
+	(text "MCU-Link debug (10-pin Cortex, 1.27 mm, keyed)"
 		(exclude_from_sim no)
 		(at 275.59 27.94 0)
 		(effects
@@ -2910,7 +2910,7 @@
 			)
 			(justify left)
 		)
-		(uuid "8a6b01d7-546a-56b8-af7b-fec2b153029f")
+		(uuid "705bb92a-9f2e-5c60-92cc-82f397583dce")
 	)
 	(text "JTAG_MOD low = SWD/common debug\n(HDUG: 4.7k pull-down)"
 		(exclude_from_sim no)
@@ -5642,157 +5642,157 @@
 			(uuid "fe26b742-a300-5dc4-acad-a81431d6fc82")
 		)
 		(pin "7"
-			(uuid "4faa470b-fffa-4a6d-9327-fb6d42b89b29")
+			(uuid "cc347a21-77ab-43b1-9967-0cc65a39bfa3")
 		)
 		(pin "14"
-			(uuid "b4bb8868-b320-4ff3-9c62-d9aa3231622a")
+			(uuid "5536b5f0-c5c9-4525-bc56-af2a8ca2ff0e")
 		)
 		(pin "15"
-			(uuid "a0b7e6b2-d5d9-4c79-ac67-127b661bca4e")
+			(uuid "201db483-d6bb-44d7-b59f-ac5cff8535d7")
 		)
 		(pin "16"
-			(uuid "22d14804-fe05-4c4a-af5d-12e87b3da5db")
+			(uuid "3aa70822-4f18-47b3-b834-e8ddec8246e9")
 		)
 		(pin "17"
-			(uuid "8b17dd58-1919-4902-8fc4-6e9b5233791f")
+			(uuid "820176f1-a9cf-4a25-807a-5d2ebb94fe64")
 		)
 		(pin "18"
-			(uuid "097d7e31-8280-4479-a162-4ef61c26d173")
+			(uuid "1486c804-3c3d-401b-8d15-2ab148505c75")
 		)
 		(pin "19"
-			(uuid "f0f7346b-7c6c-49b8-89ed-1fcb7cc91629")
+			(uuid "c863b33d-2dc3-4eea-90ae-3ec94b8b4a86")
 		)
 		(pin "20"
-			(uuid "edaf43ff-b1c9-433a-b519-c383aa8bbe57")
+			(uuid "c30025cb-6fce-438b-93d8-b1f7939b4977")
 		)
 		(pin "25"
-			(uuid "1848f47a-4221-441e-a0c0-b08bc6c79f86")
+			(uuid "0dfa5d56-49b0-4a34-b62b-c9598ab4f9b4")
 		)
 		(pin "26"
-			(uuid "47ade110-9fb6-4dd6-9f40-13f8e23834c8")
+			(uuid "3c93f69a-360b-4fd4-b25b-01b4c4bdf06c")
 		)
 		(pin "30"
-			(uuid "6567fb4e-490c-484f-afbe-be7fa299b9de")
+			(uuid "98569295-4dc4-4543-ac62-4a4c348b3acc")
 		)
 		(pin "31"
-			(uuid "29f6c036-29b0-4bb1-8131-c292f5851903")
+			(uuid "750ab9a4-3108-4d5d-834f-9a22968be6e5")
 		)
 		(pin "34"
-			(uuid "1ee0e948-fcc7-426e-8938-880f27ea9fe6")
+			(uuid "d63f54f3-aaba-42b1-8e1e-ed3da37de7a3")
 		)
 		(pin "35"
-			(uuid "7eba78b1-7a5c-40cb-b412-e82d633f1d28")
+			(uuid "5a89fd79-13e9-4cc3-ba25-58a494abb66c")
 		)
 		(pin "39"
-			(uuid "0e682155-4277-4881-8b90-ec7fb8bf60f6")
+			(uuid "a7478050-8482-4746-935a-69293f7d8abd")
 		)
 		(pin "40"
-			(uuid "4133503a-1691-4623-949f-cb84b5d133f9")
+			(uuid "386d151e-beb0-4995-9cc4-ebfc3d89b092")
 		)
 		(pin "41"
-			(uuid "9ca86283-0ac4-4576-9222-e41a568c2af2")
+			(uuid "bbebad9a-22b0-449d-a510-aefc3fa82ae2")
 		)
 		(pin "42"
-			(uuid "58187667-9b19-45a0-8525-c92c695f4804")
+			(uuid "17daf0c3-a29c-48c0-9370-9f8b0f9f9a8f")
 		)
 		(pin "50"
-			(uuid "bcb0a6b6-b3ba-4ea5-ab0f-86b2cd6dd9d0")
+			(uuid "7f3ea36c-3e33-4c59-b534-42e89d16279e")
 		)
 		(pin "53"
-			(uuid "481981df-0922-48f8-8b02-76b2a83e6c1b")
+			(uuid "c7b4ca69-eb74-47b2-abdb-825fa54b9339")
 		)
 		(pin "54"
-			(uuid "9920686b-7525-4a17-8485-1e5129869384")
+			(uuid "37012989-a56f-4eb7-bb1a-d97bf299cb3d")
 		)
 		(pin "63"
-			(uuid "5c489efc-44bf-449e-9e34-74da2d0a2c09")
+			(uuid "54614649-e91f-49f3-bd22-8ab34ec4b321")
 		)
 		(pin "71"
-			(uuid "7997ffd8-94a8-489f-9a03-2da22e6d0ebe")
+			(uuid "6f0777d3-a0d0-47b8-b9a7-bad1df8d3347")
 		)
 		(pin "77"
-			(uuid "e0397476-eafc-4710-be68-29dee863eadc")
+			(uuid "5f0da9f0-9ffb-4f51-b3a9-4867d819ce90")
 		)
 		(pin "78"
-			(uuid "95c798a8-404c-4718-94ca-a7739214fe91")
+			(uuid "77125c2b-bc54-4150-8165-0e7389b49f43")
 		)
 		(pin "21"
-			(uuid "7df20a33-b362-48e3-9973-ab7ef9f1883a")
+			(uuid "23fe80a3-9fb0-4b4d-993b-a5f55c67c2d2")
 		)
 		(pin "22"
-			(uuid "151fa20a-35df-45fb-b95e-ec5f7418de1b")
+			(uuid "edf46ad8-18f7-4bc1-8618-0e598801e14b")
 		)
 		(pin "23"
-			(uuid "b670fe7e-c654-4ffd-96b8-fc3c55074dae")
+			(uuid "3b52c4d4-d219-4236-b1b5-70bd0eabd893")
 		)
 		(pin "24"
-			(uuid "b64a0c0f-f8ab-49cf-b6ab-2dbac83cb544")
+			(uuid "5c743f24-f320-4fd7-b684-b63bad3b17bb")
 		)
 		(pin "27"
-			(uuid "03d8ca80-fa1e-46ee-87da-21692e615749")
+			(uuid "51736255-4ce1-4f61-bd92-1137754ce81f")
 		)
 		(pin "28"
-			(uuid "9096826d-c197-4071-a0ab-bc2c75026d8a")
+			(uuid "3ff4f100-fda3-4d3d-813d-9e30efb10fdd")
 		)
 		(pin "29"
-			(uuid "f9571876-7f42-4351-9519-e12c5a27d5a0")
+			(uuid "9c1a9975-5a8e-496d-885f-f4a8ad287576")
 		)
 		(pin "32"
-			(uuid "66bcbe02-d543-40d4-bf05-15cf6ca40cfd")
+			(uuid "6f986b5a-c8fd-4cc8-ba6c-7475c1c5de72")
 		)
 		(pin "33"
-			(uuid "8b07cf2f-c79b-4065-9636-1aa582eab481")
+			(uuid "7fdf4017-46dc-4e55-ad76-8e1b1c847ed3")
 		)
 		(pin "36"
-			(uuid "4638609b-f848-4512-8c23-65c0d9e5cc83")
+			(uuid "3e40075f-4e52-4ab4-936a-f14766015831")
 		)
 		(pin "37"
-			(uuid "7373ac4d-e1b0-4f13-bd4f-779759674069")
+			(uuid "236ca0ec-bd2f-4fb6-9404-32ad430c9f2e")
 		)
 		(pin "38"
-			(uuid "4c15aac5-a919-4f52-a04c-a044ce169679")
+			(uuid "74b9bf9d-2f48-43d0-9a4e-4b44e0b48580")
 		)
 		(pin "61"
-			(uuid "2001e34f-3187-4843-b743-9c1e82bf01b3")
+			(uuid "c37f2c09-3738-4b0c-8ade-b60781db6a8d")
 		)
 		(pin "62"
-			(uuid "b570b5d2-0d45-4eb5-bc32-2d8dfaeb8ec1")
+			(uuid "4e0b4456-b967-43d6-9be6-0ffb2abd6794")
 		)
 		(pin "64"
-			(uuid "f633f782-7d48-46e9-b2e6-9db3129c38c3")
+			(uuid "aa241557-f9e5-4760-b69e-7cbcbd0f5156")
 		)
 		(pin "65"
-			(uuid "8416fe6e-4f0a-4a51-b609-c671fe8abf35")
+			(uuid "3567e895-cef9-4619-a92b-570c28b97926")
 		)
 		(pin "66"
-			(uuid "76420eb9-48cc-4d7f-b332-d23232fba1d9")
+			(uuid "dcf749bb-d3a8-470b-86af-6979f3019fdf")
 		)
 		(pin "67"
-			(uuid "f7ec0f2d-7cf2-4a7c-bda2-991db2985e13")
+			(uuid "6aac4596-6266-410c-b8b4-673cbd26c448")
 		)
 		(pin "68"
-			(uuid "05a713f9-712d-4e73-a422-28a0b84b93a7")
+			(uuid "d1e3a16f-8433-40cf-af04-2e47d1ec9aee")
 		)
 		(pin "69"
-			(uuid "1d6b6a4f-1780-49a7-823a-3f88eca19d77")
+			(uuid "62bb2382-444d-4ec4-9156-6dee410ce8cd")
 		)
 		(pin "70"
-			(uuid "bee08188-d2b2-45db-bba3-d610d57e7290")
+			(uuid "2b1fc3ce-6297-4e3f-96f9-cc7b2a798c28")
 		)
 		(pin "72"
-			(uuid "b44de478-6c4c-4181-9a97-b5994554c7cc")
+			(uuid "f99e5dc5-2a54-47c0-8f60-bdaba9fdac7b")
 		)
 		(pin "73"
-			(uuid "494a2fd2-5215-4b34-ba4d-fbcd075b5890")
+			(uuid "960fc907-5c25-4c23-9a5b-e61f078bb24c")
 		)
 		(pin "74"
-			(uuid "99aa0e1a-dacd-4bdd-ac61-77cf0541381a")
+			(uuid "4d803d0e-90a6-4562-83ae-4107020ce5b9")
 		)
 		(pin "75"
-			(uuid "c85d9829-ba6f-4c33-ac6d-88f1b1da8b95")
+			(uuid "d40682c1-99f8-4d72-aea2-4c1616039cee")
 		)
 		(pin "76"
-			(uuid "bd8f1636-7096-4512-abd7-c57787000396")
+			(uuid "3705e9f4-f8a7-4fe2-b1a5-d82c2f45760c")
 		)
 		(instances
 			(project "USBAudioBridge"
@@ -6095,7 +6095,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD"
+		(property "Footprint" "USBAudioBridge:Samtec_FTSH-105-01-L-DV-K"
 			(at 325.12 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -6128,7 +6128,29 @@
 				)
 			)
 		)
-		(property "Spec" "2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K or eq.)"
+		(property "MPN" "FTSH-105-01-L-DV-K"
+			(at 325.12 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Samtec"
+			(at 325.12 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Spec" "2x5 1.27 mm SMD header with keying shroud (Cortex debug)"
 			(at 325.12 63.5 0)
 			(hide yes)
 			(show_name no)

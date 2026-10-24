@@ -12,3 +12,4 @@ fp-info-cache
 ~*.lck
 .venv/
 tools/bin/
+hardware/3rdparty/
