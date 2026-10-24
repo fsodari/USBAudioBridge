@@ -13,7 +13,7 @@ import pcbnew
 import pcb_layout as L
 
 CLEAR = 0.2          # clearance used for scripted copper (rule minimum is 0.15)
-VIA_D, VIA_DRILL = 0.5, 0.2
+VIA_D, VIA_DRILL = 0.5, 0.3
 PWR_VIA_D = 0.6
 LAYERS = {"F.Cu": pcbnew.F_Cu, "In1.Cu": pcbnew.In1_Cu, "In2.Cu": pcbnew.In2_Cu,
           "B.Cu": pcbnew.B_Cu}

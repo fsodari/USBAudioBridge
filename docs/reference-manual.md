@@ -97,6 +97,10 @@ strain does not land on the PMOD headers.
 | VDD_SOC ("+1V1") | RT1010 internal DC-DC, 4.7 µH | RT1010 core | C201 |
 | GND | | | TP104 |
 
+The test points are a row of four pads between the PWR LED and LED1, labelled
+on the silkscreen by function: **5V** (TP101), **3V** (TP102, +3V3), **CK**
+(TP103, +3V3_CLK) and **0V** (TP104, GND).
+
 - **Core voltage.** The DC-DC comes out of reset at 1.15 V
   (`DCDC_REG3[TRG]` = 0xE; 0.8 V + 25 mV per step, RM 18.7.1.5). That is
   enough for 396 MHz. **500 MHz needs overdrive, VDD_SOC 1.25–1.30 V** (DS

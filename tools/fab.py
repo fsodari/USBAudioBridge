@@ -256,12 +256,15 @@ COMMON_NOTES = """\
 {title} {rev}  (source {git})
 
 Board
-  Size              {w:.2f} x {h:.2f} mm, 4 layers, 1.6 mm FR-4, 1 oz outer / 0.5 oz inner
+  Size              {w:.2f} x {h:.2f} mm, 4 layers, 1.6 mm, 1 oz outer / 0.5 oz inner
+  Material          FR-4 TG150-155 class preferred (two lead-free reflows, double-sided);
+                    standard TG130-140 is acceptable
   Layer order       F.Cu (top) / In1.Cu GND plane / In2.Cu +3V3 & +1V1 planes / B.Cu (bottom)
   Min track/space   0.15 / 0.15 mm
-  Vias              0.5 mm pad / 0.2 mm drill (a few 0.45 / 0.2 on USB and VBUS); tented
-  Surface finish    ENIG recommended (0.5 mm pitch LQFP-80, flat pads)
-  Solder mask       any colour; silkscreen white
+  Vias              0.3 mm drill; 0.5 mm pad (0.45 on USB/VBUS, 0.6 on power); tented
+  Surface finish    OSP (flat pads for the 0.5 mm pitch LQFP-80; assembled soon after
+                    fabrication).  ENIG also fine; avoid HASL (uneven on fine pitch)
+  Solder mask       any colour; silkscreen white, text 1.0 mm / 0.16 mm stroke
   Impedance         USB D+/D- 90 ohm differential on F.Cu over In1 GND: 0.20 mm / 0.15 mm
 Assembly
   Double-sided SMT. Bottom: U1 (LQFP-80), DC-DC inductor, crystals, flash, reset/boot
@@ -274,9 +277,12 @@ Assembly
 
 JLC_NOTES = COMMON_NOTES + """
 JLCPCB order
-  Upload {base}-gerbers.zip.  Layers 4, thickness 1.6 mm, surface finish ENIG.
+  Upload {base}-gerbers.zip.  Layers 4, thickness 1.6 mm, surface finish OSP,
+  material FR-4 TG155.  Min via hole size/diameter: 0.3 mm / (0.4/0.45 mm), the
+  standard option.
   Impedance control: yes, stackup JLC04161H-3313 (the USB pair was sized for it).
   Via covering: tented.  Remove order number: optional.
+  If JLCPCB asks for edge rails (parts overhang both short edges), let them add them.
   PCB Assembly: both sides, Standard PCBA.  Upload {base}-bom-jlcpcb.csv and
   {base}-cpl-jlcpcb.csv.  Check every part in the placement preview, especially U1
   pin 1, the SOT parts, J101, J501 and the PMOD headers, before confirming.
@@ -284,8 +290,11 @@ JLCPCB order
 
 PCBWAY_NOTES = COMMON_NOTES + """
 PCBWay order
-  Upload {base}-gerbers.zip.  Layers 4, thickness 1.6 mm, surface finish ENIG,
-  min track/space 6/6 mil, min hole 0.2 mm, via tented.
+  Upload {base}-gerbers.zip.  Layers 4, thickness 1.6 mm, surface finish OSP,
+  FR-4 TG150, min track/space 6/6 mil, min hole 0.3 mm, via tented.
+  Via annular ring is 0.1 mm (4 mil) on 0.5 mm vias and 0.075 mm on the four
+  0.45 mm USB/VBUS vias: below PCBWay's 5 mil standard, so expect an engineering
+  question; tangency on vias is acceptable for this design.
   Impedance control: request 90 ohm differential for the USB pair (nets USB_DP/USB_DN
   on the top layer, reference In1 GND); let PCBWay adjust width/gap to their stackup.
   Assembly: turnkey, both sides.  Upload {base}-bom-pcbway.csv,

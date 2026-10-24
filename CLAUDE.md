@@ -64,7 +64,7 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
   - MCU supply and GND fanout (a via just inside the pad ring for each pin, with its cap on the opposite side, behind the via)
   - bulk-cap placement
   - generic plane-net fanout
-- `pcb_silk.py` tidies the silkscreen. Reference designators stay on silk only for connectors, ICs, switches, LEDs, crystals and the like; the rest go to Fab. On Fab, the moved field is hidden where the library footprint already has a `${REFERENCE}` text, otherwise it is centred on the part, so the assembly drawings stay legible.
+- `pcb_silk.py` tidies the silkscreen. Text is 1.0 mm / 0.16 mm stroke, JLCPCB's legibility minimum. `python3 tools/pcb_silk.py` redoes the silk on the finished board without touching copper. Test points get function labels (5V/3V/CK/0V) instead of references. Reference designators stay on silk only for connectors, ICs, switches, LEDs, crystals and the like; the rest go to Fab. On Fab, the moved field is hidden where the library footprint already has a `${REFERENCE}` text, otherwise it is centred on the part, so the assembly drawings stay legible.
 - `python3 tools/pcb.py --sync-fields` copies values, schematic fields and DNP flags onto the existing routed board without touching copper. Use it after a sourcing, value or DNP change; any footprint or part-count change needs a full rebuild and re-route.
 - `autoroute.py` runs these stages:
   1. DSN export, Freerouting, SES import.
@@ -84,7 +84,10 @@ tools/render_pcb.sh out.png "F.Cu,F.CrtYd,F.Fab,Edge.Cuts" 400   # PNG for visua
 - Freerouting is `tools/bin/freerouting-2.1.0.jar` (gitignored). It is the newest release that runs on the installed Java 21; 2.2 and later need Java 25.
   - Before routing, the DSN is edited: In1/In2 become `(type power)` so no signals go in the planes, and the scripted copper becomes `(type protect)`.
   - The F.Cu/B.Cu GND pours are added only after routing, so the router doesn't treat them as obstacles.
-- Vias are 0.5 mm pad / 0.2 mm drill. The few 0.45 mm vias on USB and VBUS are deliberate. The 0.2 mm drill gives PCBWay's ≥ 5 mil outer annular ring, and JLCPCB charges nothing extra for it.
+- Vias: **0.3 mm drill, pads ≥ 0.4 mm** (owner's cost requirement: no small-hole surcharge). Pads are 0.5 mm generally, 0.6 mm on power, and 0.45 mm on the few USB/VBUS vias, which is deliberate.
+  - The 0.1 mm ring is JLCPCB standard, but PCBWay's 4 mil "advanced" tier.
+  - 0.55/0.6 mm pads would give PCBWay's 5 mil standard, but they cause about 90 clearance violations, i.e. a full re-route.
+- Fab material and finish: FR-4 TG155 (double-sided lead-free reflow), OSP (the owner orders assembled boards).
 - VBUS and +5V use their own net class (PowerIn, 0.4 mm; the VBUS bus itself is a scripted 0.5 mm track). Worst-case input current is under 0.4 A (RT1010 DCDC_IN 200 mA plus VDD_HIGH 75 mA max, plus flash, clocks and LEDs), and the PTC trips around 1 A.
 - Floorplan: the MCU is on the **bottom** side, mirrored, orientation 0 (`pcb_layout.MCU`, `MCU_LAYER`/`CAP_LAYER`).
   - The USB/crystal pins face the USB-C edge (north), the SAI pins face west toward JB (I2S), GPIO_AD (LPSPI1, SWD) faces east toward JC, and GPIO_SD (flash, straps) faces south.

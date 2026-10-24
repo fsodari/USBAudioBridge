@@ -1,6 +1,12 @@
 """Silkscreen clean-up: keep reference designators where they help a human
 (connectors, ICs, switches, LEDs, crystals, inductor, fuse, test points) and
-move the rest to the fab layer; then nudge the kept ones to free spots."""
+move the rest to the fab layer; then nudge the kept ones to free spots.
+
+Text is 1.0 mm high with a 0.16 mm stroke: JLCPCB's legibility minimum is
+1.0 mm / 0.15 mm (preferred ratio 1:6), PCBWay's 0.8 mm / 0.15 mm.
+
+Run `python3 tools/pcb_silk.py` to redo the silkscreen on the finished board
+without touching copper."""
 
 import pcbnew
 
@@ -8,9 +14,9 @@ import design
 import pcb_layout as L
 from pcb_route import rel
 
-KEEP_PREFIX = ("J", "U", "SW", "D", "Y", "X", "L", "F", "TP", "Q", "JP")
-TEXT_H = 0.8
-TEXT_T = 0.12
+KEEP_PREFIX = ("J", "U", "SW", "D", "Y", "X", "L", "F", "Q", "JP")   # test points get function labels
+TEXT_H = 1.0
+TEXT_T = 0.16
 
 
 def _box(item, grow=0.0):
@@ -65,7 +71,7 @@ def tidy(board):
         ref.SetTextThickness(pcbnew.FromMM(TEXT_T))
         name = fp.GetReference()
         wanted = name.startswith(KEEP_PREFIX) and not name.startswith("H")
-        if not wanted or fp.IsExcludedFromBOM() and not name.startswith(("TP", "JP")):
+        if not wanted or fp.IsExcludedFromBOM() and not name.startswith("JP"):
             ref.SetLayer(fab)
             fab_ref(fp, side)
         else:
@@ -86,22 +92,27 @@ def tidy(board):
     for fp in sorted(keep, key=lambda f: f.GetReference()):
         s = "B" if fp.IsFlipped() else "F"
         ref = fp.Reference()
-        ref.SetTextAngle(pcbnew.EDA_ANGLE(0, pcbnew.DEGREES_T))
         fb = _courtyard_box(fp, s)
         cx, cy = (fb[0] + fb[2]) / 2, (fb[1] + fb[3]) / 2
-        w = len(fp.GetReference()) * TEXT_H * 0.75 + 0.3
+        w = len(fp.GetReference()) * TEXT_H * 0.95 + 0.3   # stroke font ~0.95 em per glyph
         h = TEXT_H + 0.3
-        cands = [(cx, fb[1] - h / 2 - 0.15), (cx, fb[3] + h / 2 + 0.15),
-                 (fb[0] - w / 2 - 0.15, cy), (fb[2] + w / 2 + 0.15, cy),
-                 (fb[0] - w / 2, fb[1] - h / 2), (fb[2] + w / 2, fb[1] - h / 2),
-                 (fb[0] - w / 2, fb[3] + h / 2), (fb[2] + w / 2, fb[3] + h / 2), (cx, cy)]
+        # horizontal text around the courtyard first, then vertical text beside it
+        cands = [(0, cx, fb[1] - h / 2 - 0.15), (0, cx, fb[3] + h / 2 + 0.15),
+                 (0, fb[0] - w / 2 - 0.15, cy), (0, fb[2] + w / 2 + 0.15, cy),
+                 (0, fb[0] - w / 2, fb[1] - h / 2), (0, fb[2] + w / 2, fb[1] - h / 2),
+                 (0, fb[0] - w / 2, fb[3] + h / 2), (0, fb[2] + w / 2, fb[3] + h / 2),
+                 (0, cx, cy),
+                 (90, fb[0] - h / 2 - 0.15, cy), (90, fb[2] + h / 2 + 0.15, cy),
+                 (90, cx, fb[1] - w / 2 - 0.15), (90, cx, fb[3] + w / 2 + 0.15)]
         placed = False
-        for x, y in cands:
-            box = (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
+        for ang, x, y in cands:
+            bw, bh = (h, w) if ang else (w, h)
+            box = (x - bw / 2, y - bh / 2, x + bw / 2, y + bh / 2)
             if not (0.4 < box[0] and box[2] < L.W - 0.4 and 0.4 < box[1] and box[3] < L.H - 0.4):
                 continue
             if any(_overlap(box, o) for o in obstacles.get(s, [])):
                 continue
+            ref.SetTextAngle(pcbnew.EDA_ANGLE(ang, pcbnew.DEGREES_T))
             ref.SetPosition(pcbnew.VECTOR2I(pcbnew.FromMM(L.ORIGIN[0] + x),
                                             pcbnew.FromMM(L.ORIGIN[1] + y)))
             obstacles.setdefault(s, []).append(box)
@@ -117,17 +128,22 @@ def tidy(board):
 LABELS = [
     # (text, size, [(side, x, y[, angle]), ...]) in board mm; the first free spot wins.
     # Bottom text is read from below, where west and east swap: list it east-to-west.
-    (f"{design.TITLE} {design.REV}", 0.9,
+    (f"{design.TITLE} {design.REV}", TEXT_H,
      [("B", 21.59, 47.0), ("F", 1.3, 34.0, 90), ("F", 41.9, 42.0, 90), ("B", 41.9, 30.0, 90),
       ("B", 1.3, 34.0, 90)]),
-    ({"F": "JB: I2S (Pmod I2S2)   JC: SPI+GPIO", "B": "JC: SPI+GPIO   JB: I2S (Pmod I2S2)"}, 0.8,
+    ({"F": "JB: I2S (Pmod I2S2)  JC: SPI+GPIO", "B": "JC: SPI+GPIO  JB: I2S (Pmod I2S2)"}, TEXT_H,
      [("B", 21.59, 49.2), ("B", 21.59, 51.2), ("B", 21.59, 44.6)]),
-    ("Hold BOOT + tap RESET = USB serial downloader", 0.8,
+    ("Hold BOOT, tap RESET: USB boot", TEXT_H,
      [("B", 21.59, 51.2), ("B", 21.59, 53.2), ("B", 21.59, 37.0)]),
-    ({"F": "TX RX GND", "B": "GND RX TX"}, 0.8, [("F", 31.3, 5.4), ("B", 31.3, 4.9),
+    ({"F": "TX RX GND", "B": "GND RX TX"}, TEXT_H, [("F", 31.3, 5.4), ("B", 31.3, 4.9),
                                                 ("B", 31.3, 5.8)]),
-    ("I2S", 0.8, [("F", 8.0, 49.6), ("F", 8.0, 47.4)]),
-    ("SPI+GPIO", 0.8, [("F", 31.0, 49.6), ("F", 31.0, 47.4), ("F", 37.4, 47.4)]),
+    # test points TP101-104 (2.6 mm pitch): only two characters fit above each
+    ("5V", TEXT_H, [("F", 33.0, 10.42)]),
+    ("3V", TEXT_H, [("F", 35.6, 10.42)]),     # +3V3
+    ("CK", TEXT_H, [("F", 38.2, 10.42)]),     # +3V3_CLK
+    ("0V", TEXT_H, [("F", 40.8, 10.42)]),     # GND
+    ("I2S", TEXT_H, [("F", 8.0, 49.6), ("F", 8.0, 47.4)]),
+    ("SPI+GPIO", TEXT_H, [("F", 31.0, 49.6), ("F", 31.0, 47.4), ("F", 37.4, 47.4)]),
 ]
 
 
@@ -154,7 +170,7 @@ def labels(board):
         for side, x, y, *ang in cands:
             text = texts[side] if isinstance(texts, dict) else texts
             w = len(text) * size * 0.95 + 0.4   # KiCad stroke font runs ~0.9 em per glyph
-            h = size + 0.4
+            h = size + 0.25          # cap height plus stroke; obstacles carry the clearance
             if ang and ang[0] in (90, 270):
                 w, h = h, w
             box = (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
@@ -166,7 +182,7 @@ def labels(board):
             t.SetText(text)
             t.SetLayer(pcbnew.F_SilkS if side == "F" else pcbnew.B_SilkS)
             t.SetTextSize(pcbnew.VECTOR2I(pcbnew.FromMM(size), pcbnew.FromMM(size)))
-            t.SetTextThickness(pcbnew.FromMM(0.15))
+            t.SetTextThickness(pcbnew.FromMM(TEXT_T))
             t.SetPosition(pcbnew.VECTOR2I(pcbnew.FromMM(L.ORIGIN[0] + x), pcbnew.FromMM(L.ORIGIN[1] + y)))
             if side == "B":
                 t.SetMirrored(True)
@@ -177,3 +193,20 @@ def labels(board):
             break
         else:
             print(f"  silk: no room for label {texts!r}")
+
+
+def redo(path):
+    """Strip board-level silk text and re-run tidy() and labels() on a finished board."""
+    board = pcbnew.LoadBoard(path)
+    for d in list(board.GetDrawings()):
+        if isinstance(d, pcbnew.PCB_TEXT) and d.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS):
+            board.Delete(d)
+    tidy(board)
+    labels(board)
+    pcbnew.SaveBoard(path, board)
+
+
+if __name__ == "__main__":
+    import os
+    redo(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "hardware",
+                      "USBAudioBridge.kicad_pcb"))
